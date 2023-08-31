@@ -1,17 +1,14 @@
-import React from 'react'
-
-import { View, Text, Dimensions, TouchableOpacity, StyleSheet, Image, Animated, FlatList } from 'react-native'
+import React, { useState } from 'react';
+import { View, Text, Dimensions } from 'react-native'
 import InfoPage1 from './screens/InfoPage1';
 import InfoPage2 from './screens/InfoPage2';
 import InfoPage3 from './screens/InfoPage3';
 import InfoPage4 from './screens/InfoPage4';
-import { FontSize, Color, FontFamily, Padding, Border } from './GlobalStyles';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectWelcomePageIndex, setvalue } from '../../features/welcomePageIndexSlice';
+import { FontSize } from './GlobalStyles';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 
-function _renderItem({ item, index }: { item: any, index: Number }) {
+function _renderItem({ item }: { item: any }) {
     return (
         <View style={{
             height: '100%',
@@ -21,10 +18,10 @@ function _renderItem({ item, index }: { item: any, index: Number }) {
 }
 
 const Welcome = () => {
-    const welcomeSlides = [<InfoPage1 />, <InfoPage2 />, <InfoPage3 />, <InfoPage4 />]
+    const welcomeSlides = [<InfoPage1 key={0} />, <InfoPage2 key={1} />, <InfoPage3 key={2} />, <InfoPage4 key={3} />]
     const isCarousel = React.useRef(null)
-    const index = useSelector(selectWelcomePageIndex);
-    const dispatch = useDispatch();
+    const [index, setIndex] = useState(0);
+
     const width = Dimensions.get("screen").width;
     const height = Dimensions.get('screen').height;
 
@@ -57,7 +54,7 @@ const Welcome = () => {
                 }}
                 loop
                 firstItem={0}
-                onSnapToItem={(index) => dispatch(setvalue(index))}
+                onSnapToItem={(idx) => setIndex(idx)}
             />
             <Pagination
                 dotsLength={welcomeSlides.length}
@@ -128,48 +125,5 @@ const Welcome = () => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    registerTypo: {
-        textAlign: "center",
-        fontFamily: FontFamily.sairaSemiCondensedMedium,
-        fontWeight: "500",
-        fontSize: FontSize.size_lgi,
-    },
-    loginToSdmcetsTypo: {
-        color: Color.black,
-        textAlign: "center",
-        fontFamily: FontFamily.sairaSemiCondensedMedium,
-        fontWeight: "500",
-    },
-    frameParentFlexBox: {
-        alignItems: "center",
-        position: "absolute",
-    },
-    registerToSdmcets: {
-        color: Color.white,
-    },
-    registerToSdmcetsHireedgeWrapper: {
-        backgroundColor: Color.blackApp,
-        marginTop: 24,
-        width: 280,
-    },
-    loginToSdmcets: {
-        fontSize: FontSize.size_lgi,
-        color: Color.black,
-    },
-    loginToSdmcetsHireedgeWrapper: {
-        backgroundColor: Color.buttonColor,
-    },
-    sdmcetsWrapperFlexBox: {
-        justifyContent: "center",
-        paddingVertical: Padding.p_11xs,
-        paddingHorizontal: Padding.p_4xl,
-        borderRadius: Border.br_xl,
-        alignItems: "center",
-        flexDirection: "row",
-        overflow: "hidden",
-    },
-})
 
 export default Welcome;

@@ -1,9 +1,9 @@
 import type { RootState } from "../../store"
 import { createSlice } from "@reduxjs/toolkit"
 
-interface loginPage{
-    usn: String
-    password:String
+type loginPage = {
+    usn: string
+    password:string
 }
 
 
@@ -26,8 +26,7 @@ export const loginPageSlice = createSlice({
 })
 
 
-export const selectUsn = (state: RootState)=> state.loginPage
-;
+export const selectUsn = (state: RootState)=> state.loginPage;
 
 export const { setUsn, setPassword} = loginPageSlice.actions;
 
