@@ -1,16 +1,17 @@
+import { Link } from 'expo-router';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-
-
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
-import React from 'react'
+import { Login } from '../components/screens/login';
 
 const StartPage = () => {
     return (
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-            <Text>StartPage</Text>
-
-            <ActivityIndicator size={'large'} />
-        </View>
+        <SafeAreaView style={{
+            height: '100%'
+        }}>
+            <Login />
+        </SafeAreaView >
     )
 }
 

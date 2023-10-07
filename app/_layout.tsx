@@ -11,14 +11,13 @@ const InitialLayout = () => {
 
     useEffect(() => {
 
-        router.replace('/welcome')
+        router.replace('/')
 
     }, [])
 
 
     return (
         <Slot />
-
     )
 }
 
@@ -28,7 +27,7 @@ const RootLayout = () => {
 
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ height: '100%' }}>
             <InitialLayout />
         </SafeAreaView>
     )
