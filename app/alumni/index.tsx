@@ -1,10 +1,9 @@
-
 import { useRouter } from "expo-router";
 import { View, Text } from "react-native";
 import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const StudentPage = () => {
+const AlumniLandingPage = () => {
 
     const router = useRouter();
 
@@ -17,9 +16,7 @@ const StudentPage = () => {
         }}>
             <Text style={{
                 fontSize: 30,
-            }}>
-                Student page  
-            </Text>
+            }}> ALumni Landing Page</Text>
             <Button mode='contained' onPress={() => {
                 router.push('/')
             }}>Logout</Button>
@@ -27,4 +24,5 @@ const StudentPage = () => {
     )
 }
 
-export default StudentPage;
+
+export default AlumniLandingPage;

@@ -8,28 +8,25 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const InitialLayout = () => {
 
     const router = useRouter();
-
     useEffect(() => {
-
-        router.replace('/')
-
-    }, [])
-
+        router.replace('/');
+    }, [
+    ])
 
     return (
+        <>
         <Slot />
+        </>
     )
 }
 
 
 
 const RootLayout = () => {
-
-
     return (
-        <SafeAreaView style={{ height: '100%' }}>
+        <View style={{ height: '100%' }}>
             <InitialLayout />
-        </SafeAreaView>
+        </View>
     )
 
 }

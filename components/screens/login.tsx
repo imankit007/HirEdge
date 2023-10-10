@@ -113,7 +113,8 @@ export const Login = () => {
                     alignSelf: 'center',
                     marginTop: 15
                 }}
-                    onPress={() => {
+                    onPress={(e) => {
+                        e.preventDefault();
                         handleSubmit();
                     }}
                 >

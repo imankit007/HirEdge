@@ -4,6 +4,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Login } from '../components/screens/login';
+import Welcome from './welcome';
 
 const StartPage = () => {
     return (
@@ -11,6 +12,8 @@ const StartPage = () => {
             height: '100%'
         }}>
             <Login />
+
+            {/* <Welcome /> */}
         </SafeAreaView >
     )
 }
