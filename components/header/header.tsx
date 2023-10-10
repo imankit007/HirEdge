@@ -20,6 +20,7 @@ const Header =()=> {
 }
 const styles = StyleSheet.create({
     header: {
+      marginTop:-30,
       height: 60,
       padding: 0, 
       backgroundColor: 'darkslateblue',
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
       fontSize: 43, 
       flex: 1,
       textAlign: 'left',
-      paddingLeft:29,
+      paddingLeft:35,
     }
   })
 
