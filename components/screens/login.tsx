@@ -127,11 +127,11 @@ export const Login = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#F1EFEF',
+        backgroundColor: '#fff',
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100%'
+        height:400
     },
     mainHeading: {
         fontSize: 20,
@@ -140,8 +140,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        backgroundColor: '#F1EFEF',
-        padding: 20,
+        backgroundColor: '#fff',
+        padding: 10,
     },
     radioGroup: {
         flex: 1,
