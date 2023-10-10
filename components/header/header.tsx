@@ -19,13 +19,14 @@ const Header =()=> {
   )
 }
 const styles = StyleSheet.create({
-  header: {
-    marginTop:-35,
-    height: 60,
-    backgroundColor: "darkslateblue",
-    flexDirection: "row",
-    alignItems: "center"
-  },
+    header: {
+      height: 60,
+      padding: 0, 
+      backgroundColor: 'darkslateblue',
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+  
     image: {
       width: 100,
       height: 60,
