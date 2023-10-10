@@ -19,9 +19,7 @@ const InitialLayout = () => {
 
     return (
         <>
-
             <Slot />
-
         </>
     )
 }

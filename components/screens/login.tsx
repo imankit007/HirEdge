@@ -40,23 +40,22 @@ export const Login = () => {
 
 
     return (
-        <>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
             <Header />
-        <KeyboardAvoidingView style={{ flex: 1 }}>
-            <SafeAreaView style={{ flex: 1 }}>
-                <ScrollView style={styles.container} contentContainerStyle={{
-                    justifyContent: 'center',
+            <KeyboardAvoidingView style={{ flex: 1 }}>
+                <ScrollView style={{
+                    backgroundColor: '#fff',
+                }} contentContainerStyle={{
+                    flex: 1,
                     alignItems: 'center',
                 }}>
                     <SdmcetImage />
             <Text style={styles.mainHeading}>Login Page</Text>
             <View style={styles.formBox}>
-                <View style={{
-                    // flex: 1,
-                    marginTop: 10,
-                    marginBottom: 40,
+                        <View style={{
+                            marginVertical: 10,
                     flexDirection: 'row',
-                    justifyContent: "space-around",
+                            justifyContent: "space-evenly",
                     backgroundColor: '#E5CFF7',
                     borderRadius: 25,
                 }}>
@@ -109,9 +108,10 @@ export const Login = () => {
                         alignSelf: 'center',
                         fontSize: 18,
                         backgroundColor: 'white',
-                    }}
-                    value={password}
-                    onChangeText={(value) => setPassword(value)}
+                        marginVertical: 5,
+                            }}
+                            value={password}
+                            onChangeText={(value) => setPassword(value)}
                         />
                 {error && <Text style={{
                     color: 'red',
@@ -123,6 +123,9 @@ export const Login = () => {
                     alignSelf: 'center',
                     marginTop: 15
                 }}
+                            labelStyle={{
+                                fontSize: 20
+                            }}
                     onPress={(e) => {
                         e.preventDefault();
                         handleSubmit();
@@ -132,10 +135,10 @@ export const Login = () => {
                 </Button >
             </View>
                 </ScrollView>
-            </SafeAreaView>
+
         </KeyboardAvoidingView >
             <Footer />
-        </>
+        </SafeAreaView>
     )
 }
 
@@ -146,15 +149,15 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     mainHeading: {
-        fontSize: 20,
+        fontSize: 36,
+        fontWeight: 'bold'
     }
     , formBox: {
-        display: 'flex',
-        flexDirection: 'column',
         width: '100%',
         backgroundColor: '#fff',
         padding: 10,
-        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     radioGroup: {
         flexDirection: 'row',
