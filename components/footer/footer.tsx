@@ -11,17 +11,14 @@ const Footer = () => {
 
 const styles = StyleSheet.create({
   footer: {
-    position: 'absolute',
-    bottom: 0,
     width: '100%',
     backgroundColor: '#eee',
-    padding: 10,
-    alignSelf: 'flex-end',
     height: 40,
+    justifyContent: 'center'
   },
   text: {
     textAlign: 'center',
-    color: '#555' 
+    color: '#555',
   }
 });
 
