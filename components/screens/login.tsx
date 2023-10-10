@@ -6,6 +6,8 @@ import { router } from 'expo-router'
 import api from '../../utils/axios';
 import SdmcetImage from "../common/sdmcetImage/sdmcetImage";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "../header/header";
+import Footer from "../footer/footer";
 export const Login = () => {
 
     const [error, setError] = useState<string | null>(null);
@@ -38,6 +40,8 @@ export const Login = () => {
 
 
     return (
+        <>
+            <Header />
         <KeyboardAvoidingView style={{ flex: 1 }}>
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView style={styles.container} contentContainerStyle={{
@@ -130,6 +134,8 @@ export const Login = () => {
                 </ScrollView>
             </SafeAreaView>
         </KeyboardAvoidingView >
+            <Footer />
+        </>
     )
 }
 
