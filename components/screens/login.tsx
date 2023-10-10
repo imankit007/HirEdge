@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import { Button } from "react-native-paper";
 import { RadioButton } from "react-native-paper";
 import { router } from 'expo-router'
 import api from '../../utils/axios';
+import SdmcetImage from "../common/sdmcetImage/sdmcetImage";
+import { SafeAreaView } from "react-native-safe-area-context";
 export const Login = () => {
 
     const [error, setError] = useState<string | null>(null);
@@ -11,8 +13,6 @@ export const Login = () => {
     const [role, setRole] = useState('');
     const [userid, setUserid] = useState('');
     const [password, setPassword] = useState('');
-
-
     const handleSubmit = async () => {
         await api.post('/login', {
             role: role,
@@ -38,7 +38,13 @@ export const Login = () => {
 
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <ScrollView style={styles.container} contentContainerStyle={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <SdmcetImage />
             <Text style={styles.mainHeading}>Login Page</Text>
             <View style={styles.formBox}>
                 <View style={{
@@ -102,7 +108,7 @@ export const Login = () => {
                     }}
                     value={password}
                     onChangeText={(value) => setPassword(value)}
-                />
+                        />
                 {error && <Text style={{
                     color: 'red',
                     alignSelf: 'center',
@@ -121,7 +127,9 @@ export const Login = () => {
                     Log In
                 </Button >
             </View>
-        </View>
+                </ScrollView>
+            </SafeAreaView>
+        </KeyboardAvoidingView >
     )
 }
 
@@ -129,9 +137,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height:400
+        flex: 1,
     },
     mainHeading: {
         fontSize: 20,
@@ -142,9 +148,9 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#fff',
         padding: 10,
+        flex: 1,
     },
     radioGroup: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-around'
     }

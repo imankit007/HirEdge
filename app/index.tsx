@@ -10,16 +10,10 @@ import SdmcetImage from '../components/common/sdmcetImage/sdmcetImage';
 
 const StartPage = () => {
     return (
-        <SafeAreaView style={{
-            height: '100%'
-        }}>
-            <Header />
-            <SdmcetImage />
+        <>
             <Login />
-
             {/* <Welcome /> */}
-            <Footer />
-        </SafeAreaView >
+        </ >
     )
 }
 

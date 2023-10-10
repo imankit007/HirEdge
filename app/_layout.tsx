@@ -1,9 +1,13 @@
 
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { Slot, useRouter } from "expo-router";
 
 import { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Footer from "../components/footer/footer";
+import Header from "../components/header/header";
+
+import { KeyboardAvoidingView } from "react-native";
 
 const InitialLayout = () => {
 
@@ -15,7 +19,9 @@ const InitialLayout = () => {
 
     return (
         <>
-        <Slot />
+            <Header />
+            <Slot />
+            <Footer />
         </>
     )
 }
@@ -24,9 +30,7 @@ const InitialLayout = () => {
 
 const RootLayout = () => {
     return (
-        <View style={{ height: '100%' }}>
-            <InitialLayout />
-        </View>
+        <InitialLayout />
     )
 
 }
