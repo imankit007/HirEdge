@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const Header =()=> {
   return (
-    <SafeAreaView style={styles.header}>
+    <View style={styles.header}>
       <Image
         style={styles.image}
         source={require("../../assets/images/adaptive-icon.png")}
@@ -16,32 +16,29 @@ const Header =()=> {
         resizeMode='cover'
       />
     
-    </SafeAreaView>
+    </View>
   )
 }
 const styles = StyleSheet.create({
     header: {
     position: 'relative',
-    top: 0,
-      height: 60,
-    padding: 0,
-      backgroundColor: 'darkslateblue',
-      flexDirection: 'row',
-      alignItems: 'center'
+    height: 60,
+    backgroundColor: 'darkslateblue',
+    flexDirection: 'row',
+    marginTop: 30,
+    alignItems: 'center',
+    justifyContent: 'space-between'
     },
   
     image: {
       width: 100,
       height: 60,
-      marginRight: 10
     },
   
     text: {
       color: '#FFF',
       fontSize: 43, 
-      flex: 1,
-      textAlign: 'left',
-      paddingLeft:35,
+      textAlign: 'center',
     }
   })
 
