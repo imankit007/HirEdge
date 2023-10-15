@@ -16,10 +16,10 @@ const HodLandingPage = () => {
         }}>
             <Text style={{
                 fontSize: 30,
-            }}> HOD Landing Page</Text>
+            }}> HOD Home Page</Text>
 
             <Button mode='contained' onPress={() => {
-                router.push('/')
+                router.push('/(public)/welcome')
             }}>Logout</Button>
         </SafeAreaView>
     )

@@ -1,17 +1,21 @@
-import { Link } from 'expo-router';
-import React from 'react';
+import { Redirect } from "expo-router"
+import { useContext } from "react";
+import { AuthContext } from "../utils/AuthContext";
 
 
-import { Login } from '../components/screens/login';
-import Welcome from './welcome';
 
 const StartPage = () => {
-    return (
-        <>
-            <Login />
-            {/* <Welcome /> */}
-        </ >
-    )
+
+    const { authState } = useContext(AuthContext);
+    if (authState.authenticated == false)
+        return (
+            <Redirect href={"/(public)/welcome"} />
+        )
+    else {
+
+        <Redirect href={"/(auth)/"} />
+    }
+
 }
 
 export default StartPage;

@@ -1,26 +1,24 @@
 
-import { View, Text, ScrollView } from "react-native";
-import { Slot, useRouter } from "expo-router";
+import { Slot, Stack, useRouter } from "expo-router";
 
-import { useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Footer from "../components/footer/footer";
-import Header from "../components/header/header";
+import { useContext, useEffect } from "react";
+import { AuthProvider } from "../utils/AuthContext";
 
-import { KeyboardAvoidingView } from "react-native";
+
+import { AuthContext } from "../utils/AuthContext";
 
 const InitialLayout = () => {
 
     const router = useRouter();
-    useEffect(() => {
-        router.replace('/');
-    }, [
-    ])
+
+
+
 
     return (
         <>
             <Slot />
         </>
+
     )
 }
 
@@ -28,7 +26,9 @@ const InitialLayout = () => {
 
 const RootLayout = () => {
     return (
+        <AuthProvider>
         <InitialLayout />
+        </AuthProvider>
     )
 
 }

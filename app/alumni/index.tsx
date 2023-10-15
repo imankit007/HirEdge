@@ -16,9 +16,9 @@ const AlumniLandingPage = () => {
         }}>
             <Text style={{
                 fontSize: 30,
-            }}> ALumni Landing Page</Text>
+            }}> Alumni Home Page</Text>
             <Button mode='contained' onPress={() => {
-                router.push('/')
+                router.push('/(public)/welcome')
             }}>Logout</Button>
         </SafeAreaView>
     )

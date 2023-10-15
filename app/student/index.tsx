@@ -18,10 +18,10 @@ const StudentPage = () => {
             <Text style={{
                 fontSize: 30,
             }}>
-                Student page  
+                Student Home page  
             </Text>
             <Button mode='contained' onPress={() => {
-                router.push('/')
+                router.push('/(public)/welcome')
             }}>Logout</Button>
         </SafeAreaView>
     )
