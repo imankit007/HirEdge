@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import { Button } from "react-native-paper";
 import { RadioButton } from "react-native-paper";
 import { router } from 'expo-router'
 import api from '../../utils/axios';
+import SdmcetImage from "../common/sdmcetImage/sdmcetImage";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "../header/header";
+import Footer from "../footer/footer";
 export const Login = () => {
 
     const [error, setError] = useState<string | null>(null);
@@ -11,8 +15,6 @@ export const Login = () => {
     const [role, setRole] = useState('');
     const [userid, setUserid] = useState('');
     const [password, setPassword] = useState('');
-
-
     const handleSubmit = async () => {
         await api.post('/login', {
             role: role,
@@ -38,15 +40,22 @@ export const Login = () => {
 
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
+            <Header />
+            <KeyboardAvoidingView style={{ flex: 1 }}>
+                <ScrollView style={{
+                    backgroundColor: '#fff',
+                }} contentContainerStyle={{
+                    flex: 1,
+                    alignItems: 'center',
+                }}>
+                    <SdmcetImage />
             <Text style={styles.mainHeading}>Login Page</Text>
             <View style={styles.formBox}>
-                <View style={{
-                    // flex: 1,
-                    marginTop: 10,
-                    marginBottom: 40,
+                        <View style={{
+                            marginVertical: 10,
                     flexDirection: 'row',
-                    justifyContent: "space-around",
+                            justifyContent: "space-evenly",
                     backgroundColor: '#E5CFF7',
                     borderRadius: 25,
                 }}>
@@ -99,10 +108,11 @@ export const Login = () => {
                         alignSelf: 'center',
                         fontSize: 18,
                         backgroundColor: 'white',
-                    }}
-                    value={password}
-                    onChangeText={(value) => setPassword(value)}
-                />
+                        marginVertical: 5,
+                            }}
+                            value={password}
+                            onChangeText={(value) => setPassword(value)}
+                        />
                 {error && <Text style={{
                     color: 'red',
                     alignSelf: 'center',
@@ -113,14 +123,22 @@ export const Login = () => {
                     alignSelf: 'center',
                     marginTop: 15
                 }}
-                    onPress={() => {
+                            labelStyle={{
+                                fontSize: 20
+                            }}
+                    onPress={(e) => {
+                        e.preventDefault();
                         handleSubmit();
                     }}
                 >
                     Log In
                 </Button >
             </View>
-        </View>
+                </ScrollView>
+
+        </KeyboardAvoidingView >
+            <Footer />
+        </SafeAreaView>
     )
 }
 
@@ -128,22 +146,20 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
         width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height:400
+        flex: 1,
     },
     mainHeading: {
-        fontSize: 20,
+        fontSize: 36,
+        fontWeight: 'bold'
     }
     , formBox: {
-        display: 'flex',
-        flexDirection: 'column',
         width: '100%',
         backgroundColor: '#fff',
         padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     radioGroup: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-around'
     }

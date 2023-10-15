@@ -5,25 +5,18 @@ const SdmcetImage = () => {
   return (
     <View style={{
         width: '100%',
-        // marginTop:10,
-        // marginBottom:10,
-        padding:20,
-        backgroundColor:'#fff'
+      padding: 5,
+      backgroundColor: '#fff',
+      alignSelf: 'flex-start',
         }}>
       <Image 
         source={require('../../../assets/images/sdmcet_logo.png')}
         style={{
             paddingTop:10,
             paddingBottom:10,   
-            width:150,
-            height: 200,
-            alignSelf:'center',
-            borderColor:'black',
-            borderWidth:1,
-            borderRadius:10
-            
-    
-
+          width: 164,
+          height: 200,
+          alignSelf: 'center',
         }}
       />
     </View>
