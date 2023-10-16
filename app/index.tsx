@@ -13,7 +13,7 @@ const StartPage = () => {
         )
     else {
 
-        <Redirect href={"/(auth)/"} />
+
     }
 
 }
