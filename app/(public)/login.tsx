@@ -12,11 +12,12 @@ import Footer from "../../components/footer/footer";
 import { Formik } from "formik";
 import * as Yup from 'yup';
 
+import * as SecureStore from 'expo-secure-store';
 
 import { AuthContext } from "../../utils/AuthContext";
 
 const SignInSchema = Yup.object().shape({
-    userid: Yup.string().required("Required"),
+    user_id: Yup.string().required("Required"),
     role: Yup.string().required("Required"),
     password: Yup.string().required("Required"),
 })
@@ -41,44 +42,35 @@ const Login = () => {
                     <Text style={styles.mainHeading}>Login Page</Text>
                     <Formik initialValues={{
                         role: '',
-                        userid: '',
+                        user_id: '',
                         password: ''
                     }}
                         validationSchema={SignInSchema}
                         onSubmit={async (values, actions) => {
-                            console.log(values);
-                            setAuthState(prevState => ({ ...prevState, authenticated: true })
-                            )
-
-                            if (values.role == 'student') {
-                                router.replace('/student/');
-                            }
-
-                            if (values.role == 'tpo') {
-                                router.replace('/tpo/');
-                            }
-
-                            if (values.role == 'hod') {
-                                router.replace('/hod/')
-                            }
-
-                            if (values.role == 'alumni') {
-                                router.replace('/alumni/')
-                            }
-
-                            // await api.post('/login', {
-
-                            // }).then((res) => {
-                            //     if (res.status == 200) {
-                            //         router.push('/student/');
-                            //     }
-                            // }).catch((error) => {
-                            //     if (error.response) {
-                            //         if (error.response.status == 401) {
-
-                            //         }
-                            //     }
-                            // })
+                            console.log(values)
+                            await api.post('/login', values).then((res) => {
+                                if (res.status == 200) {
+                                    if (values.role == 'student') {
+                                        router.replace('/(auth)/student/');
+                                    }
+                                    if (values.role == 'tpo') {
+                                        router.replace('/(auth)/tpo/');
+                                    }
+                                    if (values.role == 'hod') {
+                                        router.replace('/(auth)/hod/')
+                                    }
+                                    if (values.role == 'alumni') {
+                                        router.replace('/(auth)/alumni/')
+                                    }
+                                    SecureStore.setItemAsync('refresh_token', `${values.role} ${res.data?.refresh_token}`);
+                                    setAuthState({ access_token: res.data?.access_token, role: res.data?.role })
+                                }
+                            }).catch((error) => {
+                                if (error.response) {
+                                    if (error.response.status == 401) {
+                                    }
+                                }
+                            })
                         }}
                     >
 
@@ -136,10 +128,10 @@ const Login = () => {
                                             fontSize: 18,
                                             backgroundColor: "white"
                                         }}
-                                        value={values.userid}
-                                        onChangeText={handleChange('userid')}
+                                        value={values.user_id}
+                                        onChangeText={handleChange('user_id')}
                                     />
-                                    {(touched.userid && errors.userid) && <Text style={styles.errorMsg}> {errors.userid}</Text>}
+                                    {(touched.user_id && errors.user_id) && <Text style={styles.errorMsg}> {errors.user_id}</Text>}
                                     <TextInput
                                         placeholder="Enter Password"
                                         style={{

@@ -18,7 +18,7 @@ const TPOPage = () => {
                 fontSize: 30,
             }}> TPO Home Page</Text>
             <Button mode='contained' onPress={() => {
-                router.push('/(public)/welcome')
+                // router.push('/(public)/welcome')
             }}>Logout</Button>
         </SafeAreaView>
     )

@@ -1,8 +1,8 @@
 import { useContext, createContext, useState } from "react";
 
 type AuthStateType = {
-    accessToken: string | null;
-    authenticated: boolean | null;
+    access_token: string | null;
+    role: string | null;
 }
 
 type AuthContextType = {
@@ -21,20 +21,20 @@ const { Provider } = AuthContext;
 
 const AuthProvider = ({ children }: any) => {
     const [authState, setAuthState] = useState<AuthStateType>({
-        accessToken: null,
-        authenticated: false,
+        access_token: null,
+        role: null,
     })
 
 
     const logout = () => {
         setAuthState({
-            accessToken: null,
-            authenticated: false,
+            access_token: null,
+            role: null,
         });
     }
 
     const getAccessToken = () => {
-        return authState.accessToken;
+        return authState.access_token;
     }
 
 
