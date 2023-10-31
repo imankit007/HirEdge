@@ -1,11 +1,13 @@
 import { useRouter } from "expo-router";
 import { View, Text } from "react-native";
 import { Button } from "react-native-paper";
+import useLogout from '../../../utils/useLogout';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const AlumniLandingPage = () => {
 
     const router = useRouter();
+    const logout = useLogout();
 
     return (
         <SafeAreaView style={{
@@ -17,9 +19,7 @@ const AlumniLandingPage = () => {
             <Text style={{
                 fontSize: 30,
             }}> Alumni Home Page</Text>
-            <Button mode='contained' onPress={() => {
-                router.push('/(public)/welcome')
-            }}>Logout</Button>
+            <Button mode='contained' onPress={logout}>Logout</Button>
         </SafeAreaView>
     )
 }

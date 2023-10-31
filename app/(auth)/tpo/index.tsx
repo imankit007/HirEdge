@@ -1,11 +1,13 @@
 import { View, Text } from "react-native";
 import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 import { router } from "expo-router";
+
+import useLogout from "../../../utils/useLogout";
 
 const TPOPage = () => {
 
+    const logout = useLogout();
 
     return (
         <SafeAreaView style={{
@@ -17,9 +19,7 @@ const TPOPage = () => {
             <Text style={{
                 fontSize: 30,
             }}> TPO Home Page</Text>
-            <Button mode='contained' onPress={() => {
-                // router.push('/(public)/welcome')
-            }}>Logout</Button>
+            <Button mode='contained' onPress={logout}>Logout</Button>
         </SafeAreaView>
     )
 }

@@ -8,4 +8,12 @@ const instance = axios.create({
 })
 
 
+export const axiosPrivate = axios.create({
+    baseURL: 'http://192.168.125.131:5000',
+    withCredentials: true,
+    headers:{
+        "Content-Type": 'application/json',
+    }
+})
+
 export default instance;

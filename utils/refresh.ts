@@ -2,9 +2,7 @@
 import { AuthContext } from "./AuthContext";
 import { useContext } from "react";
 import axios from "./axios";
-
-
-import * as SecureStore from 'expo-secure-store';
+import { getValueFor } from "./useSecureStore";
 import { Redirect } from "expo-router";
 
 
@@ -14,8 +12,10 @@ const useRefreshToken = () => {
     const refresh = async () => {
         try{
         
-        const refresh_token  = await SecureStore.getItemAsync('refresh_token');
-            
+        const refresh_token  = await getValueFor('refresh_token');
+        
+        console.log(refresh_token);
+
         const response = await axios.get('/refresh', {
             headers: {
                 "Content-Type":'application/json',

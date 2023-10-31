@@ -1,11 +1,12 @@
 import { View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from 'react-native-paper';
-
+import useLogout from '../../../utils/useLogout';
 import { useRouter } from "expo-router";
 const HodLandingPage = () => {
 
     const router = useRouter();
+    const logout = useLogout();
 
     return (
         <SafeAreaView style={{
@@ -18,9 +19,7 @@ const HodLandingPage = () => {
                 fontSize: 30,
             }}> HOD Home Page</Text>
 
-            <Button mode='contained' onPress={() => {
-                router.push('/(public)/welcome')
-            }}>Logout</Button>
+            <Button mode='contained' onPress={logout}>Logout</Button>
         </SafeAreaView>
     )
 }

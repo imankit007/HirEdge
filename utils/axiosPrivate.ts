@@ -1,7 +1,7 @@
 
 import { useEffect, useContext } from "react"
 import { AuthContext } from "./AuthContext";
-import  axiosPrivate  from "./axios";
+import  {axiosPrivate}  from "./axios";
 import useRefreshToken from "./refresh";
 
 
@@ -27,8 +27,8 @@ const useAxiosPrivate = () => {
 
                 if (error?.response?.status === 403 && !prevRequest?.sent) {
                     prevRequest.sent = true;
-                    const newAccessToken = await refresh();
-                    prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                    await refresh();
+                    prevRequest.headers['Authorization'] = `Bearer ${authContext?.getAccessToken()}`;
                     return axiosPrivate(prevRequest);
                 }
                 return Promise.reject(error)

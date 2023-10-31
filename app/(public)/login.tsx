@@ -12,7 +12,7 @@ import Footer from "../../components/footer/footer";
 import { Formik } from "formik";
 import * as Yup from 'yup';
 
-import * as SecureStore from 'expo-secure-store';
+import { save } from '../../utils/useSecureStore';
 
 import { AuthContext } from "../../utils/AuthContext";
 
@@ -62,7 +62,7 @@ const Login = () => {
                                     if (values.role == 'alumni') {
                                         router.replace('/(auth)/alumni/')
                                     }
-                                    SecureStore.setItemAsync('refresh_token', `${values.role} ${res.data?.refresh_token}`);
+                                    save('refresh_token', `${values.role} ${res.data?.refresh_token}`);
                                     setAuthState({ access_token: res.data?.access_token, role: res.data?.role })
                                 }
                             }).catch((error) => {
