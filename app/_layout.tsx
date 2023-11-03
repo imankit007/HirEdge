@@ -20,8 +20,6 @@ const InitialLayout = () => {
 
         const verifyTokenValidity = async () => {
             const inTabsGroup = segments[0] === '(auth)';
-
-
             const isLoggedIn = await refresh();
             console.log(isLoggedIn);
 
@@ -36,9 +34,10 @@ const InitialLayout = () => {
                     router.replace('/(auth)/hod/')
                 else if (authState.role == 'alumni')
                     router.replace('/(auth)/alumni/')
-            } else if (!isLoggedIn) {
-                router.replace('/(public)/welcome')
             }
+
+                router.replace('/(public)/welcome')
+
         }
         verifyTokenValidity();
     }, [authState.access_token])

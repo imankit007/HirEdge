@@ -6,32 +6,38 @@ const Header =()=> {
     <View style={styles.header}>
       <Image
         style={styles.image}
-        source={require("../../assets/images/adaptive-icon.png")}
+        source={require("../../assets/images/HirEdge-removebg-preview.png")}
         resizeMode='cover'
       />
-      <Text style={styles.text}>HirEdge</Text>
+      {/* <Text style={styles.text}>HirEdge</Text> */}
       <Image
-        style={styles.image}
-        source={require("../../assets/images/adaptive-icon.png")}
+        style={styles.image_sdm}
+        source={require("../../assets/images/sdmcet-j.png")}
         resizeMode='cover'
       />
-    
     </View>
   )
 }
 const styles = StyleSheet.create({
     header: {
     position: 'relative',
-    height: 60,
+    height: 90,
     backgroundColor: 'darkslateblue',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
     },
   
     image: {
-      width: 100,
-      height: 60,
+    width: 150,
+    height: 190,
+    marginLeft: 15
+  },
+
+  image_sdm: {
+    width: 50,
+    height: 70,
+    marginRight: 25
     },
   
     text: {

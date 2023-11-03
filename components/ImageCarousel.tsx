@@ -112,6 +112,7 @@ const ImageCarousel: FC<ImageCarouselProps> = ({ data }) => {
                         <View style={{
                             width: width * 0.9,
                             height: '90%',
+                            backgroundColor: '#EAD637'
                         }}>
                             <Text style={{
                                 fontSize: 35,
@@ -122,6 +123,7 @@ const ImageCarousel: FC<ImageCarouselProps> = ({ data }) => {
                                 style={[
                                     {
                                         transform: [{ translateY }],
+                                        backgroundColor: '#EAD637'
                                     },
                                     styles.itemContent,
                                 ]}>
@@ -156,7 +158,7 @@ const ImageCarousel: FC<ImageCarouselProps> = ({ data }) => {
 
                 }}
             />
-            <View style={styles.footer}>
+            {/* <View style={styles.footer}>
                 <Pressable
                     onPress={handleOnPrev}
                     disabled={isPrevDisabled}
@@ -188,7 +190,7 @@ const ImageCarousel: FC<ImageCarouselProps> = ({ data }) => {
                         ▸
                     </Text>
                 </Pressable>
-            </View>
+            </View> */}
         </View>
     );
 };

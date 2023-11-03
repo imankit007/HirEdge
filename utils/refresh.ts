@@ -3,7 +3,7 @@ import { AuthContext } from "./AuthContext";
 import { useContext } from "react";
 import axios from "./axios";
 import { getValueFor } from "./useSecureStore";
-import { Redirect } from "expo-router";
+import { Redirect, router } from "expo-router";
 
 
 const useRefreshToken = () => {
@@ -14,7 +14,9 @@ const useRefreshToken = () => {
         
         const refresh_token  = await getValueFor('refresh_token');
         
-        console.log(refresh_token);
+        if(!refresh_token){
+            router.replace('/welcome');
+        }
 
         const response = await axios.get('/refresh', {
             headers: {
