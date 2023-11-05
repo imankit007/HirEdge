@@ -34,9 +34,10 @@ const InitialLayout = () => {
                     router.replace('/(auth)/hod/')
                 else if (authState.role == 'alumni')
                     router.replace('/(auth)/alumni/')
-            }
+            } else {
 
                 router.replace('/(public)/welcome')
+            }
 
         }
         verifyTokenValidity();
