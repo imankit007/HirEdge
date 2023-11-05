@@ -3,38 +3,44 @@ import { Slot, Tabs } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
 
 import { View, Text } from 'react-native'
+// import { Drawer } from 'react-native-paper';
+import { Drawer } from './Drawer';
 
 const Layout = () => {
 
 
     return (
-        <Tabs
-            screenOptions={{
-                headerShown: false,
-                tabBarShowLabel: false
-            }}
-        >
 
-            <Tabs.Screen
-                name='index'
-                options={{
-                    tabBarIcon: () => {
-                        return (
-                            <AntDesign name='user' size={24} selectionColor={'blue'} selectable />
-                        )
-                    }
-                }}
-            />
+        <>
 
-            <Tabs.Screen
-                name='FirstPage'
-                options={{
-                    tabBarIcon: () => (<View><Text style={{ fontSize: 20 }}>1</Text></View>)
-                }}
-            />
+            <Drawer screenOptions={{
+                headerTitleAlign: 'center',
+                // headerTitle: ({}) => (<></>)
 
-        </Tabs>
+            }} >
+
+                <Drawer.Screen
+                    name='index'
+                    options={{
+                        title: "Profile",
+                        drawerLabel: "Profile"
+                    }}
+                />
+
+                <Drawer.Screen
+                    name='FirstPage'
+                    options={{
+                        title: "Add Company",
+                        drawerLabel: "Add Company"
+                    }}
+                />
+
+            </Drawer>
+
+        </>
     )
+
+
 
 }
 

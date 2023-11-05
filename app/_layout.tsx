@@ -21,10 +21,10 @@ const InitialLayout = () => {
         const verifyTokenValidity = async () => {
             const inTabsGroup = segments[0] === '(auth)';
             const isLoggedIn = await refresh();
-            console.log(isLoggedIn);
+            console.log("isLogged IN ", isLoggedIn);
 
             if (isLoggedIn && !inTabsGroup) {
-                if (authState.role === "tpo") {
+                if (authState.role == "tpo") {
                     router.replace({
                         pathname: '/(auth)/tpo/',
                     })
