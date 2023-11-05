@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView, TouchableOpacity, Button } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView, TouchableOpacity, Button, Image } from "react-native";
 
 import { RadioButton } from "react-native-paper";
 import { router } from 'expo-router'
@@ -33,13 +33,23 @@ const Login = () => {
             <Header />
             <KeyboardAvoidingView style={{ flex: 1 }}>
                 <ScrollView style={{
-                    backgroundColor: '#fff',
+                    backgroundColor: '#EAD637',
                 }} contentContainerStyle={{
                     flex: 1,
                     alignItems: 'center',
                 }}>
-                    <SdmcetImage />
-                    <Text style={styles.mainHeading}>Login Page</Text>
+                    <Text style={styles.login_head}>Opening The Doors To Success</Text>
+                    {/* <SdmcetImage /> */}
+                    <Image
+                        source={require('../../assets/images/success-removebg-preview.png')}
+                        style={{
+                            paddingTop: 10,
+                            paddingBottom: 10,
+                            width: 194,
+                            height: 200,
+                            alignSelf: 'center',
+                        }}
+                    />
                     <Formik initialValues={{
                         role: '',
                         user_id: '',
@@ -83,8 +93,9 @@ const Login = () => {
                                         marginVertical: 10,
                                         flexDirection: 'row',
                                         justifyContent: "space-evenly",
-                                        backgroundColor: '#E5CFF7',
+                                        backgroundColor: '#A2D3C2',
                                         borderRadius: 25,
+                                        padding: 8
                                     }}>
                                         <RadioButton.Item
                                             position="leading"
@@ -120,13 +131,17 @@ const Login = () => {
                                     <TextInput
                                         placeholder="Enter User ID"
                                         style={{
-                                            borderBottomColor: 'black',
-                                            borderBottomWidth: 1,
+                                            // borderBottomColor: 'black',
+                                            // borderBottomWidth: 1,
+                                            height: 40,
+                                            padding: 10,
+                                            borderRadius: 10,
                                             marginBottom: 10,
+                                            marginTop: 10,
                                             width: '95%',
                                             alignSelf: 'center',
                                             fontSize: 18,
-                                            backgroundColor: "white"
+                                            backgroundColor: '#D9D9D9'
                                         }}
                                         value={values.user_id}
                                         onChangeText={handleChange('user_id')}
@@ -135,13 +150,17 @@ const Login = () => {
                                     <TextInput
                                         placeholder="Enter Password"
                                         style={{
-                                            borderBottomColor: 'black',
-                                            borderBottomWidth: 1,
+                                            // borderBottomColor: 'black',
+                                            // borderBottomWidth: 1,
+                                            height: 40,
+                                            padding: 10,
+                                            borderRadius: 10,
+                                            marginBottom: 10,
                                             width: '95%',
                                             alignSelf: 'center',
                                             fontSize: 18,
-                                            backgroundColor: 'white',
-                                            marginVertical: 5,
+                                            backgroundColor: '#D9D9D9',
+                                            marginTop: 10
                                         }}
                                         value={values.password}
                                         onChangeText={handleChange('password')}
@@ -150,11 +169,32 @@ const Login = () => {
                                         (touched.password && errors.password) && <Text style={styles.errorMsg}> {errors.password}</Text>
                                     }
 
-                                    <Button
+                                    {/* <Button
                                         title="Log In"
                                         onPress={handleSubmit as any}
-                                    />
-
+                                    /> */}
+                                    <TouchableOpacity
+                                        style={{
+                                            backgroundColor: '#A2D3C2',
+                                            padding: 10,
+                                            borderRadius: 20,
+                                            width: 120,
+                                            alignSelf: 'center',
+                                            marginTop: 10
+                                        }}
+                                        onPress={handleSubmit as any}
+                                    >
+                                        <Text
+                                            style={{
+                                                textAlign: 'center',
+                                                fontWeight: 'bold',
+                                                fontSize: 18,
+                                                color: '#000'
+                                            }}
+                                        >
+                                            Login
+                                        </Text>
+                                    </TouchableOpacity>
                                 </View>
                             </>
                         )
@@ -167,7 +207,7 @@ const Login = () => {
             </KeyboardAvoidingView >
             <TouchableOpacity
                 style={{
-                    backgroundColor: 'white',
+                    backgroundColor: '#EAD637',
                 }}
                 onPress={() => {
                     router.replace('/welcome')
@@ -175,7 +215,7 @@ const Login = () => {
                 <Text style={{
                     textAlign: 'center',
                     fontSize: 20,
-                    color: 'lightblue', marginBottom: 5
+                    color: '#230C0F', marginBottom: 5
                 }}>Go Back</Text>
             </TouchableOpacity>
             <Footer />
@@ -184,6 +224,11 @@ const Login = () => {
 }
 
 const styles = StyleSheet.create({
+    login_head: {
+        fontSize: 23,
+        marginTop: 20,
+        fontWeight: '600'
+    },
     container: {
         backgroundColor: '#fff',
         width: '100%',
@@ -195,7 +240,7 @@ const styles = StyleSheet.create({
     }
     , formBox: {
         width: '100%',
-        backgroundColor: '#fff',
+        backgroundColor: '#EAD637',
         padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
