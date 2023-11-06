@@ -1,11 +1,13 @@
 
 import { useRouter } from "expo-router";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useLogout from "../../../utils/useLogout";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import JobCard from "../../../components/Job-Card/JobCard";
+import BottomNav from "../../../components/BottomNav/BottomNav";
 
 
 const StudentPage = () => {
@@ -14,6 +16,21 @@ const StudentPage = () => {
 
     const logout = useLogout();
 
+    const upcoming_data = {
+        1:{
+            name:"Extreme Networks",
+            img:"../../../assets/images/job-logos/extreme.png"
+        },
+        2:{
+            name:"Nextuple",
+            img:"../../assets/images/job-logos/nextuple.png"
+        },
+        3:{
+            name:"Oracle",
+            img:"../../assets/images/job-logos/oracle.png"
+        }
+    }
+
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -21,7 +38,7 @@ const StudentPage = () => {
             height: '100%',
             flexDirection: 'column'
         }}>
-            <View style={{
+            {/* <View style={{
                 bottom: 0
             }}>
 
@@ -31,12 +48,11 @@ const StudentPage = () => {
                     labelStyle={[styles.ButtonLabel, { color: 'blue' }]}
                 >Change Password</Button>
 
-
-            </View>
+            </View> */}
 
 
             <View style={styles.logoutButtonContainer}>
-                <Button
+                {/* <Button
                     mode='outlined'
                     onPress={logout}
                     icon={() => <MaterialCommunityIcons name="logout" size={24} color="black" />}
@@ -44,7 +60,9 @@ const StudentPage = () => {
                     style={styles.logoutButton}
                 >
                     Logout
-                </Button>
+                </Button> */}
+                {/* <JobCard name="Extreme Networks"/> */}
+                <BottomNav/>
             </View>
         </SafeAreaView>
     )
