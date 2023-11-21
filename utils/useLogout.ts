@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { router } from 'expo-router'
 import useAxiosPrivate from './axiosPrivate'
 
-import { deleteItem } from './useSecureStore'
+import { deleteItem, getValueFor } from './useSecureStore'
 
 const useLogout = () =>{
 
@@ -13,7 +13,14 @@ const useLogout = () =>{
     const logout = async () =>{
     
         try{
+
+            const refresh_token  = await getValueFor('refresh_token');
+
             const response = await axiosPrivate.get('/logout',{
+                headers: {
+                    "Content-Type":'application/json',
+                    "Cookie": `refresh_token=${refresh_token}`
+                },
                 withCredentials: true
             })
 

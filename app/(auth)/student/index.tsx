@@ -52,7 +52,16 @@ const StudentPage = () => {
 
 
             <View style={styles.logoutButtonContainer}>
-                {/* <Button
+                <View style={{
+                    height: '93%',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}><Text style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: 56
+                }}> This is the Student Page</Text></View>
+                <Button
                     mode='outlined'
                     onPress={logout}
                     icon={() => <MaterialCommunityIcons name="logout" size={24} color="black" />}
@@ -60,9 +69,9 @@ const StudentPage = () => {
                     style={styles.logoutButton}
                 >
                     Logout
-                </Button> */}
+                </Button>
                 {/* <JobCard name="Extreme Networks"/> */}
-                <BottomNav/>
+                {/* <BottomNav/> */}
             </View>
         </SafeAreaView>
     )

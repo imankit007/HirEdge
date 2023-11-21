@@ -3,8 +3,8 @@ import { Slot, Tabs } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
 
 import { View, Text } from 'react-native'
-// import { Drawer } from 'react-native-paper';
-import { Drawer } from './Drawer';
+
+import { Drawer } from 'expo-router/drawer';
 
 const Layout = () => {
 
@@ -28,7 +28,7 @@ const Layout = () => {
                 />
 
                 <Drawer.Screen
-                    name='FirstPage'
+                    name='addcompany'
                     options={{
                         title: "Add Company",
                         drawerLabel: "Add Company"

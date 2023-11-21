@@ -22,23 +22,23 @@ const InitialLayout = () => {
             const inTabsGroup = segments[0] === '(auth)';
             const isLoggedIn = await refresh();
             console.log("isLogged IN ", isLoggedIn);
-            router.replace('/(auth)/student/')
+            // router.replace('/(auth)/student/')
 
-            // if (isLoggedIn && !inTabsGroup) {
-            //     if (authState.role == "tpo") {
-            //         router.replace({
-            //             pathname: '/(auth)/tpo/',
-            //         })
-            //     } else if (authState.role == 'student')
-            //         router.replace('/(auth)/student/')
-            //     else if (authState.role == 'hod')
-            //         router.replace('/(auth)/hod/')
-            //     else if (authState.role == 'alumni')
-            //         router.replace('/(auth)/alumni/')
-            // } else {
+            if (isLoggedIn && !inTabsGroup) {
+                if (authState.role == "tpo") {
+                    router.replace({
+                        pathname: '/(auth)/tpo/',
+                    })
+                } else if (authState.role == 'student')
+                    router.replace('/(auth)/student/')
+                else if (authState.role == 'hod')
+                    router.replace('/(auth)/hod/')
+                else if (authState.role == 'alumni')
+                    router.replace('/(auth)/alumni/')
+            } else {
 
-            //     router.replace('/(public)/welcome')
-            // }
+                router.replace('/(public)/welcome')
+            }
 
         }
         verifyTokenValidity();
