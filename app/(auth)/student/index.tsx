@@ -1,14 +1,13 @@
 
 import { useRouter } from "expo-router";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, Icon, IconButton, Avatar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useLogout from "../../../utils/useLogout";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import JobCard from "../../../components/Job-Card/JobCard";
 import BottomNav from "../../../components/BottomNav/BottomNav";
-
 
 const StudentPage = () => {
 
@@ -35,43 +34,72 @@ const StudentPage = () => {
         <SafeAreaView style={{
             flex: 1,
             width: '100%',
-            height: '100%',
+            position: 'fixed',
+            rowGap: 5,
             flexDirection: 'column'
+
         }}>
-            {/* <View style={{
-                bottom: 0
+
+            <View style={{
+                flex: 1,
+                rowGap: 10
             }}>
-
-                <Button
-                    mode="outlined"
-                    icon={() => <FontAwesome5 name="key" size={24} color="black" />}
-                    labelStyle={[styles.ButtonLabel, { color: 'blue' }]}
-                >Change Password</Button>
-
-            </View> */}
-
-
-            <View style={styles.logoutButtonContainer}>
+                <View>
+                    <Avatar.Icon icon={"account-circle-outline"} size={160} style={{
+                        alignSelf: 'center'
+                    }} />
+                    <IconButton icon={'camera-outline'} size={46} iconColor="black" style={{
+                        position: 'relative',
+                        alignSelf: 'center',
+                        bottom: 60, left: 40,
+                    }}
+                        containerColor="#00a878"
+                    />
+                </View>
                 <View style={{
-                    height: '93%',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}><Text style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 56
-                }}> This is the Student Page</Text></View>
-                <Button
-                    mode='outlined'
-                    onPress={logout}
-                    icon={() => <MaterialCommunityIcons name="logout" size={24} color="black" />}
-                    labelStyle={[styles.ButtonLabel, { color: 'red' }]}
-                    style={styles.logoutButton}
-                >
-                    Logout
-                </Button>
-                {/* <JobCard name="Extreme Networks"/> */}
-                {/* <BottomNav/> */}
+                    width: "100%",
+                    flexDirection: 'row',
+                    columnGap: 20,
+                }}>
+                    <Icon source="account" size={40} />
+                    <View style={{ flexDirection: 'column', flex: 1 }}>
+                        <Text style={{}}>Name</Text>
+                        <Text style={{ fontSize: 20, fontWeight: "600" }}>Mr. ABC</Text>
+                    </View>
+                    <IconButton icon={'pencil'} iconColor="#186F65" style={{
+
+                    }} />
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                    columnGap: 20,
+                }}>
+                    <Icon source="email" size={40} />
+                    <View style={{ flexDirection: 'column', flex: 1 }}>
+                        <Text style={{}}>Email</Text>
+                        <Text style={{ fontSize: 20, fontWeight: "600" }}>xyz@abc.com</Text>
+                    </View>
+                    <IconButton icon={'pencil'} iconColor="#186F65" />
+                </View>
+                <View style={{
+                    flexDirection: 'row',
+                    columnGap: 20,
+                }}>
+                    <Icon source="phone" size={40} />
+                    <View style={{ flexDirection: 'column', flex: 1 }}>
+                        <Text style={{}}>Phone</Text>
+                        <Text style={{ fontSize: 20, fontWeight: "600" }}>+91 12345 12345</Text>
+                    </View>
+                    <IconButton icon={'pencil'} iconColor="#186F65" />
+                </View>
+            </View>
+            <View style={styles.buttonConatainer}>
+                <Button mode="outlined" labelStyle={{
+                    fontSize: 20
+                }}>Change Password</Button>
+                <Button mode='outlined' onPress={logout} textColor="red" labelStyle={{
+                    fontSize: 24
+                }}>Logout</Button>
             </View>
         </SafeAreaView>
     )
@@ -79,14 +107,13 @@ const StudentPage = () => {
 
 
 const styles = StyleSheet.create({
-    logoutButtonContainer: {
-        width: '100%',
-    }, logoutButton: {
-
+    informationText: {
+        fontSize: 24,
     },
-    ButtonLabel: {
-        fontSize: 20,
-        verticalAlign: 'middle',
+    buttonConatainer: {
+        position: 'relative',
+        marginBottom: 5,
+        rowGap: 5
     }
 })
 

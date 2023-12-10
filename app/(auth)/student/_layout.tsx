@@ -2,6 +2,7 @@
 
 import { Text, View } from 'react-native';
 import { Tabs } from 'expo-router';
+import { Icon } from 'react-native-paper';
 
 
 
@@ -10,9 +11,7 @@ const Layout = () => {
 
     return (
         <Tabs
-
             screenOptions={{
-                headerShown: false,
                 tabBarShowLabel: false,
             }}
         >
@@ -21,14 +20,21 @@ const Layout = () => {
                 options={{
                     tabBarIcon: () => {
                         return (
-                            <View><Text>Profile</Text></View>
+                            <Icon source={"account"} size={20} />
                         )
-                    }
+                    },
+                    headerShown: true,
+                    headerTitle: "Profile"
                 }}
             />
-
+            <Tabs.Screen
+                name='placements'
+                options={{
+                    tabBarIcon: () => (<Text>Placements</Text>),
+                    headerTitle: "Placements"
+                }}
+            />
         </Tabs>
-
     )
 }
 

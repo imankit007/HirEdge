@@ -13,11 +13,14 @@ const Layout = () => {
 
         <>
 
-            <Drawer screenOptions={{
-                headerTitleAlign: 'center',
-                // headerTitle: ({}) => (<></>)
+            <Drawer
+                initialRouteName='addstudent'
+                screenOptions={{
+                    headerTitleAlign: 'center',
 
-            }} >
+                    // headerTitle: ({}) => (<></>)
+
+                }} >
 
                 <Drawer.Screen
                     name='index'
@@ -34,6 +37,14 @@ const Layout = () => {
                         drawerLabel: "Add Company"
                     }}
                 />
+
+                <Drawer.Screen
+                    name='addstudent'
+                    options={{
+                        title: "Add Student",
+                        drawerLabel: "Add Student"
+                    }}
+                ></Drawer.Screen>
 
             </Drawer>
 
