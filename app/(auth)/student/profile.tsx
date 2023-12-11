@@ -1,19 +1,21 @@
 
 import { useRouter } from "expo-router";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { Button, Icon, IconButton, Avatar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useLogout from "../../../utils/useLogout";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import JobCard from "../../../components/Job-Card/JobCard";
-import BottomNav from "../../../components/BottomNav/BottomNav";
+// import BottomNav from "../../../components/BottomNav/BottomNav";
 
 const StudentPage = () => {
 
     const router = useRouter();
 
     const logout = useLogout();
+
+    const hello = ()=>{ console.log("Hello world")}
 
     const upcoming_data = {
         1:{
@@ -56,6 +58,15 @@ const StudentPage = () => {
                         containerColor="#00a878"
                     />
                 </View>
+                <TouchableOpacity style={styles.buttonConatainer} onPress={logout}>
+                {/* <Button mode="outlined" labelStyle={{
+                    fontSize: 20
+                }}>Change Password</Button> */}
+                {/* <Button mode='outlined' onPress={logout} textColor="red" labelStyle={{
+                    fontSize: 24
+                }}>Logout</Button> */}
+                <MaterialCommunityIcons name="logout" size={34} color="grey"/>
+            </TouchableOpacity>
                 <View style={{
                     width: "100%",
                     flexDirection: 'row',
@@ -93,14 +104,6 @@ const StudentPage = () => {
                     <IconButton icon={'pencil'} iconColor="#186F65" />
                 </View>
             </View>
-            <View style={styles.buttonConatainer}>
-                <Button mode="outlined" labelStyle={{
-                    fontSize: 20
-                }}>Change Password</Button>
-                <Button mode='outlined' onPress={logout} textColor="red" labelStyle={{
-                    fontSize: 24
-                }}>Logout</Button>
-            </View>
         </SafeAreaView>
     )
 }
@@ -113,7 +116,10 @@ const styles = StyleSheet.create({
     buttonConatainer: {
         position: 'relative',
         marginBottom: 5,
-        rowGap: 5
+        rowGap: 5,
+        alignSelf: "center",
+        left: 120,
+        bottom:20
     }
 })
 
