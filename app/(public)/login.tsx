@@ -61,7 +61,7 @@ const Login = () => {
                             await api.post('/login', values).then((res) => {
                                 if (res.status == 200) {
                                     if (values.role == 'student') {
-                                        router.replace('/(auth)/student/');
+                                        router.replace('/(auth)/student/placements');
                                     }
                                     if (values.role == 'tpo') {
                                         router.replace('/(auth)/tpo/');

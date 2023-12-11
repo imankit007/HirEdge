@@ -1,15 +1,51 @@
 
 import { useRouter } from "expo-router";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { Button, Icon, IconButton, Avatar } from "react-native-paper";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { Icon, IconButton, Avatar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useLogout from "../../../utils/useLogout";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import JobCard from "../../../components/Job-Card/JobCard";
+import { MaterialIcons } from '@expo/vector-icons';
+import { useEffect, useState } from "react";
+
+import useAxiosPrivate from "../../../utils/axiosPrivate";
+
 // import BottomNav from "../../../components/BottomNav/BottomNav";
 
+type StudentProfileType = {
+    user_id: string;
+    branch: string;
+    email: string;
+    mobile: string;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    dob: string;
+    tenth_percentage: string;
+    twelfth_percentage: string;
+    ug_cgpa: string;
+}
+
+
 const StudentPage = () => {
+
+    const [studentProfile, setStudentProfile] = useState<StudentProfileType | null>(null)
+
+    const axiosPrivate = useAxiosPrivate();
+
+    useEffect(() => {
+
+        const fetchProfile = () => {
+
+            axiosPrivate.get('/student/profile').then((res) => {
+                setStudentProfile(res.data);
+            })
+        }
+
+        fetchProfile();
+
+    }, [])
+
 
     const router = useRouter();
 
@@ -41,6 +77,7 @@ const StudentPage = () => {
             flexDirection: 'column'
 
         }}>
+            <ScrollView>
 
             <View style={{
                 flex: 1,
@@ -75,7 +112,7 @@ const StudentPage = () => {
                     <Icon source="account" size={40} />
                     <View style={{ flexDirection: 'column', flex: 1 }}>
                         <Text style={{}}>Name</Text>
-                        <Text style={{ fontSize: 20, fontWeight: "600" }}>Mr. ABC</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "600" }}>{`${studentProfile?.first_name} ${studentProfile?.middle_name} ${studentProfile?.last_name}`}</Text>
                     </View>
                     <IconButton icon={'pencil'} iconColor="#186F65" style={{
 
@@ -88,7 +125,7 @@ const StudentPage = () => {
                     <Icon source="email" size={40} />
                     <View style={{ flexDirection: 'column', flex: 1 }}>
                         <Text style={{}}>Email</Text>
-                        <Text style={{ fontSize: 20, fontWeight: "600" }}>xyz@abc.com</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "600" }}>{studentProfile?.email}</Text>
                     </View>
                     <IconButton icon={'pencil'} iconColor="#186F65" />
                 </View>
@@ -99,11 +136,44 @@ const StudentPage = () => {
                     <Icon source="phone" size={40} />
                     <View style={{ flexDirection: 'column', flex: 1 }}>
                         <Text style={{}}>Phone</Text>
-                        <Text style={{ fontSize: 20, fontWeight: "600" }}>+91 12345 12345</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "600" }}>{`+91 ${studentProfile?.mobile}`}</Text>
                     </View>
                     <IconButton icon={'pencil'} iconColor="#186F65" />
                 </View>
+                    <View>
+                        <Text style={{ alignSelf: 'center', fontSize: 20, textDecorationLine: 'underline' }}>Academic Details</Text>
+                        <View style={{ flexDirection: "row" }}>
+                            <MaterialIcons name="domain" size={40} />
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text >Branch</Text>
+                                <Text style={styles.academicDetails}>{studentProfile?.branch}</Text>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: "row" }}>
+                            <MaterialCommunityIcons name="book-education" size={40} color="black" />
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text>10th Percentage</Text>
+                                <Text style={styles.academicDetails}>{studentProfile?.tenth_percentage}%</Text>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: "row" }}>
+                            <MaterialCommunityIcons name="book-education" size={40} color="black" />
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text>12th Percentage</Text>
+                                <Text style={styles.academicDetails}>{studentProfile?.twelfth_percentage}%</Text>
+                            </View>
+                        </View>
+
+                        <View style={{ flexDirection: "row" }}>
+                            <MaterialCommunityIcons name="book-education" size={40} color="black" />
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text>UG CGPA</Text>
+                                <Text style={styles.academicDetails}>{studentProfile?.ug_cgpa}%</Text>
+                            </View>
+                        </View>
+                    </View>
             </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -120,6 +190,11 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         left: 120,
         bottom:20
+    },
+    academicDetails: {
+        fontFamily: 'sans-serif',
+        fontSize: 20,
+        fontWeight: "800"
     }
 })
 
