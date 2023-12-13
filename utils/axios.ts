@@ -3,6 +3,7 @@ import axios from "axios";
 
 //replace the baseURL with IP of your machine
 // ipconfig - to find the ip address of machine
+const baseURL = 'http://192.168.191.131:5000';
 
 
 const instance = axios.create({
@@ -13,7 +14,7 @@ const instance = axios.create({
 
 
 export const axiosPrivate = axios.create({
-    baseURL: 'http://192.168.191.131:5000',
+    baseURL: baseURL,
     withCredentials: true,
     headers:{
         "Content-Type": 'application/json',
