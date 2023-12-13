@@ -6,7 +6,7 @@ import axios from "axios";
 
 
 const instance = axios.create({
-    baseURL:'http://192.168.29.200:5000',
+    baseURL:'http://192.168.191.68:5000',
     responseType: 'json'
 
 })
