@@ -16,10 +16,7 @@ export default {
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorDark,
   },
-<<<<<<< Updated upstream
   cardBackground: '#808080',
-=======
->>>>>>> Stashed changes
   background: '#EAD637',
   greencol: '#D6F49D',
   blackcol: '#230C0F',

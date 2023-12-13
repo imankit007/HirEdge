@@ -51,20 +51,20 @@ const StudentPage = () => {
 
     const logout = useLogout();
 
-    const hello = ()=>{ console.log("Hello world")}
+    const hello = () => { console.log("Hello world") }
 
     const upcoming_data = {
-        1:{
-            name:"Extreme Networks",
-            img:"../../../assets/images/job-logos/extreme.png"
+        1: {
+            name: "Extreme Networks",
+            img: "../../../assets/images/job-logos/extreme.png"
         },
-        2:{
-            name:"Nextuple",
-            img:"../../assets/images/job-logos/nextuple.png"
+        2: {
+            name: "Nextuple",
+            img: "../../assets/images/job-logos/nextuple.png"
         },
-        3:{
-            name:"Oracle",
-            img:"../../assets/images/job-logos/oracle.png"
+        3: {
+            name: "Oracle",
+            img: "../../assets/images/job-logos/oracle.png"
         }
     }
 
@@ -74,16 +74,20 @@ const StudentPage = () => {
             width: '100%',
             position: 'fixed',
             rowGap: 5,
-            flexDirection: 'column'
-
+            flexDirection: 'column',
+            backgroundColor: '#EAD637'
         }}>
             <ScrollView>
 
             <View style={{
                 flex: 1,
-                rowGap: 10
+                rowGap: 10,
+                backgroundColor: '#EAD637'
             }}>
-                <View>
+                <View style={{
+                    top: 40,
+                    zIndex:2
+                }}>
                     <Avatar.Icon icon={"account-circle-outline"} size={160} style={{
                         alignSelf: 'center'
                     }} />
@@ -96,49 +100,67 @@ const StudentPage = () => {
                     />
                 </View>
                 <TouchableOpacity style={styles.buttonConatainer} onPress={logout}>
-                {/* <Button mode="outlined" labelStyle={{
+                    {/* <Button mode="outlined" labelStyle={{
                     fontSize: 20
                 }}>Change Password</Button> */}
-                {/* <Button mode='outlined' onPress={logout} textColor="red" labelStyle={{
+                    {/* <Button mode='outlined' onPress={logout} textColor="red" labelStyle={{
                     fontSize: 24
                 }}>Logout</Button> */}
-                <MaterialCommunityIcons name="logout" size={34} color="grey"/>
-            </TouchableOpacity>
-                <View style={{
-                    width: "100%",
-                    flexDirection: 'row',
-                    columnGap: 20,
-                }}>
-                    <Icon source="account" size={40} />
-                    <View style={{ flexDirection: 'column', flex: 1 }}>
-                        <Text style={{}}>Name</Text>
-                            <Text style={{ fontSize: 20, fontWeight: "600" }}>{`${studentProfile?.first_name} ${studentProfile?.middle_name} ${studentProfile?.last_name}`}</Text>
-                    </View>
-                    <IconButton icon={'pencil'} iconColor="#186F65" style={{
+                    <MaterialCommunityIcons name="logout" size={39} color="#ca1313" />
+                </TouchableOpacity>
 
-                    }} />
-                </View>
                 <View style={{
-                    flexDirection: 'row',
-                    columnGap: 20,
+                    backgroundColor:'#fff',
+                    height:950,
+                    paddingTop:40,
+                    paddingLeft:15,
+                    paddingRight:15,
+                    bottom:130,
+                    borderRadius:25,
+                    width:"98%",
+                    alignSelf:'center'
                 }}>
-                    <Icon source="email" size={40} />
-                    <View style={{ flexDirection: 'column', flex: 1 }}>
-                        <Text style={{}}>Email</Text>
-                            <Text style={{ fontSize: 20, fontWeight: "600" }}>{studentProfile?.email}</Text>
+                    <View style={{
+                        width: "100%",
+                        flexDirection: 'row',
+                        columnGap: 20,
+                        padding:5
+                    }}>
+                        <Icon source="account" size={40} />
+                        <View style={{ flexDirection: 'column', flex: 1 }}>
+                            <Text style={{}}>Name</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "600" }}>Mr. ABC</Text>
+                        </View>
+                        <IconButton icon={'pencil'} iconColor="#186F65" style={{
+
+                        }} />
                     </View>
-                    <IconButton icon={'pencil'} iconColor="#186F65" />
-                </View>
-                <View style={{
-                    flexDirection: 'row',
-                    columnGap: 20,
-                }}>
-                    <Icon source="phone" size={40} />
-                    <View style={{ flexDirection: 'column', flex: 1 }}>
-                        <Text style={{}}>Phone</Text>
-                            <Text style={{ fontSize: 20, fontWeight: "600" }}>{`+91 ${studentProfile?.mobile}`}</Text>
+                    <View style={{
+                        flexDirection: 'row',
+                        columnGap: 20,
+                        padding:5,
+                        paddingTop:10
+                    }}>
+                        <Icon source="email" size={40} />
+                        <View style={{ flexDirection: 'column', flex: 1 }}>
+                            <Text style={{}}>Email</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "600" }}>xyz@abc.com</Text>
+                        </View>
+                        <IconButton icon={'pencil'} iconColor="#186F65" />
                     </View>
-                    <IconButton icon={'pencil'} iconColor="#186F65" />
+                    <View style={{
+                        flexDirection: 'row',
+                        columnGap: 20,
+                        padding:5,
+                        paddingTop:10
+                    }}>
+                        <Icon source="phone" size={40} />
+                        <View style={{ flexDirection: 'column', flex: 1 }}>
+                            <Text style={{}}>Phone</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "600" }}>+91 12345 12345</Text>
+                        </View>
+                        <IconButton icon={'pencil'} iconColor="#186F65" />
+                    </View>
                 </View>
                     <View>
                         <Text style={{ alignSelf: 'center', fontSize: 20, textDecorationLine: 'underline' }}>Academic Details</Text>

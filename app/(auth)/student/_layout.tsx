@@ -21,7 +21,11 @@ const Layout = () => {
                     padding: 10,
                     paddingBottom: 20,
                     height:65,
-                    paddingTop:20
+                    paddingTop:20,
+                    borderRadius:20,
+                    marginBottom:15,
+                    width:"94%",
+                    alignSelf:'center'
                 }
             }}
 
