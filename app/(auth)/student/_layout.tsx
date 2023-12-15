@@ -22,9 +22,9 @@ const Layout = () => {
                     paddingBottom: 20,
                     height:65,
                     paddingTop:20,
-                    borderRadius:20,
-                    marginBottom:15,
-                    width:"94%",
+                    // borderRadius:20,
+                    // marginBottom:15,
+                    width: "100%",
                     alignSelf:'center'
                 }
             }}
@@ -36,7 +36,7 @@ const Layout = () => {
                 options={{
                     tabBarIcon: () => {
                         return (
-                            <View><FontAwesome name='briefcase' size={30}/></View>
+                            <FontAwesome name='briefcase' size={30} />
                         )
                     }
                 }}
@@ -46,7 +46,7 @@ const Layout = () => {
                 options={{
                     tabBarIcon: () => {
                         return (
-                            <View><Icon source={require('../../../assets/images/icons/message-icon.png')} size={30}/></View>
+                            <Icon source={require('../../../assets/images/icons/message-icon.png')} size={30} />
                         )
                     }
                 }}
@@ -56,7 +56,7 @@ const Layout = () => {
                 options={{
                     tabBarIcon: () => {
                         return (
-                            <View><Icon source={require('../../../assets/images/icons/profile-icon.png')} size={30}/></View>
+                            <Icon source={require('../../../assets/images/icons/profile-icon.png')} size={30} />
                         )
                     }
                 }}

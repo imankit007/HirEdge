@@ -4,11 +4,37 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import useLogout from "../../../utils/useLogout";
+import { useEffect, useState } from "react";
+import useAxiosPrivate from "../../../utils/axiosPrivate";
 
+type TPOProfileType = {
+    title: string;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    email: string;
+    mobile: string;
+}
 
 const TPOPage = () => {
-
     const logout = useLogout();
+    const api = useAxiosPrivate();
+
+    const [TPOProfile, setTpoProfile] = useState<TPOProfileType | null>(null)
+
+    useEffect(() => {
+
+        const fetchProfile = () => {
+            api.get('/tpo/profile').then((res) => {
+                if (res.status == 200) {
+                    setTpoProfile(res.data);
+                }
+            }).catch((e) => { console.log(e) });
+        }
+        fetchProfile();
+
+    }, [])
+
 
     return (
         <SafeAreaView style={{
@@ -19,7 +45,6 @@ const TPOPage = () => {
             flexDirection: 'column'
 
         }}>
-
             <View style={{
                 flex: 1,
                 rowGap: 10
@@ -44,7 +69,9 @@ const TPOPage = () => {
                     <Icon source="account" size={40} />
                     <View style={{ flexDirection: 'column', flex: 1 }}>
                         <Text style={{}}>Name</Text>
-                        <Text style={{ fontSize: 20, fontWeight: "600" }}>Mr. ABC</Text>
+                        <Text style={{ fontSize: 20, fontWeight: "600" }}>
+                            {`${TPOProfile?.title} ${TPOProfile?.first_name} ${TPOProfile?.middle_name} ${TPOProfile?.last_name}`}
+                        </Text>
                     </View>
                     <IconButton icon={'pencil'} iconColor="#186F65" style={{
 
@@ -57,7 +84,9 @@ const TPOPage = () => {
                     <Icon source="email" size={40} />
                     <View style={{ flexDirection: 'column', flex: 1 }}>
                         <Text style={{}}>Email</Text>
-                        <Text style={{ fontSize: 20, fontWeight: "600" }}>xyz@abc.com</Text>
+                        <Text style={{ fontSize: 20, fontWeight: "600" }}>
+                            {TPOProfile?.email}
+                        </Text>
                     </View>
                     <IconButton icon={'pencil'} iconColor="#186F65" />
                 </View>
@@ -68,7 +97,9 @@ const TPOPage = () => {
                     <Icon source="phone" size={40} />
                     <View style={{ flexDirection: 'column', flex: 1 }}>
                         <Text style={{}}>Phone</Text>
-                        <Text style={{ fontSize: 20, fontWeight: "600" }}>+91 12345 12345</Text>
+                        <Text style={{ fontSize: 20, fontWeight: "600" }}>
+                            {TPOProfile?.mobile}
+                        </Text>
                     </View>
                     <IconButton icon={'pencil'} iconColor="#186F65" />
                 </View>

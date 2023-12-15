@@ -1,15 +1,35 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { useState } from 'react';
-import { } from 'formik';
+import { useFormik } from 'formik';
 
-import { TextInput, RadioButton, Button } from 'react-native-paper';
-
+import { TextInput, RadioButton, } from 'react-native-paper';
+import * as Yup from 'yup';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-
+const validationSchema = Yup.object({
+    usn: Yup.string().required("USN Required")
+})
 
 const AddStudent = () => {
+
+    const formik = useFormik({
+        initialValues: {
+            usn: '',
+            first_name: '',
+            middle_name: '',
+            last_name: '',
+            dob: '',
+            gender: '',
+            branch: '',
+            tenth_percentage: '',
+            twelfth_percentage: '',
+            ug_cgpa: '',
+        },
+        onSubmit: (values) => {
+            console.log(values)
+        }
+    })
 
     const [date, setDate] = useState(new Date(1598051730000));
     const [mode, setMode] = useState('date');
@@ -19,6 +39,7 @@ const AddStudent = () => {
         const currentDate = selectedDate;
         setShow(false);
         setDate(currentDate);
+        console.log(currentDate);
     };
 
     const showMode = (currentMode: any) => {
@@ -30,9 +51,6 @@ const AddStudent = () => {
         showMode('date');
     };
 
-    const showTimepicker = () => {
-        showMode('time');
-    };
 
     return (<>
         <View style={styles.mainContainer}>
@@ -40,6 +58,8 @@ const AddStudent = () => {
             <TextInput
                 label={'USN'}
                 placeholder='Enter USN'
+                value={formik.values.usn}
+                error={formik.touched.usn && Boolean(formik.errors.usn)}
             />
 
             <TextInput
@@ -55,14 +75,14 @@ const AddStudent = () => {
                 placeholder='Enter Last Name'
             />
 
-            <Button onPress={showDatepicker}>Date</Button>
+            <Button onPress={showDatepicker} title='Date' />
 
             {show && (
                 <DateTimePicker
                     testID="dateTimePicker"
                     value={date}
                     mode='date'
-                    is24Hour={true}
+                    // is24Hour={true}
                     onChange={onChange}
                 />
             )}
@@ -82,7 +102,7 @@ const AddStudent = () => {
                 placeholder='Enter Branch'
             />
 
-
+            <Button onPress={formik.handleSubmit} title='Submit' />
 
         </View>
     </>)

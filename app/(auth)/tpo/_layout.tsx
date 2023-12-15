@@ -3,10 +3,14 @@ import { Slot, Tabs } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
 
 import { View, Text } from 'react-native'
-
 import { Drawer } from 'expo-router/drawer';
 
+import { useEffect } from 'react';
+
+
+
 const Layout = () => {
+
 
 
     return (
@@ -17,9 +21,6 @@ const Layout = () => {
                 initialRouteName='addstudent'
                 screenOptions={{
                     headerTitleAlign: 'center',
-
-                    // headerTitle: ({}) => (<></>)
-
                 }} >
 
                 <Drawer.Screen

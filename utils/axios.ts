@@ -7,7 +7,7 @@ const baseURL = 'http://192.168.191.131:5000';
 
 
 const instance = axios.create({
-    baseURL:'http://192.168.191.68:5000',
+    baseURL:baseURL,
     responseType: 'json'
 
 })

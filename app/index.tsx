@@ -1,11 +1,5 @@
-import { Redirect, useNavigation } from "expo-router"
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../utils/AuthContext";
 
-import * as SecureStore from 'expo-secure-store';
-import axios from "axios";
-import useRefreshToken from "../utils/refresh";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
 
 const StartPage = () => {
 
