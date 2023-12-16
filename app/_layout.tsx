@@ -24,7 +24,7 @@ const InitialLayout = () => {
             if (isLoggedIn && !inTabsGroup) {
                 if (authState.role == "tpo") {
                     router.replace({
-                        pathname: '/(auth)/tpo/addstudent',
+                        pathname: '/(auth)/tpo/addcompany',
                     })
                 } else if (authState.role == 'student')
                     router.replace('/(auth)/student/placements')
