@@ -100,7 +100,8 @@ const StudentPage = () => {
                         paddingRight: 15,
                         borderRadius: 25,
                         width: "98%",
-                        alignSelf: 'center'
+                        alignSelf: 'center',
+                        height:600
                     }}>
                         <View style={{
                             width: "100%",
@@ -111,7 +112,7 @@ const StudentPage = () => {
                             <Icon source="account" size={40} />
                             <View style={{ flexDirection: 'column', flex: 1 }}>
                                 <Text style={{}}>Name</Text>
-                                <Text style={{ fontSize: 20, fontWeight: "600" }}>
+                                <Text style={{ fontSize: 18, fontWeight: "600" }}>
                                     {`${studentProfile?.first_name} ${studentProfile?.middle_name} ${studentProfile?.last_name}`}</Text>
                             </View>
                             <IconButton icon={'pencil'} iconColor="#186F65" style={{
@@ -127,7 +128,7 @@ const StudentPage = () => {
                             <Icon source="email" size={40} />
                             <View style={{ flexDirection: 'column', flex: 1 }}>
                                 <Text style={{}}>Email</Text>
-                                <Text style={{ fontSize: 20, fontWeight: "600" }}>
+                                <Text style={{ fontSize: 18, fontWeight: "600" }}>
                                     {studentProfile?.email}
                                 </Text>
                             </View>
@@ -142,48 +143,65 @@ const StudentPage = () => {
                             <Icon source="phone" size={40} />
                             <View style={{ flexDirection: 'column', flex: 1 }}>
                                 <Text style={{}}>Phone</Text>
-                                <Text style={{ fontSize: 20, fontWeight: "600" }}>
+                                <Text style={{ fontSize: 18, fontWeight: "600" }}>
                                     {studentProfile?.mobile}
                                 </Text>
                             </View>
                             <IconButton icon={'pencil'} iconColor="#186F65" />
                         </View>
-                        <View>
-                            <Text style={{ alignSelf: 'center', fontSize: 20, textDecorationLine: 'underline' }}>
+
+                        <View style={{position:'relative', top:20}}>
+                            <Text style={{ 
+                                alignSelf: 'center', 
+                                fontSize: 20, 
+                                // textDecorationLine: 'underline',
+                                backgroundColor:'#A2D3C2',
+                                padding:10,
+                                borderRadius:10,
+                                fontWeight:"600",
+                            }}>
                                 Academic Details</Text>
-                            <View style={{ flexDirection: "row" }}>
+                            <View style={{ flexDirection: "row", marginTop:20 }}>
                                 <MaterialIcons name="domain" size={40} />
-                                <View style={{ flexDirection: 'column', flex: 1 }}>
-                                    <Text >Branch</Text>
+                                <View style={{ flexDirection: 'column', flex: 1, marginBottom:10 }}>
+                                    <Text style={{marginLeft:20}}>Branch</Text>
                                     <Text style={styles.academicDetails}>{studentProfile?.branch}</Text>
                                 </View>
                             </View>
-                            <View style={{ flexDirection: "row" }}>
+                            <View style={{ flexDirection: "row", marginBottom:10 }}>
                                 <MaterialCommunityIcons name="book-education" size={40} color="black" />
                                 <View style={{ flexDirection: 'column', flex: 1 }}>
-                                    <Text>10th Percentage</Text>
+                                    <Text style={{marginLeft:20}}>10th Percentage</Text>
                                     <Text style={styles.academicDetails}>{studentProfile?.tenth_percentage}%</Text>
                                 </View>
                             </View>
-                            <View style={{ flexDirection: "row" }}>
+                            <View style={{ flexDirection: "row", marginBottom:10 }}>
                                 <MaterialCommunityIcons name="book-education" size={40} color="black" />
                                 <View style={{ flexDirection: 'column', flex: 1 }}>
-                                    <Text>12th Percentage</Text>
+                                    <Text style={{marginLeft:20}}>12th Percentage</Text>
                                     <Text style={styles.academicDetails}>{studentProfile?.twelfth_percentage}%</Text>
                                 </View>
                             </View>
 
-                            <View style={{ flexDirection: "row" }}>
+                            <View style={{ flexDirection: "row", marginBottom:10 }}>
                                 <MaterialCommunityIcons name="book-education" size={40} color="black" />
                                 <View style={{ flexDirection: 'column', flex: 1 }}>
-                                    <Text>UG CGPA</Text>
+                                    <Text style={{marginLeft:20}}>UG CGPA</Text>
                                     <Text style={styles.academicDetails}>{studentProfile?.ug_cgpa}%</Text>
                                 </View>
                             </View>
                         </View>
                     </View>
                 </View>
-                <Button onPress={logout}> Log Out</Button>
+                <Button style={{
+                    backgroundColor:'#A2D3C2', 
+                    padding:10,
+                    width:150,
+                    alignSelf:'center',
+                    marginBottom:30
+                    }} 
+                    onPress={logout}
+                ><Text style={{color:'black', fontWeight:'800'}}>Log Out</Text></Button>
 
             </ScrollView>
         </SafeAreaView>
@@ -206,7 +224,8 @@ const styles = StyleSheet.create({
     academicDetails: {
         fontFamily: 'sans-serif',
         fontSize: 20,
-        fontWeight: "800"
+        fontWeight: "800",
+        marginLeft:20
     }
 })
 
