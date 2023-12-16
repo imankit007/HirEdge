@@ -4,7 +4,7 @@ import { Slot, Stack, useRouter, useSegments } from "expo-router";
 import { useContext, useEffect } from "react";
 import { AuthProvider } from "../utils/AuthContext";
 
-
+import { Provider } from "react-native-paper";
 import { AuthContext } from "../utils/AuthContext";
 import useRefreshToken from "../utils/refresh";
 
@@ -24,7 +24,7 @@ const InitialLayout = () => {
             if (isLoggedIn && !inTabsGroup) {
                 if (authState.role == "tpo") {
                     router.replace({
-                        pathname: '/(auth)/tpo/',
+                        pathname: '/(auth)/tpo/addstudent',
                     })
                 } else if (authState.role == 'student')
                     router.replace('/(auth)/student/placements')
@@ -49,9 +49,11 @@ const InitialLayout = () => {
 
 const RootLayout = () => {
     return (
+        <Provider>
         <AuthProvider>
         <InitialLayout />
         </AuthProvider>
+        </Provider>
     )
 
 }

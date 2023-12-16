@@ -24,7 +24,7 @@ const Layout = () => {
                 }} >
 
                 <Drawer.Screen
-                    name='index'
+                    name='profile'
                     options={{
                         title: "Profile",
                         drawerLabel: "Profile"
