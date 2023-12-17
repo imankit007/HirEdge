@@ -1,66 +1,90 @@
 
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Checkbox, TextInput, IconButton, Button } from "react-native-paper";
-
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, TurboModuleRegistry } from "react-native";
+import { IconButton, Button } from "react-native-paper";
+import { TextInput } from "react-native";
 import useAxiosPrivate from "../../../utils/axiosPrivate";
 import { Field, FieldArray, Form, Formik, useFormik } from "formik";
-
 import { useState } from "react";
-
+import CheckBox from 'expo-checkbox';
+import * as Yup from 'yup';
 
 let branchList = ['CSE', 'ISE', 'ECE', 'EEE', 'CHEM', 'CIVIL', 'AI/ML', 'MECH']
+
+const validationSchema = Yup.object({
+
+})
+
 
 const FirstPage = () => {
 
     const api = useAxiosPrivate();
-    const [tenth, setTenth] = useState(false);
+
+    const [isThereTenthEligibilityCriteria, setIsThereTenthEligibilityCriteria] = useState(true);
+    const [isThereTwelfthEligibilityCriteria, setIsThereTwelfthEligibilityCriteria] = useState(true);
+    const [isThereUgEligibilityCriteria, setIsThereUgEligibilityCriteria] = useState(true);
 
 
     return (
         <>
             <ScrollView style={styles.mainContainer} contentContainerStyle={{
-                rowGap: 5
+                rowGap: 5,
+                flex: 1,
             }}><Formik
                 initialValues={{
-                    comapny_name: '',
-                    job_title: '',
-                    tenth_cutoff: 0,
-                    twelfth_cutoff: 0,
-                    ug_cutoff: 0,
+                        company_name: '',
+                        job_title: '',
+                        job_description: '',
+                        tenth_cutoff: 70,
+                        twelfth_cutoff: 70,
+                        ug_cutoff: 7.00,
                     branch: [],
                 }}
                 onSubmit={(values, formikHelpers) => {
-
+                    api.post('tpo/addjob', values).then((res) => {
+                        if (res.status == 200) {
+                            console.log("Posted Successfull");
+                            formikHelpers.resetForm();
+                        }
+                    }).catch((e) => {
+                        console.log(e);
+                    })
                 }}
             >{props => (
                 <View style={{
                     flex: 1,
                     flexGrow: 1,
-                    rowGap: 3
+                            rowGap: 3,
+                            borderColor: 'black',
+                            borderWidth: 1
                         }}>
                             <TextInput
-                                label={"Company Name"}
-                                value={props.values.comapny_name}
+                                placeholder={"Company Name"}
+                                value={props.values.company_name}
                                 onChangeText={props.handleChange("company_name")}
                             />
                             <TextInput
-                                label={"Job Title"}
+                                placeholder={"Job Title"}
                                 value={props.values.job_title}
                                 onChangeText={props.handleChange("job_title")}
                             />
+                            <TextInput
+                                placeholder={'Job Description'}
+                                value={props.values.job_description}
+                                onChangeText={props.handleChange('job_description')}
+                            ></TextInput>
                             <Text>Branch</Text>
                             <FieldArray name="branch">
                                 {
                                     arrayHelpers => (
-                                        <View>
+                                        <View style={{ flex: 1 }}>
                                             <View style={{
                                                 display: 'flex',
                                                 flex: 1,
                                                 flexDirection: 'row',
                                                 flexWrap: "wrap",
                                                 flexGrow: 2,
-                                                rowGap: 5, columnGap: 5
-
+                                                rowGap: 5,
+                                                columnGap: 5
                                             }}>
                                                 {
                                                     props.values.branch.length > 0 &&
@@ -132,35 +156,108 @@ const FirstPage = () => {
                             </FieldArray>
 
 
-                            <View>
-                                <Text>Eligibility Criteria</Text>
-                                <View style={{
-                                    flexDirection: 'row',
-                                    flexWrap: 'wrap'
-                                }}>
+                            <View style={{ marginVertical: 10, rowGap: 10 }}>
+                                <Text style={{
+                                    justifyContent: 'center',
+                                    textAlign: 'center'
+                                }}>Eligibility Criteria</Text>
+                                <View style={{ flexDirection: 'row', flexGrow: 1, alignItems: 'center' }}>
 
-                                    <Button icon={"plus"} style={{
-                                        width: 'auto'
-                                    }}>10th Percentage</Button>
+                                    <CheckBox style={{}} value={isThereTenthEligibilityCriteria} onValueChange={() => {
+                                        if (isThereTenthEligibilityCriteria)
+                                            props.setFieldValue('tenth_cutoff', 0);
+                                        else
+                                            props.setFieldValue('tenth_cutoff', 70);
+                                        setIsThereTenthEligibilityCriteria((prev) => !prev);
 
-                                    <Button icon={"plus"} style={{}}>12th Percentage</Button>
-                                    <Button icon={'plus'} style={{}}>UG CGPA</Button>
+                                    }} /><Text>10th Criteria</Text>
+
+                                    <IconButton icon={"minus"} mode="outlined" onPress={() => {
+                                        props.setFieldValue('tenth_cutoff', props.values.tenth_cutoff == 0 ? 0 : props.values.tenth_cutoff - 1)
+                                    }} />
+                                    <TextInput
+                                        placeholder={"Percentage"}
+                                        value={`${props.values.tenth_cutoff}%`}
+                                        style={{
+                                            textAlign: 'center'
+                                        }}
+                                        editable={false}
+                                    />
+                                    <IconButton icon={"plus"} mode="outlined" onPress={() => {
+                                        props.setFieldValue('tenth_cutoff', props.values.tenth_cutoff == 100 ? 100 : props.values.tenth_cutoff + 1)
+                                    }} />
                                 </View>
+                                <View style={{ flexDirection: 'row', flexGrow: 1, alignItems: 'center' }}>
 
+                                    <CheckBox style={{}} value={isThereTwelfthEligibilityCriteria} onValueChange={() => {
+                                        if (isThereTwelfthEligibilityCriteria)
+                                            props.setFieldValue('twelfth_cutoff', 0);
+                                        else
+                                            props.setFieldValue('twelfth_cutoff', 70);
+                                        setIsThereTwelfthEligibilityCriteria((prev) => !prev);
 
+                                    }} /><Text>12th Criteria</Text>
 
+                                    <IconButton icon={"minus"} mode="outlined" onPress={() => {
+                                        props.setFieldValue('twelfth_cutoff', props.values.twelfth_cutoff == 0 ? 0 : props.values.twelfth_cutoff - 1)
+                                    }} />
+                                    <TextInput
+                                        placeholder={"Percentage"}
+                                        value={`${props.values.twelfth_cutoff}%`}
+                                        editable={false}
+                                        style={{
+                                            textAlign: 'center'
+                                        }}
 
+                                    />
+                                    <IconButton icon={"plus"} mode="outlined" onPress={() => {
+                                        props.setFieldValue('tenth_cutoff', props.values.twelfth_cutoff == 100 ? 100 : props.values.twelfth_cutoff + 1)
+                                    }} />
+                                </View>
+                                <View style={{ flexDirection: 'row', flexGrow: 1, alignItems: 'center' }}>
 
+                                    <CheckBox style={{}} value={isThereUgEligibilityCriteria} onValueChange={() => {
+                                        if (isThereUgEligibilityCriteria)
+                                            props.setFieldValue('ug_cutoff', 0.00);
+                                        else
+                                            props.setFieldValue('ug_cutoff', 7.00);
+                                        setIsThereUgEligibilityCriteria((prev) => !prev);
+
+                                    }} /><Text>UG Criteria</Text>
+
+                                    <IconButton icon={"minus"} mode="outlined" onPress={() => {
+                                        props.setFieldValue('ug_cutoff', props.values.ug_cutoff == 0.00 ? 0.00 : props.values.ug_cutoff - 0.01)
+                                    }} />
+                                    <TextInput
+                                        placeholder={"CGPA"}
+                                        value={`${props.values.ug_cutoff.toFixed(2)}`}
+                                        editable={false}
+                                        style={{
+                                            textAlign: 'center'
+                                        }}
+                                    />
+                                    <IconButton icon={"plus"} mode="outlined" onPress={() => {
+                                        props.setFieldValue('ug_cutoff', props.values.ug_cutoff == 10.00 ? 10.00 : props.values.ug_cutoff + 0.01)
+                                    }} />
+                                </View>
                             </View>
-
-
-
-
+                            <View style={{ backgroundColor: 'blue', height: 80 }}>
+                                <Text adjustsFontSizeToFit style={{ fontSize: 26 }}>
+                                    Here there will be option to upload documents related to drive.
+                                    Keep this space
+                                </Text>
+                            </View>
 
 
                             <Button
                                 mode="contained"
-                                onPress={props.handleSubmit as any} >Submit</Button>
+                                onPress={props.handleSubmit as any}
+                                style={{
+                                    bottom: 15,
+                                    alignSelf: 'center',
+                                    width: '100%'
+                                }}
+                            >Submit</Button>
                         </View>
                     )
                     }
@@ -176,13 +273,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         flex: 1,
-    },
-    checkboxItem: {
-        width: '50%',
-        margin: 0,
-        padding: 0,
-        maxHeight: 40,
-        maxWidth: 160
+        flexGrow: 1,
     }
 })
 
