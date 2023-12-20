@@ -160,7 +160,9 @@ const FirstPage = () => {
 
                             <Button
                                 mode="contained"
-                                onPress={props.handleSubmit as any} >Submit</Button>
+                                onPress={props.handleSubmit as any}
+                            >Submit
+                            </Button>
                         </View>
                     )
                     }
