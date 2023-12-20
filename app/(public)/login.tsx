@@ -64,7 +64,7 @@ const Login = () => {
                                         router.replace('/(auth)/student/placements');
                                     }
                                     if (values.role == 'tpo') {
-                                        router.replace('/(auth)/tpo/');
+                                        router.replace('/(auth)/tpo/addcompany');
                                     }
                                     if (values.role == 'hod') {
                                         router.replace('/(auth)/hod/')

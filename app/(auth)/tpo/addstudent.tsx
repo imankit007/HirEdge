@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, Button, Touchable, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 
-import { TextInput, RadioButton, IconButton, } from 'react-native-paper';
+import { TextInput, IconButton, } from 'react-native-paper';
 import * as Yup from 'yup';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -14,11 +14,30 @@ import useAxiosPrivate from '../../../utils/axiosPrivate';
 
 const BRANCHLIST = [
     {
-        label: 'CSE - Computer Science Engineering',
+        label: 'CSE - Computer Science & Engineering',
         value: 'cse'
     }, {
-        label: "ISE - Inforamtion Science Engieering",
+        label: "ISE - Information Science & Engieering",
         value: 'ise'
+    }, {
+        label: "ECE - Electronics and Communications Engineering",
+        value: 'ece'
+    }, {
+        label: "EEE - Electrical and Electronics Engineering",
+        value: 'eee'
+    },
+    {
+        label: 'CIVIL - Civil Engineering',
+        value: 'civil'
+    }, {
+        label: 'CHEM - Chemical Engineering',
+        value: 'chem'
+    }, {
+        label: 'MECH - Mechanical Engineering',
+        value: 'MECH'
+    }, {
+        label: 'AI/ML - Artificial Intelligence & Machine Learning',
+        value: 'AIML'
     }
 ]
 
