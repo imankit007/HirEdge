@@ -42,12 +42,14 @@ const TPOPage = () => {
             width: '100%',
             position: 'fixed',
             rowGap: 5,
-            flexDirection: 'column'
-
+            flexDirection: 'column',
+            backgroundColor: '#EAD637',
         }}>
             <View style={{
                 flex: 1,
-                rowGap: 10
+                rowGap: 10,
+                // backgroundColor:'white',
+
             }}>
                 <View>
                     <Avatar.Icon icon={"account-circle-outline"} size={160} style={{
@@ -62,55 +64,70 @@ const TPOPage = () => {
                     />
                 </View>
                 <View style={{
-                    width: "100%",
-                    flexDirection: 'row',
-                    columnGap: 20,
+                    rowGap: 20,
+                    backgroundColor:'white',
+                    height:300,
+                    paddingTop:80,
+                    paddingLeft:15,
+                    position:'relative',
+                    bottom:130,
+                    zIndex:-1,
+                    borderRadius:20,
+                    width:'92%',
+                    alignSelf:'center'
                 }}>
-                    <Icon source="account" size={40} />
-                    <View style={{ flexDirection: 'column', flex: 1 }}>
-                        <Text style={{}}>Name</Text>
-                        <Text style={{ fontSize: 20, fontWeight: "600" }}>
-                            {`${TPOProfile?.title} ${TPOProfile?.first_name} ${TPOProfile?.middle_name} ${TPOProfile?.last_name}`}
-                        </Text>
-                    </View>
-                    <IconButton icon={'pencil'} iconColor="#186F65" style={{
+                    <View style={{
+                        width: "100%",
+                        flexDirection: 'row',
+                        columnGap: 20,
+                    }}>
+                        <Icon source="account" size={40} />
+                        <View style={{ flexDirection: 'column', flex: 1 }}>
+                            <Text style={{}}>Name</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "600" }}>
+                                {`${TPOProfile?.title} ${TPOProfile?.first_name} ${TPOProfile?.middle_name} ${TPOProfile?.last_name}`}
+                            </Text>
+                        </View>
+                        <IconButton icon={'pencil'} iconColor="#186F65" style={{
 
-                    }} />
-                </View>
-                <View style={{
-                    flexDirection: 'row',
-                    columnGap: 20,
-                }}>
-                    <Icon source="email" size={40} />
-                    <View style={{ flexDirection: 'column', flex: 1 }}>
-                        <Text style={{}}>Email</Text>
-                        <Text style={{ fontSize: 20, fontWeight: "600" }}>
-                            {TPOProfile?.email}
-                        </Text>
+                        }} />
                     </View>
-                    <IconButton icon={'pencil'} iconColor="#186F65" />
-                </View>
-                <View style={{
-                    flexDirection: 'row',
-                    columnGap: 20,
-                }}>
-                    <Icon source="phone" size={40} />
-                    <View style={{ flexDirection: 'column', flex: 1 }}>
-                        <Text style={{}}>Phone</Text>
-                        <Text style={{ fontSize: 20, fontWeight: "600" }}>
-                            {TPOProfile?.mobile}
-                        </Text>
+                    <View style={{
+                        flexDirection: 'row',
+                        columnGap: 20,
+                    }}>
+                        <Icon source="email" size={40} />
+                        <View style={{ flexDirection: 'column', flex: 1 }}>
+                            <Text style={{}}>Email</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "600" }}>
+                                {TPOProfile?.email}
+                            </Text>
+                        </View>
+                        <IconButton icon={'pencil'} iconColor="#186F65" />
                     </View>
-                    <IconButton icon={'pencil'} iconColor="#186F65" />
+                    <View style={{
+                        flexDirection: 'row',
+                        columnGap: 20,
+                    }}>
+                        <Icon source="phone" size={40} />
+                        <View style={{ flexDirection: 'column', flex: 1 }}>
+                            <Text style={{}}>Phone</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "600" }}>
+                                {TPOProfile?.mobile}
+                            </Text>
+                        </View>
+                        <IconButton icon={'pencil'} iconColor="#186F65" />
+                    </View>
                 </View>
             </View>
             <View style={styles.buttonConatainer}>
-                <Button mode="outlined" labelStyle={{
+                <Button labelStyle={{
                     fontSize: 20
-                }}>Change Password</Button>
-                <Button mode='outlined' onPress={logout} textColor="red" labelStyle={{
-                    fontSize: 24
-                }}>Logout</Button>
+                }} style={{ backgroundColor: '#A2D3C2', padding:10 }} textColor="black">Change Password</Button>
+                <Button onPress={logout} textColor="black" labelStyle={{
+                    fontSize: 24,
+                }} style={{ backgroundColor: '#A2D3C2', padding:7 }}
+                >Logout</Button>
             </View>
         </SafeAreaView>
     )
@@ -124,7 +141,9 @@ const styles = StyleSheet.create({
     },
     buttonConatainer: {
         position: 'relative',
-        marginBottom: 5,
-        rowGap: 5
+        marginBottom: 45,
+        rowGap: 10,
+        width: '92%',
+        alignSelf: 'center',
     }
 })
