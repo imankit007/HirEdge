@@ -107,7 +107,7 @@ const AddStudent = () => {
 
 
 
-    return (<ScrollView>
+    return (<ScrollView style={{backgroundColor:'#5A5A5A'}}>
         <View style={styles.mainContainer}>
 
             <TextInput
@@ -257,12 +257,20 @@ const AddStudent = () => {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: '#FFC0D9',
-        rowGap: 4,
+        backgroundColor: '#5A5A5A',
+        rowGap: 8,
         paddingTop: 4,
+        width:'90%',
+        alignSelf:'center'
     },
     formField: {
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        borderRadius:10,
+        borderTopLeftRadius:10,
+        borderTopRightRadius:10,
+        borderBottomRightRadius:10,
+        borderBottomleftRadius:10,
+        padding:5
     },
 
 
