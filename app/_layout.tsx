@@ -8,6 +8,8 @@ import { Provider } from "react-native-paper";
 import { AuthContext } from "../utils/AuthContext";
 import useRefreshToken from "../utils/refresh";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 const InitialLayout = () => {
 
     const { authState } = useContext(AuthContext);
@@ -48,10 +50,15 @@ const InitialLayout = () => {
 
 
 const RootLayout = () => {
+
+    const queryClient = new QueryClient();;
+
     return (
         <Provider>
         <AuthProvider>
-        <InitialLayout />
+                <QueryClientProvider client={queryClient}>
+                    <InitialLayout />
+                </QueryClientProvider>
         </AuthProvider>
         </Provider>
     )

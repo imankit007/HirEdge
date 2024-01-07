@@ -26,27 +26,15 @@ const Layout = () => {
                     // marginBottom:15,
                     width: "100%",
                     alignSelf:'center'
-                }
+                },
             }}
-
         >
-            
             <Tabs.Screen
                 name='placements'
                 options={{
                     tabBarIcon: () => {
                         return (
                             <FontAwesome name='briefcase' size={30} />
-                        )
-                    }
-                }}
-            />
-            <Tabs.Screen
-                name='chat'
-                options={{
-                    tabBarIcon: () => {
-                        return (
-                            <Icon source={require('../../../assets/images/icons/message-icon.png')} size={30} />
                         )
                     }
                 }}
@@ -61,6 +49,15 @@ const Layout = () => {
                     }
                 }}
             />
+
+            <Tabs.Screen
+                name='(drive)/[drive]'
+                options={{
+                    href: null
+                }}
+            />
+
+
         </Tabs>
 
     )

@@ -194,14 +194,14 @@ const StudentPage = () => {
                     </View>
                 </View>
                 <Button style={{
-                    backgroundColor:'#A2D3C2', 
+                    backgroundColor: 'white', 
                     padding:10,
                     width:150,
                     alignSelf:'center',
                     marginBottom:30
                     }} 
                     onPress={logout}
-                ><Text style={{color:'black', fontWeight:'800'}}>Log Out</Text></Button>
+                ><Text style={{ color: 'red', fontWeight: '800', fontSize: 20 }}>Log Out</Text></Button>
 
             </ScrollView>
         </SafeAreaView>
