@@ -92,5 +92,15 @@ type ManageDriveDataType = {
   first_name: string
   middle_name: string
   last_name: string
-  status: string}
-  
+  status: string
+}
+
+  //route types
+
+
+type StudentDrawerParamList = {
+    Home: undefined;
+    Drive: {
+        drive_id: string
+    }
+}
