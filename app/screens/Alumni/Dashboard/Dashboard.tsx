@@ -2,18 +2,17 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Button } from '@rneui/base'
 import useLogout from '../../../utils/useLogout'
+import { ScrollView } from 'react-native-gesture-handler'
 
 const AlumniDashboard = () => {
 
-    const logout = useLogout();
-
     return (
-        <View>
-            <Text>Alumni Dashboard</Text>
+        <ScrollView>
 
-            <Button onPress={logout}>Log Out</Button>
 
-        </View>
+
+
+        </ScrollView>
     )
 }
 

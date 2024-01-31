@@ -2,12 +2,18 @@
 
 import { Text, View } from 'react-native';
 
-import { FontAwesome, Ionicons, Entypo } from '@expo/vector-icons';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItemList, createDrawerNavigator } from '@react-navigation/drawer';
 import StudentDashboard from './Dashboard/Dashboard';
 import DrivePage from './Drive/Drive';
+import Companies from './Companies/Companies';
+import Profile from './Profile/Profile';
 
+import Company from './Company/Company';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Icon } from '@rneui/themed';
+import LogoutButton from '../../components/LogoutButton/LogoutButton';
+import OngoingDrives from './OngoingDrives/OngoingDrives';
 
 
 const Drawer = createDrawerNavigator<StudentDrawerParamList>();
@@ -25,12 +31,45 @@ const StudentLayout = () => {
                 drawerLabelStyle: {
                     fontSize: 26
                 },
-                drawerActiveTintColor: 'blue'
-            }}>
+                drawerActiveTintColor: 'blue',
+
+            }}
+                backBehavior='history'
+                drawerContent={(props) => (<SafeAreaView style={{
+                    flex: 1
+                }}
+
+                >
+                    <DrawerContentScrollView {...props}>
+                        <Icon name='account-circle' size={150} />
+                        <Text style={{
+                            fontSize: 25,
+                            textAlign: 'center'
+                        }}>Student</Text>
+                        <DrawerItemList {...props} />
+                    </DrawerContentScrollView>
+                    <LogoutButton />
+                </SafeAreaView>)}
+            >
                 <Drawer.Screen name='Home' component={StudentDashboard} />
-                <Drawer.Screen name='Drive' component={DrivePage} options={{
-                    drawerItemStyle: { display: 'none' }
-                }} />
+
+                <Drawer.Screen name='Companies' component={Companies} />
+                <Drawer.Screen name='Ongoing Drives' component={OngoingDrives} />
+
+                <Drawer.Screen name='Profile' component={Profile} />
+
+                <Drawer.Group screenOptions={{
+                    drawerItemStyle: {
+                        display: 'none'
+                    }
+                }}>
+                    <Drawer.Screen name='Drive' component={DrivePage} options={{}}
+                    />
+
+                    <Drawer.Screen name='Company' component={Company} />
+
+                </Drawer.Group>
+
             </Drawer.Navigator>
         </>
     )

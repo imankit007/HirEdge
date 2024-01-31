@@ -21,23 +21,22 @@ const SignInSchema = Yup.object().shape({
 })
 
 
+
 const Login = () => {
 
     const { setAuthState } = useAuth();
 
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'black' }}>
-            <Header />
-            <KeyboardAvoidingView style={{ flex: 1 }}>
-                <ScrollView style={{
+
+
+        <KeyboardAvoidingView style={{ flex: 1 }}
+            behavior="height"
+        >
+            <SafeAreaView style={{
                     backgroundColor: '#EAD637',
-                }} contentContainerStyle={{
-                    flex: 1,
-                    alignItems: 'center',
-                }}>
-                    <Text style={styles.login_head}>Opening The Doors To Success</Text>
-                    {/* <SdmcetImage /> */}
+            }} ><Header />
+                <Text style={styles.login_head}>Opening The Doors To Success</Text>
                     <Image
                         source={require('../../../assets/images/success-removebg-preview.png')}
                         style={{
@@ -78,17 +77,19 @@ const Login = () => {
                                     <View style={{
                                         marginVertical: 10,
                                         flexDirection: 'row',
-                                        justifyContent: "space-evenly",
-                                        backgroundColor: '#A2D3C2',
+                                    justifyContent: "space-evenly",
                                         borderRadius: 25,
                                         padding: 8
                                     }}>
                                         <CheckBox
+                                        containerStyle={{
+                                            backgroundColor: '#ffffff00'
+                                        }}
                                             checked={values.role === 'student'}
                                             onPress={() => { setFieldValue('role', 'student') }}
                                             checkedIcon={"dot-circle-o"}
                                             uncheckedIcon={"circle-o"}
-                                            title={"Student"}
+                                        title={"Student"}
                                         />
                                         <CheckBox
                                             checked={values.role === 'tpo'}
@@ -154,12 +155,7 @@ const Login = () => {
                                     />
                                     {
                                         (touched.password && errors.password) && <Text style={styles.errorMsg}> {errors.password}</Text>
-                                    }
-
-                                    {/* <Button
-                                        title="Log In"
-                                        onPress={handleSubmit as any}
-                                    /> */}
+                                }
                                     <TouchableOpacity
                                         style={{
                                             backgroundColor: '#A2D3C2',
@@ -190,8 +186,8 @@ const Login = () => {
 
 
 
-                </ScrollView>
-            </KeyboardAvoidingView >
+            </SafeAreaView>
+
             <TouchableOpacity
                 style={{
                     backgroundColor: '#EAD637',
@@ -206,7 +202,7 @@ const Login = () => {
                 }}>Go Back</Text>
             </TouchableOpacity>
             <Footer />
-        </SafeAreaView>
+        </KeyboardAvoidingView >
     )
 }
 

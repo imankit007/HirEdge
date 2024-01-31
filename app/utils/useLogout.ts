@@ -13,21 +13,19 @@ const useLogout = () =>{
     
         try{
 
-            // const refresh_token  = await getValueFor('refresh_token');
+            const refresh_token  = await getValueFor('refresh_token');
+            const response = await axiosPrivate.get('/logout',{
+                headers: {
+                    "Content-Type":'application/json',
+                    "Cookie": `refresh_token=${refresh_token}`
+                },
+                withCredentials: true
+            })
 
-            // const response = await axiosPrivate.get('/logout',{
-            //     headers: {
-            //         "Content-Type":'application/json',
-            //         "Cookie": `refresh_token=${refresh_token}`
-            //     },
-            //     withCredentials: true
-            // })
-
-            // if(response.status==200){
-            // await deleteItem('refresh_token');
-
+            if(response.status==200){
+            await deleteItem('refresh_token');
             setAuthState(null)
-            
+            }
         }catch(err){
             console.log(err);
         }

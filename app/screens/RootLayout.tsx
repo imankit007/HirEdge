@@ -1,19 +1,17 @@
 
 
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
 import Welcome from './Public/welcome';
 import Login from './Public/login';
 import { useAuth } from '../utils/AuthContext';
-
-import StudentDashboard from './Students/Dashboard/Dashboard';
-import TPODashboard from './Tpo/Dashboard/Dashboard';
 import AlumniDashboard from './Alumni/Dashboard/Dashboard';
 import HODDashboard from './HOD/Dashboard/Dashboard';
 import StudentLayout from './Students/Layout';
-const RootStack = createNativeStackNavigator();
+import TPOLayout from './Tpo/Layout';
+import AlumniLayout from './Alumni/AlumniLayout';
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 
 export default function Layout() {
@@ -33,11 +31,11 @@ export default function Layout() {
                         <RootStack.Screen name="student" component={StudentLayout} />
                     </>
                     ) : authState.role === 'tpo' ? (<>
-                        <RootStack.Screen name='tpo' component={TPODashboard} />
+                            <RootStack.Screen name='tpo' component={TPOLayout} />
                     </>) : authState.role === 'alumni' ? (<>
-                        <RootStack.Screen name='alumniDashboard' component={AlumniDashboard} />
+                                <RootStack.Screen name='alumni' component={AlumniLayout} />
                     </>) : authState.role === 'hod' ? (<>
-                        <RootStack.Screen name='HODDashboard' component={HODDashboard} />
+                                    <RootStack.Screen name='hod' component={HODDashboard} />
                     </>) : null
             }
 

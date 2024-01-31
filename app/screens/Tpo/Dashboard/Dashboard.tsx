@@ -2,16 +2,17 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import useLogout from '../../../utils/useLogout';
 import { Button } from '@rneui/base';
+import { ScrollView } from 'react-native-gesture-handler';
+import OffersTillNowCard from '../../../components/OffersTillNowCard/OffersTillNowCard';
 
 const TPODashboard = () => {
 
-    const logout = useLogout();
 
     return (
-        <View>
+        <ScrollView>
             <Text>TPO Dashboard</Text>
-            <Button onPress={logout}>Log Out</Button>
-        </View>
+            <OffersTillNowCard />
+        </ScrollView>
     )
 }
 

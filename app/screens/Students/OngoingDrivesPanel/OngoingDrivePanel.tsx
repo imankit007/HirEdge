@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import React from 'react'
 
 import { useQuery } from '@tanstack/react-query'
@@ -6,29 +6,40 @@ import { useQuery } from '@tanstack/react-query'
 import useAxiosPrivate from '../../../utils/axiosPrivate';
 import { Link } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import { Button } from '@rneui/base';
+import { Button, Text } from '@rneui/base';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+
+
 
 const OngoingDrivePanel = () => {
 
     const api = useAxiosPrivate();
-    const navigation = useNavigation();
+    const navigation = useNavigation<studentScreenProp>();
     const result = useQuery({
         queryKey: ['fetchOngoingDrives'],
-        queryFn: (): Promise<Array<DriveCardData>> => (api.get('/student/getdrives').then(res => res.data))
+        queryFn: (): Promise<Array<DriveCardData>> => (api.get('/student/drives').then(res => res.data))
     })
 
     const renderOngoingDrive = ({ item }: { item: DriveCardData }) => {
 
         return (
-            <View style={styles.cardStyle}>
+            <View style={[styles.cardStyle, {
+
+            }]}>
                 <Text style={styles.fontStyle}>{item.company_name}</Text>
                 <Text style={styles.fontStyle}>{item.job_title}</Text>
                 <Text style={styles.fontStyle}>{item.job_ctc}</Text>
 
                 <Button onPress={() => {
-                    navigation.navigate('student', { screen: 'Drive', params: { drive_id: item._id } })
-                }}>Learn More</Button>
-
+                    navigation.navigate('student', { screen: 'Drive', params: { drive_id: item._id } });
+                }}
+                    containerStyle={{
+                        width: "90%",
+                        alignSelf: 'center',
+                        position: 'absolute',
+                        bottom: 10
+                    }}
+                >Learn More</Button>
             </View>
         )
     }
@@ -36,7 +47,9 @@ const OngoingDrivePanel = () => {
 
     return (
         <View style={styles.panelStyle}>
+            <Text h4 style={{ textDecorationLine: 'underline' }} onPress={() => {
 
+            }}>{"Ongoing Drives"}</Text>
             <FlatList
                 data={result.data}
                 renderItem={renderOngoingDrive}
@@ -57,18 +70,22 @@ const styles = StyleSheet.create({
         display: 'flex',
         minHeight: 180,
         height: "30%",
-        backgroundColor: '#EBD9B4',
+        backgroundColor: '#DCF2F1',
         paddingVertical: 10,
         paddingStart: 10
     },
     fontStyle: {
-        fontSize: 18
+        fontSize: 18,
+        fontWeight: "bold"
     },
     cardStyle: {
         borderRadius: 10,
-        borderColor: '#647D87',
-        borderWidth: 1,
-        backgroundColor: '#F3D7CA',
-        minWidth: 100,
+        minWidth: 150,
+        padding: 10,
+        shadowColor: "#171717",
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        backgroundColor: 'white'
     }
 })
