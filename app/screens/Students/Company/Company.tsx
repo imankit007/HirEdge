@@ -7,10 +7,11 @@ import { Text } from '@rneui/base'
 import { FAB, Tab, TabView } from '@rneui/themed';
 import { ScrollView } from 'react-native-gesture-handler';
 import InterviewExperiences from '../InterviewExperiences/InterviewExperiences';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 
 
 
-const Company = ({ navigation, route }: studentScreenProp) => {
+const Company = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamList, "Company">) => {
     const company_id = route.params.company_id;
 
     const api = useAxiosPrivate();
@@ -18,10 +19,8 @@ const Company = ({ navigation, route }: studentScreenProp) => {
     const result = useQuery({
         queryKey: ["getCompanyDetails", company_id],
         queryFn: (): Promise<CompanyDetails> => (
-            api.get('/student/company', {
-                params: {
-                    company_id
-                }
+            api.get(`/student/company/${company_id}`, {
+
             }).then(res => res.data)
         ), staleTime: Infinity
     })
@@ -56,6 +55,9 @@ const Company = ({ navigation, route }: studentScreenProp) => {
                         'Share Experience',
                         ToastAndroid.SHORT,
                     )
+                    navigation.navigate('Share Experience', {
+                        company_id: company_id
+                    })
                 }}
             >
             </FAB>

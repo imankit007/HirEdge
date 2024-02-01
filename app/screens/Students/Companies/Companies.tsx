@@ -7,14 +7,12 @@ import { Card, SearchBar } from '@rneui/base'
 
 import { useQuery } from '@tanstack/react-query'
 
-import { useDeferredValue } from 'react'
-import { defaultFormat } from 'moment'
 import useAxiosPrivate from '../../../utils/axiosPrivate'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { useDebounce } from '@uidotdev/usehooks'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 
-const Company = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamList, 'Companies'>) => {
+const Companies = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamList, 'Companies'>) => {
 
     const [search, setSearch] = useState("");
 
@@ -24,20 +22,16 @@ const Company = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamList
 
     const result = useQuery({
         queryKey: ['fetchCompanies', deferredSearch],
-        queryFn: (): Promise<Array<{
-            id: string;
-            title: string;
-        }>> => (
+        queryFn: (): Promise<CompaniesPageResponseType> => (
             api.get('/student/companies', {
                 params: {
                     s: deferredSearch
                 }
-            }).then(res => res.data)
-        ),
-        staleTime: Infinity
+            }).then(res => res.data.companies)
+        )
     })
 
-
+    if (result.isSuccess)
     return (
         <View>
             <SearchBar
@@ -47,35 +41,32 @@ const Company = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamList
             />
             <ScrollView
             >
-                {
-                    result.status == 'success' && (<>
 
-                        {
-                            result.data.map((company, index) => (
+                {
+                    result.data.data.map((company, index) => (
                                 <TouchableOpacity key={index}
                                     onPress={() => {
                                         navigation.navigate('Company', {
-                                            company_id: company.id
+                                            company_id: company._id
                                         })
                                     }}
                                 >
                                     <Card>
                                         <Text>
-                                            {company.title}
+                                    {company.company_name}
                                         </Text>
                                     </Card>
                                 </TouchableOpacity>
-                            ))
-                        }
-                    </>)
+                    ))
                 }
             </ScrollView>
-
-
         </View>
     )
+
+    return null
+
 }
 
-export default Company
+export default Companies;
 
 const styles = StyleSheet.create({})

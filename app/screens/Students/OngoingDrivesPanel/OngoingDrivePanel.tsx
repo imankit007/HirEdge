@@ -7,20 +7,20 @@ import useAxiosPrivate from '../../../utils/axiosPrivate';
 import { Link } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Text } from '@rneui/base';
-import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { DrawerNavigationProp, } from '@react-navigation/drawer';
 
 
 
 const OngoingDrivePanel = () => {
 
     const api = useAxiosPrivate();
-    const navigation = useNavigation<studentScreenProp>();
+    const navigation = useNavigation<DrawerNavigationProp<StudentDrawerParamList, 'Home'>>();
     const result = useQuery({
         queryKey: ['fetchOngoingDrives'],
-        queryFn: (): Promise<Array<DriveCardData>> => (api.get('/student/drives').then(res => res.data))
+        queryFn: (): Promise<StudentOngoingDriveResponseType> => (api.get('/student/drives').then(res => res.data.drives))
     })
 
-    const renderOngoingDrive = ({ item }: { item: DriveCardData }) => {
+    const renderOngoingDrive = ({ item }: { item: StudentDriveListType }) => {
 
         return (
             <View style={[styles.cardStyle, {
@@ -31,7 +31,9 @@ const OngoingDrivePanel = () => {
                 <Text style={styles.fontStyle}>{item.job_ctc}</Text>
 
                 <Button onPress={() => {
-                    navigation.navigate('student', { screen: 'Drive', params: { drive_id: item._id } });
+                    navigation.navigate('Drive', {
+                        drive_id: item._id
+                    })
                 }}
                     containerStyle={{
                         width: "90%",
@@ -44,14 +46,14 @@ const OngoingDrivePanel = () => {
         )
     }
 
-
+    if (result.isSuccess)
     return (
         <View style={styles.panelStyle}>
             <Text h4 style={{ textDecorationLine: 'underline' }} onPress={() => {
 
             }}>{"Ongoing Drives"}</Text>
             <FlatList
-                data={result.data}
+                data={result.data.data}
                 renderItem={renderOngoingDrive}
                 showsHorizontalScrollIndicator
                 keyExtractor={item => item._id}
@@ -61,9 +63,11 @@ const OngoingDrivePanel = () => {
             />
         </View>
     )
+
+    return null;
 }
 
-export default OngoingDrivePanel
+export default OngoingDrivePanel;
 
 const styles = StyleSheet.create({
     panelStyle: {

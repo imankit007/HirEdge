@@ -15,7 +15,7 @@ const InterviewExperiences = ({ company_id }: { company_id: string }) => {
             api.get('/common/interviewExperiences', {
                 params: {
                     company_id: company_id,
-                    page: page
+                    page: page  
                 }
             }).then(res => res.data)
         )

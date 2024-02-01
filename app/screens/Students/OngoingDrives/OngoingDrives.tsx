@@ -14,15 +14,15 @@ const OngoingDrives = ({ navigation }: DrawerScreenProps<StudentDrawerParamList,
 
     const result = useQuery({
         queryKey: ["fetchOngoingPlacements"],
-        queryFn: (): Promise<TPOOngoingDriveResponseType> => (
-            api.get('/tpo/drives', {
+        queryFn: (): Promise<StudentOngoingDriveResponseType> => (
+            api.get('/student/drives', {
                 params: {
-                    name: '',
+                    s: '',
                     page: 1,
                     limit: 10,
                 }
-            }).then(res => res.data)
-        ), staleTime: Infinity,
+            }).then(res => res.data.drives)
+        )
     })
 
     if (result.isLoading)
@@ -33,7 +33,7 @@ const OngoingDrives = ({ navigation }: DrawerScreenProps<StudentDrawerParamList,
                 flex: 1
             }} size={250} />
         </View>
-
+    if (result.isSuccess)
     return (
         <View style={{
             flex: 1
@@ -42,17 +42,16 @@ const OngoingDrives = ({ navigation }: DrawerScreenProps<StudentDrawerParamList,
             {
                 result.isSuccess && (
                     <>
-                        <ScrollView contentContainerStyle={{
-                            flex: 1,
-                            backgroundColor: 'red'
-                        }}>
+                        <ScrollView >
                             {
-                                result.data.drives.map((drive, index) => (
+                                result.data.data.map((drive, index) => (
                                     <TouchableOpacity key={index} onPress={() => {
                                         navigation.navigate('Drive', {
                                             drive_id: drive._id
                                         })
-                                    }}>
+                                    }}
+                                        pressRetentionOffset={0}
+                                    >
                                         <Card>
                                             <Card.Title>{drive.company_name}</Card.Title>
                                             <Card.Divider />
@@ -69,8 +68,10 @@ const OngoingDrives = ({ navigation }: DrawerScreenProps<StudentDrawerParamList,
 
         </View>
     )
+
+    return null;
 }
 
-export default OngoingDrives
+export default OngoingDrives;
 
 const styles = StyleSheet.create({})

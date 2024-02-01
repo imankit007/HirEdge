@@ -16,7 +16,8 @@ const StudentDashboard = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-evenly'
-            }}><OffersTillNowCard />
+            }}>
+                <OffersTillNowCard />
                 <PrevYearOfferCard />
             </View>
             <OngoingDrivePanel />

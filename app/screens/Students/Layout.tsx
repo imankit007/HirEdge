@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Icon } from '@rneui/themed';
 import LogoutButton from '../../components/LogoutButton/LogoutButton';
 import OngoingDrives from './OngoingDrives/OngoingDrives';
+import ShareExperience from './ShareExperience/ShareExperience';
 
 
 const Drawer = createDrawerNavigator<StudentDrawerParamList>();
@@ -67,6 +68,8 @@ const StudentLayout = () => {
                     />
 
                     <Drawer.Screen name='Company' component={Company} />
+
+                    <Drawer.Screen name='Share Experience' component={ShareExperience} />
 
                 </Drawer.Group>
 

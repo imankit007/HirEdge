@@ -132,6 +132,9 @@ type StudentDrawerParamList = {
     };
     Profile: undefined;
     "Ongoing Drives": undefined;
+    "Share Experience": {
+      company_id:string;
+    };
 }
 
 type TPODrawerParamList = { 
@@ -143,7 +146,8 @@ type TPODrawerParamList = {
   Profile: undefined;
   Drive: {
     drive_id: string;
-  }
+  };
+
 };
 
 
@@ -157,4 +161,36 @@ type TPOProfile = {
   email: string;
   mobile: string;
 
+}
+
+type CompaniesPageResponseType = {
+  metadata: {
+    totalCount: number;
+    pageCount: number;
+  };
+  data: Array<CompanyListItemType>
+}
+
+type CompanyListItemType= {
+  _id: string;
+  company_name: string;
+  company_website: string;
+}
+
+
+type StudentDriveListType= {
+  _id: string;
+  company_id: string;
+  job_title: string;
+  job_ctc: string;
+  company_name: string;
+  eligible: boolean;
+}
+
+type StudentOngoingDriveResponseType = {
+    metadata: {
+      totalCount: number;
+      pageCount: number;
+    };
+    data: Array<StudentDriveListType>
 }

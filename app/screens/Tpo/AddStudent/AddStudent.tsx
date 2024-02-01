@@ -29,7 +29,13 @@ const AddStudent = () => {
 
 
     return (
-        <ScrollView style={{ flex: 1 }}>
+
+        <View style={{
+            flex: 1
+        }}>
+
+
+            <ScrollView >
 
             <Formik
                 initialValues={{
@@ -166,6 +172,7 @@ const AddStudent = () => {
 
 
         </ScrollView>
+        </View>
     )
 }
 
