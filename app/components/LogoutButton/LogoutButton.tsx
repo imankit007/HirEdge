@@ -16,7 +16,7 @@ const LogoutButton = () => {
         }} containerStyle={{
             width: '100%',
             alignItems: 'center',
-            marginBottom: 5,
+            marginBottom: 35,
         }} icon={<Icon name='logout' />} titleStyle={{
             fontSize: 20
         }} onPress={logout}>Logout</Button>

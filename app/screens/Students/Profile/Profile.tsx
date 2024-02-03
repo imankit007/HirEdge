@@ -53,7 +53,8 @@ const StudentProfile = () => {
                     <View style={{
                         flex: 1,
                         rowGap: 10,
-                        position: 'relative'
+                        position: 'relative',
+                        marginTop:30
                     }}>
                         <View style={{
                             backgroundColor: '#eee',

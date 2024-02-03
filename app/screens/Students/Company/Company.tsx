@@ -30,17 +30,33 @@ const Company = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamList
             <ScrollView
                 style={{
                     flex: 1,
+                    marginTop: 10
                 }}>
                 <Text h1 style={{ alignSelf: "center" }}>{result.data?.company_name}</Text>
-                <Text h4>Company Website</Text>
-                <Text onPress={() => {
-                    Linking.openURL(`https://${result.data?.company_website}`)
-                }} style={{
-                    textDecorationLine: 'underline',
-                    fontSize: 20,
-                    left: 10,
-                    color: 'blue'
-                }}>{result.data?.company_website}</Text>
+                
+                <View style={{
+                    alignSelf:'center', 
+                    display:'flex', 
+                    flexDirection:'row',
+                    marginTop:5,
+                    backgroundColor:'#A2D3C2',
+                    padding:10,
+                    paddingRight:20,
+                    borderRadius:10,
+                    marginLeft:30,
+                    marginRight:30,
+                    // flexWrap:'wrap'
+                }}>
+                    <Text h4 style={{textAlign:'center'}}>Company Website:</Text>
+                    <Text onPress={() => {
+                        Linking.openURL(`https://${result.data?.company_website}`)
+                    }} style={{
+                        // textDecorationLine: 'underline',
+                        fontSize: 20,
+                        left: 10,
+                        color: 'blue'
+                    }}>{result.data?.company_website}</Text>
+                </View>
 
                 <InterviewExperiences company_id={company_id} />
 

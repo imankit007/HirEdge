@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useAxiosPrivate from '../../utils/axiosPrivate'
+import BlinkingDot from '../common/BlinkingDot/BlinkingDot'
 
 const OffersTillNowCard = () => {
 
@@ -24,8 +25,9 @@ const OffersTillNowCard = () => {
     return (
         <>
             {result.isSuccess && < View style={styles.mainContainer}>
-                <Text style={styles.textHeading}>Offers Till Now</Text>
-                <Text style={styles.textHeading}>{result.data.total}</Text>
+                <BlinkingDot/>
+                <Text style={styles.textHeading}>Offers Till Now: {result.data.total}</Text>
+                {/* <Text style={styles.textHeading}>{result.data.total}</Text> */}
             </View >
             }
         </>
@@ -37,14 +39,21 @@ export default OffersTillNowCard;
 const styles = StyleSheet.create({
     mainContainer: {
         display: 'flex',
+        flexDirection: 'row',
+        justifyContent:'center',
         minHeight: 50,
-        borderColor: 'balck',
-        borderWidth: 2,
-        width: '45%'
+        // borderColor: 'red',
+        // borderWidth: 2,
+        width: '60%',
+        alignItems:'center',
+        borderRadius:10,
+        // backgroundColor:'red'
     },
     textHeading: {
         fontSize: 18,
         fontWeight: "800",
-        textAlign: 'center'
+        textAlign: 'center',
+        color:'red',
+        marginTop:0
     }
 })
