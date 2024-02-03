@@ -2,6 +2,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useAxiosPrivate from '../../../utils/axiosPrivate'
+import { ScrollView } from 'react-native-gesture-handler'
+import Experience from './Experience/Experience'
 
 const InterviewExperiences = ({ company_id }: { company_id: string }) => {
 
@@ -22,8 +24,20 @@ const InterviewExperiences = ({ company_id }: { company_id: string }) => {
     })
 
     return (
-        <View>
-            <Text>InterviewExperiences</Text>
+        <View style={{
+            marginTop:30,
+            marginLeft:20,
+            marginRight:20
+        }}>
+            <Text style={{
+                fontSize:18,
+                fontWeight:'bold'
+            }}>Interview Experiences</Text>
+
+            <ScrollView style={{marginTop:10}}>
+                <Experience/>
+                
+            </ScrollView>
         </View>
     )
 }

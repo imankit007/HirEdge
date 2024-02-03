@@ -30,7 +30,7 @@ const StudentLayout = () => {
 
                 },
                 drawerLabelStyle: {
-                    fontSize: 26
+                    fontSize: 18
                 },
                 drawerActiveTintColor: 'blue',
 
@@ -42,14 +42,14 @@ const StudentLayout = () => {
 
                 >
                     <DrawerContentScrollView {...props}>
-                        <Icon name='account-circle' size={150} />
+                        <Icon name='account-circle' size={120} />
                         <Text style={{
                             fontSize: 25,
                             textAlign: 'center'
                         }}>Student</Text>
                         <DrawerItemList {...props} />
                     </DrawerContentScrollView>
-                    <LogoutButton />
+                    <LogoutButton/>
                 </SafeAreaView>)}
             >
                 <Drawer.Screen name='Home' component={StudentDashboard} />
