@@ -64,9 +64,10 @@ type  CompanyDetails = {
 
   type TPODriveCardData  = DriveCardData & {
     registered_students: number;
+    current_status: string;
   } 
 
-  type TPODrivesResponseType={
+  type TPODrivesPanelResponseType={
     metadata: {
       totalCount: number;
       pageCount: number;
@@ -75,6 +76,7 @@ type  CompanyDetails = {
     };
     data: Array<TPODriveCardData>
   }
+
 
 
   type fetchDrivesResponseType = {

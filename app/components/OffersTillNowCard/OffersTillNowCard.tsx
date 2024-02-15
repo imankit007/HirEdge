@@ -16,7 +16,8 @@ const OffersTillNowCard = () => {
         }> => (
             api.get('/common/totaloffers').then(res => res.data)
         ),
-        staleTime: Infinity
+        staleTime: Infinity,
+        enabled: false
     })
 
     if (result.isLoading)
@@ -26,7 +27,7 @@ const OffersTillNowCard = () => {
         <>
             {result.isSuccess && < View style={styles.mainContainer}>
                 <BlinkingDot/>
-                <Text style={styles.textHeading}>Offers Till Now: {result.data.total}</Text>
+                <Text style={styles.textHeading}>Offers Till Now: {10}</Text>
                 {/* <Text style={styles.textHeading}>{result.data.total}</Text> */}
             </View >
             }

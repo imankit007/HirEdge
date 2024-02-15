@@ -11,6 +11,8 @@ import { useAuth } from "../../utils/AuthContext";
 import { CheckBox } from "@rneui/base";
 import { StackScreenProps } from "@react-navigation/stack";
 import { Button } from "@rneui/themed";
+import { SegmentedButtons } from "react-native-paper";
+import { useState } from "react";
 
 
 const SignInSchema = Yup.object().shape({
@@ -21,28 +23,25 @@ const SignInSchema = Yup.object().shape({
 
 
 
+
 const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) => {
 
     const { setAuthState } = useAuth();
 
+    const [role, setRole] = useState<string>('');
 
     return (
         <View style={{
             flex: 1,
-
         }}>
-            <ScrollView >
-                <KeyboardAvoidingView enabled >
-                    <View style={{
-                        flex: 1,
-                        backgroundColor: '#EAD637',
-                        height: 800
-                    }} >
-                        <Header />
-                        <View style={{
-                            flex: 1,
-                        }}>
-                            <Text style={styles.login_head}>Opening The Doors To Success</Text>
+            <Header />
+            <View style={{
+                flex: 1
+            }}>
+
+                <ScrollView>
+                    <KeyboardAvoidingView enabled>
+                        <Text style={styles.login_head}>Opening The Doors To Success</Text>
                             <Image
                                 source={require('../../../assets/images/success-removebg-preview.png')}
                                 style={{
@@ -53,72 +52,57 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) =>
                                     alignSelf: 'center',
                                 }}
                             />
+
+
                             <Formik initialValues={{
                                 role: '',
                                 user_id: '',
-                                password: ''
-                            }}
-                                validationSchema={SignInSchema}
-                                onSubmit={async (values, actions) => {
-                                    await api.post('/login', values).then((res) => {
-                                        if (res.status == 200) {
-                                            save('refresh_token', `${res.data?.refresh_token}`);
-                                            setAuthState({ access_token: res.data?.access_token, role: res.data?.role })
-                                        }
-                                    }).catch((error) => {
-                                        console.log(error);
-                                        if (error.response) {
-                                            if (error.response.status == 401) {
-                                            }
-                                        }
-                                    })
-                                }}
-                            >
-
-                                {({ handleChange, handleBlur, handleSubmit, values, setFieldValue, errors, touched, setFieldTouched }) =>
-
-                                (
-                                <View style={styles.formBox}>
-                                    <View style={{
-                                        marginVertical: 10,
-                                        flexDirection: 'row',
-                                            justifyContent: "space-evenly",
-                                        borderRadius: 25,
-                                        padding: 8
-                                    }}>
-                                            <CheckBox
-                                            checked={values.role === 'student'}
-                                            onPress={() => { setFieldValue('role', 'student') }}
-                                            checkedIcon={"dot-circle-o"}
-                                            uncheckedIcon={"circle-o"}
-                                                title={"Student"}
-                                        />
-                                        <CheckBox
-                                            checked={values.role === 'tpo'}
-                                            onPress={() => { setFieldValue('role', 'tpo') }}
-                                            checkedIcon={"dot-circle-o"}
-                                            uncheckedIcon={"circle-o"}
-                                            title={"TPO"}
-                                        />
-                                        <CheckBox
-                                            checked={values.role === 'alumni'}
-                                            onPress={() => { setFieldValue('role', 'alumni') }}
-                                            checkedIcon={"dot-circle-o"}
-                                            uncheckedIcon={"circle-o"}
-                                            title={"Alumni"}
-                                        />
-                                        <CheckBox
-                                            checked={values.role === 'hod'}
-                                            onPress={() => { setFieldValue('role', 'hod') }}
-                                            checkedIcon={"dot-circle-o"}
-                                            uncheckedIcon={"circle-o"}
-                                            title={"HOD"}
-                                        />
-                                    </View>
-                                    {
-                                        errors.role && <Text style={styles.errorMsg}>{errors.role}</Text>
+                            password: '',
+                        }} 
+                            onSubmit={async (values, actions) => {
+                                await api.post('/login', values).then((res) => {
+                                    if (res.status == 200) {
+                                        save('refresh_token', `${res.data?.refresh_token}`);
+                                        setAuthState({ access_token: res.data?.access_token, role: res.data?.role })
                                     }
-                                    <TextInput
+                                }).catch((error) => {
+                                    console.log(error);
+                                    if (error.response) {
+                                        if (error.response.status == 401) {
+                                        }
+                                    }
+                                })
+                            }}
+                            >
+                            {({ values, setFieldValue, handleChange, touched, errors, handleSubmit }) => (<View
+                                style={{
+                                    flex: 1
+                                }}>
+                                <SegmentedButtons
+                                    value={values.role}
+
+                                    buttons={[
+                                        {
+                                            value: 'student',
+                                            label: 'Student',
+                                        }, {
+                                            value: 'tpo',
+                                            label: 'TPO'
+                                        }, {
+                                            value: 'alumni',
+                                            label: "Almuni"
+                                        }, {
+                                            value: "hod",
+                                            label: "HOD"
+                                        }
+                                    ]}
+                                    onValueChange={(value) => {
+                                        setFieldValue('role', value)
+                                        setRole(value);
+                                    }}
+                                />
+
+                                <TextInput
                                         placeholder="Enter User ID"
                                         style={{
                                             // borderBottomColor: 'black',
@@ -135,8 +119,8 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) =>
                                         }}
                                         value={values.user_id}
                                         onChangeText={handleChange('user_id')}
-                                    />
-                                    {(touched.user_id && errors.user_id) && <Text style={styles.errorMsg}> {errors.user_id}</Text>}
+                                />
+                                {(touched.user_id && errors.user_id) && <Text style={styles.errorMsg}> {errors.user_id}</Text>}
                                     <TextInput
                                         placeholder="Enter Password"
                                             style={{
@@ -156,39 +140,43 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) =>
                                     />
                                     {
                                         (touched.password && errors.password) && <Text style={styles.errorMsg}> {errors.password}</Text>
-                                        }
-                                    <TouchableOpacity
-                                        style={{
-                                            backgroundColor: '#A2D3C2',
-                                            padding: 10,
-                                            borderRadius: 20,
-                                            width: 120,
-                                            alignSelf: 'center',
-                                            marginTop: 10
-                                        }}
-                                        onPress={handleSubmit as any}
-                                    >
-                                        <Text
-                                            style={{
-                                                textAlign: 'center',
-                                                fontWeight: 'bold',
-                                                fontSize: 18,
-                                                color: '#000'
-                                            }}
-                                        >
-                                            Login
-                                        </Text>
-                                    </TouchableOpacity>
-                                    </View>
-                                )
                                 }
-                            </Formik>
+                                <Button
+                                    onPress={handleSubmit as any}
 
+                                    type="solid"
+                                    color={"primary"}
+                                    titleStyle={{
+                                        fontSize: 20
+                                    }}
+                                    buttonStyle={{
+                                        borderRadius: 20
+                                    }}
+                                    containerStyle={{
+                                        width: "50%",
+                                        alignSelf: 'center',
+                                    }}
+                                >
+                                    Log In
+                                </Button>
+                            </View>
+                            )}
+                        </Formik>
 
-                            <Button
+                        <View style={{
+                            flex: 1
+                        }}></View>
+
+                    </KeyboardAvoidingView>
+                </ScrollView>
+            </View>
+            <Button
                                 type="solid"
                                 style={{
                                     backgroundColor: '#EAD637',
+
+                }}
+                containerStyle={{
                                 }}
                                 color={"warning"}
                                 buttonStyle={{
@@ -196,19 +184,17 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) =>
                                 }}
                                 onPress={() => {
                                     navigation.goBack();
-                                }}>
+                }}
+
+            >
                                 <Text style={{
                                     textAlign: 'center',
                                     fontSize: 20,
                                     color: '#230C0F',
                                     marginBottom: 5
                                 }}>Go Back</Text>
-                            </Button>
-                        </View>
-                    </View>
-                    <Footer />
-                </KeyboardAvoidingView >
-            </ScrollView>
+            </Button>
+            <Footer />
         </View>
     )
 }

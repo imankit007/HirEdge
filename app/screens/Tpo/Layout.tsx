@@ -39,6 +39,9 @@ const TPOLayout = () => {
                 backBehavior='history'
             >
                 <TPODrawerNavigator.Screen name='Home' component={TPODashboard}
+                    options={{
+                        unmountOnBlur: true
+                    }}
                 />
                 <TPODrawerNavigator.Screen name='Add Student' component={AddStudent} />
                 <TPODrawerNavigator.Screen name='Add Company' component={AddCompany} />
