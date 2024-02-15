@@ -8,7 +8,7 @@ import { Card, SearchBar } from '@rneui/base'
 import { useQuery } from '@tanstack/react-query'
 
 import useAxiosPrivate from '../../../utils/axiosPrivate'
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { RefreshControl, ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { useDebounce } from '@uidotdev/usehooks'
 import { DrawerScreenProps } from '@react-navigation/drawer'
 
@@ -20,7 +20,7 @@ const Companies = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamLi
 
     const api = useAxiosPrivate();
 
-    const result = useQuery({
+    const { data, isLoading, isSuccess, isError, refetch } = useQuery({
         queryKey: ['fetchCompanies', deferredSearch],
         queryFn: (): Promise<CompaniesPageResponseType> => (
             api.get('/student/companies', {
@@ -31,7 +31,7 @@ const Companies = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamLi
         )
     })
 
-    if (result.isSuccess)
+    if (isSuccess)
     return (
         <View>
             <SearchBar
@@ -40,10 +40,13 @@ const Companies = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamLi
                 placeholder='Enter Company Name....'
             />
             <ScrollView
+                refreshControl={<RefreshControl
+                    refreshing={isLoading}
+                    onRefresh={refetch}
+                />}
             >
-
                 {
-                    result.data.data.map((company, index) => (
+                    data.data.map((company, index) => (
                                 <TouchableOpacity key={index}
                                     onPress={() => {
                                         navigation.navigate('Company', {

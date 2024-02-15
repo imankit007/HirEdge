@@ -12,28 +12,9 @@ type RoundType = {
     date: Date;
 }
 
-type StudentDashboardType={
-    prevYearOffers:{
-        _id : number;
-        total: number;
-    }
-    currYearOffers: {
-        _id: number;
-        total: number;
-    }
-    currentStatus: {
-        _id: string;
-        company_id: string;
-        job_title: string;
-        companyDetails: {
-            company_name: string;
-        };
-    }[]
-}
 
 
-
-type DriveData = {
+type TPODriveResponseType = {
     _id: string;
     company_id: string;
     job_title: string;
@@ -44,9 +25,13 @@ type DriveData = {
     job_ctc: string;
     branch: string[];
     rounds: Round[];
-    registered: string[];
     job_description: string;
-    company_details: CompanyDetails;
+    company_details: CompanyDetails;  
+    students: Array<{
+      usn: string;
+      status: string;
+    }>
+    current_status: string;
   }
 
 type  CompanyDetails = {
@@ -77,9 +62,18 @@ type  CompanyDetails = {
     company_website: string;
   }
 
+  type TPODriveCardData  = DriveCardData & {
+    registered_students: number;
+  } 
+
   type TPODrivesResponseType={
-    count: number;
-    drives: Array<DriveCardData>
+    metadata: {
+      totalCount: number;
+      pageCount: number;
+      page: number;
+      
+    };
+    data: Array<TPODriveCardData>
   }
 
 
@@ -104,8 +98,20 @@ type ManageDriveDataType = {
     company_details: Omit<CompanyDetails, _id>
   }
 
-  type DriveStudentDataType = Omit<DriveData, 'registered'> & {
-    applied: boolean;
+  type DriveStudentDataType =  {
+    _id: string
+    job_title: string
+    tenth_cutoff: number
+    twelfth_cutoff: number
+    ug_cutoff: any
+    job_location: string[]
+    job_ctc: string
+    branch: string[]
+    rounds: RoundType[]
+    job_description: string
+    company_details: Omit<CompanyDetails,"placements">
+    registered: boolean;
+    eligible: boolean;
   }
 
   //route types
@@ -134,6 +140,7 @@ type StudentDrawerParamList = {
     "Ongoing Drives": undefined;
     "Share Experience": {
       company_id:string;
+      company_name: string;
     };
 }
 
@@ -193,4 +200,20 @@ type StudentOngoingDriveResponseType = {
       pageCount: number;
     };
     data: Array<StudentDriveListType>
+}
+
+
+type ExperienceType= {
+  experience: string;
+  difficulty? : number;
+  important_topics?: Array<string>;
+};
+
+type ExperiencesResponseType = {
+  metadata: {
+    totalCount: number;
+    pageCount: number;
+    page: number;
+  },
+  data: Array<ExperienceType>
 }

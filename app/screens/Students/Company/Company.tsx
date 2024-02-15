@@ -5,7 +5,7 @@ import useAxiosPrivate from '../../../utils/axiosPrivate';
 
 import { Text } from '@rneui/base'
 import { FAB, Tab, TabView } from '@rneui/themed';
-import { ScrollView } from 'react-native-gesture-handler';
+import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import InterviewExperiences from '../InterviewExperiences/InterviewExperiences';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
@@ -16,23 +16,29 @@ const Company = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamList
 
     const api = useAxiosPrivate();
 
-    const result = useQuery({
+    const { data, isSuccess, isLoading, refetch } = useQuery({
         queryKey: ["getCompanyDetails", company_id],
         queryFn: (): Promise<CompanyDetails> => (
             api.get(`/student/company/${company_id}`, {
 
             }).then(res => res.data)
-        ), staleTime: Infinity
+        )
     })
 
+    if (isSuccess)
     return (
-        <>
+        <View style={{
+
+            flex: 1,
+
+        }}>
             <ScrollView
                 style={{
-                    flex: 1,
-                    marginTop: 10
-                }}>
-                <Text h1 style={{ alignSelf: "center" }}>{result.data?.company_name}</Text>
+                    flex: 1
+                }}
+            // refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}
+            >
+                <Text h1 style={{ alignSelf: "center" }}>{data?.company_name}</Text>
                 
                 <View style={{
                     alignSelf:'center', 
@@ -49,22 +55,27 @@ const Company = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamList
                 }}>
                     <Text h4 style={{textAlign:'center'}}>Company Website:</Text>
                     <Text onPress={() => {
-                        Linking.openURL(`https://${result.data?.company_website}`)
+                        Linking.openURL(`https://${data?.company_website}`)
                     }} style={{
                         // textDecorationLine: 'underline',
                         fontSize: 20,
                         left: 10,
                         color: 'blue'
-                    }}>{result.data?.company_website}</Text>
+                        }}>{data?.company_website}</Text>
                 </View>
 
+                <Text style={{
+                    fontSize: 20
+                }}>Interview Experiences</Text>
+
+                <View style={{
+                    flex: 1
+                }}>
                 <InterviewExperiences company_id={company_id} />
-
+                </View>
             </ScrollView>
-
             <FAB title={"Share Experience"} icon={{ name: 'add' }} placement='right' style={{
                 position: 'absolute',
-
             }}
                 onPress={() => {
                     ToastAndroid.show(
@@ -72,13 +83,17 @@ const Company = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamList
                         ToastAndroid.SHORT,
                     )
                     navigation.navigate('Share Experience', {
-                        company_id: company_id
+                        company_id: company_id,
+                        company_name: data.company_name
                     })
                 }}
             >
             </FAB>
-        </>
+        </View>
+
+
     )
+    return null;
 }
 
 export default Company

@@ -10,10 +10,13 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import { useQuery } from '@tanstack/react-query'
 import useAxiosPrivate from '../../../utils/axiosPrivate'
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown'
+import { useDebounce } from '@uidotdev/usehooks'
+import { DrawerScreenProps } from '@react-navigation/drawer'
 
 
 interface AddDriveValues {
     company_id: string,
+    company_name: string;
     job_title: string,
     job_description: string,
     job_ctc: string,
@@ -37,19 +40,20 @@ type CompaniesProps = {
 type CompanyList = CompaniesProps[];
 
 const validationSchema = Yup.object({
-    company_id: Yup.string().required("Required"),
-    job_title: Yup.string().required("Required"),
-    job_description: Yup.string().required("Required"),
-    job_ctc: Yup.string().required("Required"),
-    tenth_cutoff: Yup.number().min(0).max(100).typeError("Must be a number"),
-    twelfth_cutoff: Yup.number().min(0).max(100).typeError("Must be a number"),
-    ug_cgpa: Yup.number().min(0).max(10).typeError("Must be a number"),
+    // company_id: Yup.string().required("Required"),
+    // job_title: Yup.string().required("Required"),
+    // job_description: Yup.string().required("Required"),
+    // job_ctc: Yup.string().required("Required"),
+    // tenth_cutoff: Yup.number().min(0).max(100).typeError("Must be a number"),
+    // twelfth_cutoff: Yup.number().min(0).max(100).typeError("Must be a number"),
+    // ug_cgpa: Yup.number().min(0).max(10).typeError("Must be a number"),
 })
 
-const AddDrive = () => {
+const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">) => {
 
     const initialValues: AddDriveValues = {
         company_id: "",
+        company_name: "",
         job_title: "",
         job_description: "",
         job_ctc: "",
@@ -66,6 +70,8 @@ const AddDrive = () => {
     const selectedindex = useRef(0);
 
     const [search, setSearch] = useState('')
+
+    const s = useDebounce(search, 2000);
 
 
     const showDatepicker = () => {
@@ -102,11 +108,11 @@ const AddDrive = () => {
     const api = useAxiosPrivate();
 
     const result = useQuery({
-        queryKey: ["fetchCompanies", search],
+        queryKey: ["fetchCompanies", s],
         queryFn: (): Promise<CompanyList> => (
-            api.get('/common/companies', {
+            api.get('/common/options/companies', {
                 params: {
-                    search: search
+                    s: s
                 }
             }).then(res => res.data)
         )
@@ -118,17 +124,15 @@ const AddDrive = () => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values, helpers) => {
-                    console.log(JSON.stringify(values));
-                    api.post('/tpo/drive', values).then(res => {
+                    api.post('/tpo/drives', values).then(res => {
                         if (res.status == 200) {
                             ToastAndroid.show('Drive Posted Successfully', ToastAndroid.SHORT);
+                            helpers.resetForm();
                         }
                     }).catch(err => {
                         ToastAndroid.show('Something went Wrong...!!', ToastAndroid.SHORT);
                         console.log(err);
                     })
-
-
                 }}
                 validationSchema={validationSchema}
                 validateOnChange={false}
@@ -152,7 +156,8 @@ const AddDrive = () => {
                                 onChangeText={setSearch}
                                 loading={result.isLoading}
                                 onSelectItem={(item) => {
-                                    item && setFieldValue('company_id', item.id)
+                                    item && setFieldValue('company_id', item.id);
+                                    item && setFieldValue('company_name', item.title);
                                 }}
                                 debounce={2000}
                                 showChevron

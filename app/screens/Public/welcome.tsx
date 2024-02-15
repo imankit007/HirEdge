@@ -5,6 +5,7 @@ import React from 'react'
 import ImageCarousel, { ImageCarouselItem } from '../../components/ImageCarousel';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 
 const data: ImageCarouselItem[] = [
     {
@@ -20,9 +21,9 @@ const data: ImageCarouselItem[] = [
 ];
 
 
-const Welcome = () => {
+const Welcome = ({ navigation }: StackScreenProps<RootStackParamList, "Welcome">) => {
 
-    const navigation = useNavigation();
+
 
     const handleClick = () => {
 

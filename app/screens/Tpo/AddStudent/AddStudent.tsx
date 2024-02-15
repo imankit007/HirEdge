@@ -10,6 +10,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
 import SelectDropdown from 'react-native-select-dropdown'
+import { RadioButton } from 'react-native-paper'
+import { Radio } from 'react-native-feather'
 
 
 const AddStudent = () => {
@@ -44,6 +46,7 @@ const AddStudent = () => {
                     middle_name: '',
                     last_name: '',
                     dob: '',
+                        gender: '',
                     mobile: '', email: '',
                     branch: '',
                     tenth_percentage: '',
@@ -113,6 +116,11 @@ const AddStudent = () => {
                                     maximumDate={new Date()}
                                 />
                             )}
+                            <Text>Gender</Text>
+                            <RadioButton.Group onValueChange={(value) => setFieldValue('gender', value)} value={values.gender}>
+                                <RadioButton.Item value='male' label='Male' />
+                                <RadioButton.Item value='female' label='Female' />
+                            </RadioButton.Group>
 
                             <Input
                                 value={values.email}

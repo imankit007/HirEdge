@@ -1,5 +1,5 @@
 
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ToastAndroid } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -9,11 +9,11 @@ import useAxiosPrivate from "../../../utils/axiosPrivate";
 import { RouteProp } from "@react-navigation/native";
 import { DrawerProps, DrawerScreenProps } from "@react-navigation/drawer/lib/typescript/src/types";
 import { Button, Text } from "@rneui/themed";
-import { ScrollView } from "react-native-gesture-handler";
+import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 
 
 
-const DrivePage = ({ route }: DrawerScreenProps<StudentDrawerParamList, "Drive">) => {
+const DrivePage = ({ route, navigation }: DrawerScreenProps<StudentDrawerParamList, "Drive">) => {
     const api = useAxiosPrivate();
 
     const drive = route.params.drive_id;
@@ -21,10 +21,7 @@ const DrivePage = ({ route }: DrawerScreenProps<StudentDrawerParamList, "Drive">
     const result = useQuery({
         queryKey: ['fetchDrive', drive],
         queryFn: async (): Promise<DriveStudentDataType> => (
-            api.get('/student/drive', {
-                params: {
-                    id: drive,
-                }
+            api.get(`/student/drive/${drive}`, {
             }).then(res => res.data)
         )
     })
@@ -36,7 +33,13 @@ const DrivePage = ({ route }: DrawerScreenProps<StudentDrawerParamList, "Drive">
         <>
             {
                 result.isSuccess && (
-                    <ScrollView contentContainerStyle={styles.mainContainerStyle}>
+                    <ScrollView contentContainerStyle={styles.mainContainerStyle}
+
+                        refreshControl={<RefreshControl
+                            refreshing={result.isLoading}
+                            onRefresh={result.refetch}
+                        />}
+                    >
                         <Text style={{
                             fontSize: 30,
                 textAlign: 'center',
@@ -64,10 +67,10 @@ const DrivePage = ({ route }: DrawerScreenProps<StudentDrawerParamList, "Drive">
                                 }
                             </View>
 
-                            <Text h4>10th Marks : {result.data.tenth_cutoff}%</Text>
-                            <Text h4>12th Marks: {result.data.twelfth_cutoff}%</Text>
-                            <Text h4>UG CGPA: {result.data.ug_cutoff || 'nil'}</Text>
-                            <Text h4>Other Criterias: { }</Text>
+                            <Text h4>10th Marks : {result.data.tenth_cutoff ? `${result.data.tenth_cutoff}%` : "No Criteria"}</Text>
+                            <Text h4>12th Marks: {result.data.twelfth_cutoff ? `${result.data.twelfth_cutoff}%` : "No Criteria"}%</Text>
+                            <Text h4>UG CGPA: {result.data.ug_cutoff || 'No Criteria'}</Text>
+                            {/* <Text h4>Other Criterias: { }</Text> */}
                         </View>
 
                         <View style={{
@@ -92,27 +95,67 @@ const DrivePage = ({ route }: DrawerScreenProps<StudentDrawerParamList, "Drive">
                         }}>{result.data.job_description}</Text>
 
 
-
-                        <Button title={result.data.applied ? "Already Registered" : "Register"}
-                            disabled={result.data.applied}
+                        <View style={{
+                            flex: 1,
+                            flexDirection: 'row',
+                            position: "absolute",
+                            bottom: 5,
+                        }}>
+                            <Button title={!result.data.eligible ? "Not Eligible" : result.data.registered ? "Registered" : "Register"}
+                                disabled={result.data.registered}
                             style={{
                                 alignSelf: 'flex-end',
                             }} containerStyle={{
-                                position: "absolute",
-                                bottom: 5,
+
                                 alignSelf: "center",
-                                width: '90%',
+                                width: "50%"
                             }}
 
                             titleStyle={{
                                 fontSize: 20
-                            }}
+                                }}  
 
                             buttonStyle={{
                                 borderRadius: 20
                             }}
+                                onPress={() => {
 
-                        />
+                                    api.post(`/student/drive/${drive}/apply`).then(res => {
+                                        if (res.status == 200) {
+
+                                            ToastAndroid.show('Registration Successfull', ToastAndroid.SHORT)
+
+                                            result.refetch();
+                                        }
+                                    })
+                                }}
+                                color={"primary"}
+                            />
+                            <Button
+
+                                title={"Know More"}
+                                type="solid"
+
+                                buttonStyle={{
+                                    borderRadius: 20
+                                }}
+                                titleStyle={{
+                                    fontSize: 20
+                                }}
+                                containerStyle={{
+                                    width: "50%"
+                                }}
+                                color={"secondary"}
+
+                                onPress={() => {
+                                    navigation.navigate('Company', {
+                                        company_id: result.data.company_details._id
+                                    })
+                                }}
+                            />
+
+
+                        </View>
 
                     </ScrollView>)
 

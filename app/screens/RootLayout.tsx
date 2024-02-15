@@ -1,6 +1,6 @@
 
 
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Welcome from './Public/welcome';
@@ -11,6 +11,7 @@ import HODDashboard from './HOD/Dashboard/Dashboard';
 import StudentLayout from './Students/Layout';
 import TPOLayout from './Tpo/Layout';
 import AlumniLayout from './Alumni/AlumniLayout';
+import { SafeAreaView } from 'react-native-safe-area-context';
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 
