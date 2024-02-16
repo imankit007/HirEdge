@@ -3,6 +3,14 @@ import React from 'react'
 import { Formik } from 'formik'
 import { Button, Input } from '@rneui/themed'
 import useAxiosPrivate from '../../../utils/axiosPrivate'
+import * as Yup from 'yup';
+
+
+
+const validationSchema = Yup.object({
+    company_name: Yup.string().required("Company Name cannot be empty"),
+    company_website: Yup.string().url("Must be a valid URL"),
+})
 
 const AddCompany = () => {
 
@@ -15,6 +23,7 @@ const AddCompany = () => {
                     company_name: '',
                     company_website: '',
                 }}
+                validationSchema={validationSchema}
                 onSubmit={(values, formikHelpers) => {
                     api.post('/tpo/companies', values).then((res) => {
                         if (res.status === 200) {

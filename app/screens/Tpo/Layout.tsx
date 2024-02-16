@@ -43,9 +43,19 @@ const TPOLayout = () => {
                         unmountOnBlur: true
                     }}
                 />
-                <TPODrawerNavigator.Screen name='Add Student' component={AddStudent} />
-                <TPODrawerNavigator.Screen name='Add Company' component={AddCompany} />
-                <TPODrawerNavigator.Screen name='Add Drive' component={AddDrive} />
+                <TPODrawerNavigator.Screen name='Add Student' component={AddStudent} options={{
+                    unmountOnBlur: true
+                }} />
+                <TPODrawerNavigator.Screen name='Add Company' component={AddCompany}
+                    options={{
+                        unmountOnBlur: true
+                    }}
+                />
+                <TPODrawerNavigator.Screen name='Add Drive' component={AddDrive}
+                    options={{
+                        unmountOnBlur: true
+                    }}
+                />
                 <TPODrawerNavigator.Screen name='Ongoing Drives' component={OngoingDrives} />
                 <TPODrawerNavigator.Screen name='Profile' component={Profile} />
 
@@ -54,7 +64,11 @@ const TPOLayout = () => {
                         display: 'none'
                     },
                 }}>
-                    <TPODrawerNavigator.Screen name="Drive" component={Drive} />
+                    <TPODrawerNavigator.Screen name="Drive" component={Drive}
+                        options={{
+                            unmountOnBlur: true
+                        }}
+                    />
 
                 </TPODrawerNavigator.Group>
 
