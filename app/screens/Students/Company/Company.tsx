@@ -22,8 +22,8 @@ const Company = ({ navigation, route }: DrawerScreenProps<StudentDrawerParamList
             api.get(`/student/company/${company_id}`, {
 
             }).then(res => res.data)
-        )
-    })
+        ),
+        staleTime:50000   })
 
     if (isSuccess)
     return (

@@ -38,6 +38,7 @@ const InterviewExperiences = ({ company_id }: { company_id: string }) => {
 
     })
 
+
     if (isLoading) {
         return (<Loading size={100} />)
     }
@@ -52,17 +53,30 @@ const InterviewExperiences = ({ company_id }: { company_id: string }) => {
         return (
             <FlashList
                 data={data.pages.flatMap((data) => (data.data))}
-                renderItem={({ item }) => (<View style={[{
+                renderItem={({ item }) => 
+                //Experience component
+                (<View style={[{
                     width: "90%",
-                    borderWidth: 2,
-                    borderColor: 'black',
+                    // borderWidth: 2,
+                    // borderColor: 'black',
                     alignSelf: 'center',
-                    height: 600
+                    height: "auto",
+                    backgroundColor:'white',
+                    padding:13,
+                    borderRadius:10
                 }]}>
-
+                    <Text style={{
+                        fontSize:18,
+                        fontWeight:'bold',
+                        color:'#836FFF',
+                        marginBottom:8
+                    }}>Jai Irkal</Text>
                     <Text style={{
                         fontSize: 20
-                    }}>Difficulty: {item.difficulty}</Text>
+                    }}>Difficulty: {
+                        
+                    item.difficulty==1? "Easy": item.difficulty==2? "Moderate":"Difficult"
+                    }</Text>
                     <View style={{
                         flexDirection: "row",
                         columnGap: 5
@@ -70,18 +84,26 @@ const InterviewExperiences = ({ company_id }: { company_id: string }) => {
                         {
 
                             item.important_topics?.map((topic, index) => (<Text key={index} style={{
-                                borderColor: 'gray',
-                                borderWidth: 1,
+                                borderColor: '#836FFF',
+                                borderWidth: 2,
+                                borderRadius:10,
                                 padding: 5,
+                                textAlign:'center',
+                                color:'#836FFF',
+                                fontWeight:'bold',
+                                margin:5,
+                                marginTop:10,
+                                marginBottom:10
                             }}>{topic}</Text>))
 
                         }</View>
                     <Text style={{
                         fontSize: 20,
-                        borderWidth: 1,
-                        borderColor: 'black'
+                        // borderWidth: 1,
+                        // borderColor: 'black'
                     }}>{item.experience}
                     </Text>
+                    <Text style={{fontSize:12, textAlign:'right', color:'grey'}}>Posted on 16/02/2024</Text>
                 </View>)}
                 estimatedItemSize={100}
                 contentContainerStyle={{
