@@ -3,7 +3,7 @@ import axios from "axios";
 
 //replace the baseURL with IP of your machine
 // ipconfig - to find the ip address of machine
-const baseURL = 'http://192.168.27.171:5000';
+const baseURL = 'http://192.168.40.68:5000';
 
 
 const instance = axios.create({

@@ -35,13 +35,18 @@ const OngoingDrivePanel = () => {
                         drive_id: item._id
                     })
                 }}
+                    buttonStyle={{
+                        borderRadius:15,
+                        padding:10
+                    }}
                     containerStyle={{
                         width: "90%",
                         alignSelf: 'center',
                         position: 'absolute',
-                        bottom: 10
+                        bottom: 10,
+                        height:50,
                     }}
-                >Learn More</Button>
+                ><Text style={{color:'white', fontWeight:'bold', fontSize:13}}>Learn More</Text></Button>
             </View>
         )
     }
@@ -49,7 +54,7 @@ const OngoingDrivePanel = () => {
     if (result.isSuccess)
     return (
         <View style={styles.panelStyle}>
-            <Text h4 style={{ textDecorationLine: 'underline' }} onPress={() => {
+            <Text h4 style={{ marginBottom:10 }} onPress={() => {
 
             }}>{"Ongoing Drives"}</Text>
             <FlatList
@@ -72,24 +77,27 @@ export default OngoingDrivePanel;
 const styles = StyleSheet.create({
     panelStyle: {
         display: 'flex',
-        minHeight: 180,
+        minHeight: 240,
         height: "30%",
         backgroundColor: '#DCF2F1',
         paddingVertical: 10,
         paddingStart: 10
     },
     fontStyle: {
-        fontSize: 18,
-        fontWeight: "bold"
+        fontSize: 16,
+        fontWeight: "bold",
+        textAlign:'center'
     },
     cardStyle: {
         borderRadius: 10,
-        minWidth: 150,
+        height:"90%",
+        minWidth: "18%",
         padding: 10,
         shadowColor: "#171717",
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        marginTop:0
     }
 })
