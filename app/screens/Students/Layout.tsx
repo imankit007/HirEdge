@@ -64,12 +64,20 @@ const StudentLayout = () => {
                         display: 'none'
                     }
                 }}>
-                    <Drawer.Screen name='Drive' component={DrivePage} options={{}}
+                    <Drawer.Screen name='Drive' component={DrivePage} options={{
+                        unmountOnBlur: true
+                    }}
                     />
 
-                    <Drawer.Screen name='Company' component={Company} />
+                    <Drawer.Screen name='Company' component={Company} options={{
+                        unmountOnBlur: true
+                    }}/>
 
-                    <Drawer.Screen name='Share Experience' component={ShareExperience} />
+                    <Drawer.Screen name='Share Experience' component={ShareExperience} 
+                    options={{
+                        unmountOnBlur: true
+                    }}
+                    />
 
                 </Drawer.Group>
 
