@@ -4,14 +4,14 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { FieldArray, Formik, useFormikContext } from 'formik'
 import { Button, CheckBox, Icon, Input, Text } from '@rneui/themed'
 import * as Yup from 'yup';
-
-import DateTimePicker from '@react-native-community/datetimepicker'
-
 import { useQuery } from '@tanstack/react-query'
 import useAxiosPrivate from '../../../utils/axiosPrivate'
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown'
 import { useDebounce } from '@uidotdev/usehooks'
 import { DrawerScreenProps } from '@react-navigation/drawer'
+import DatePicker from 'react-native-datepicker';
+
+
 
 
 interface AddDriveValues {
@@ -29,7 +29,9 @@ interface AddDriveValues {
         round_name: string,
         round_date: string,
         round_time: string
-    }>
+    }>,
+    registration_end_date: string;
+    registration_end_time: string;
 }
 
 type CompaniesProps = {
@@ -62,7 +64,13 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
         twelfth_cutoff: 70,
         ug_cutoff: 7,
         branch: [],
-        rounds: [],
+        rounds: [{
+            round_name: "",
+            round_date: "",
+            round_time: ""
+        }],
+        registration_end_date: "",
+        registration_end_time: "",
     }
 
     const [showDate, setShowDate] = useState(false);
@@ -140,8 +148,6 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                 {
                     ({ values, errors, handleChange, handleSubmit, setFieldValue }) => (<View style={{
                     }}>
-
-
                         <View style={{
                             zIndex: 1
                         }}>
@@ -223,7 +229,6 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                                             }}
                                             title={item.id}
                                             containerStyle={{
-                                                // backgroundColor: '#ffffff00',
                                                 width: 100
                                             }}
                                         />
@@ -308,7 +313,7 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                                                         }}
                                                         rightIcon={<Icon name="delete" onPress={arrayHelpers.handleRemove(index)} />}
                                                     />
-                                                    <Input value={round.round_date}
+                                                    {/* <Input value={round.round_date}
                                                         label="Round Date"
                                                         rightIcon={<Icon name='calendar' type='antdesign' onPress={
                                                             () => {
@@ -330,7 +335,7 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                                                             showTimepicker();
                                                             selectedindex.current = index;
                                                         }} />}
-                                                    />
+                                                    /> */}
                                                 </View>)
                                         })
                                     }
@@ -347,6 +352,32 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                             }
 
                         </FieldArray>
+                        <View style={{
+                            flexDirection: "row",
+                        }}>
+                            <Input
+                                value={values.registration_end_time}
+                                label="Registration End Time"
+                                rightIcon={<Icon name='calendar' type='antdesign' onPress={showDatepicker} />}
+                                containerStyle={{
+                                    width: "50%"
+                                }}
+                            />
+
+                            <Input
+                                value={values.registration_end_date}
+                                label="Registration End Date"
+                                rightIcon={<Icon name='clockcircleo' type='antdesign' onPress={showTimepicker} />}
+                                containerStyle={{
+                                    width: "50%"
+                                }}
+                            />
+                        </View>
+
+                        <DatePicker
+
+                        />
+
 
                         <Button color={'success'}
                             onPress={() => {
@@ -354,7 +385,7 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                             }}
                         >Submit</Button>
 
-                        {
+                        {/* {
                             showDate &&
                             <DateTimePicker
                                 mode='date'
@@ -376,7 +407,7 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                                     setFieldValue(`rounds[${selectedindex.current}.round_time]`, date?.toLocaleTimeString().slice(0, 5))
                                 }}
                             />
-                        }
+                        } */}
                     </View>)
                 }
             </Formik>

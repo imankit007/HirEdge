@@ -7,17 +7,29 @@ import OffersTillNowCard from '../../../components/OffersTillNowCard/OffersTillN
 import { Card } from '@rneui/themed';
 import OngoingDrivePanel from '../OngoingDrivePanel/OngoingDrivePanel';
 import { DrawerScreenProps } from '@react-navigation/drawer';
+import { useQueryClient } from '@tanstack/react-query';
 
 const TPODashboard = ({ route, navigation }: DrawerScreenProps<TPODrawerParamList, "Home">) => {
 
     const [refresh, setRefresh] = useState<boolean>(false);
 
+    const queryClient = useQueryClient();
 
     return (
         <ScrollView
+            refreshControl={<RefreshControl
+                refreshing={queryClient.getQueryState(['TPOOngoingDrive'])?.status == 'pending'}
+                onRefresh={() => {
+
+                    queryClient.refetchQueries({
+                        'queryKey': ['TPOOngoingDrive']
+                    })
+
+
+                }}
+            />}
         >
             <OffersTillNowCard />
-
             <OngoingDrivePanel />
             <Card>
                 <Card.Title>Manage Students</Card.Title>

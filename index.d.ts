@@ -64,7 +64,7 @@ type  CompanyDetails = {
 
   type TPODriveCardData  = DriveCardData & {
     registered_students: number;
-    current_status: string;
+    registration_status: string;
   } 
 
   type TPODrivesPanelResponseType={

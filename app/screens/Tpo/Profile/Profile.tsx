@@ -24,33 +24,77 @@ const Profile = () => {
     }
 
 
-
+    if (result.isSuccess)
     return (
         <View style={styles.mainContainer}>
             <ScrollView
                 contentContainerStyle={{
+
                     paddingVertical: 20
+                }}
+                style={{
+                    position: 'relative',
                 }}
             >
                 <Avatar title='T'
-                    size={100}
+                    size={200}
                     rounded
                     containerStyle={{
                         backgroundColor: "purple",
                         alignSelf: 'center'
                     }}
+                    titleStyle={{
+                        fontSize: 180
+                    }}
                 />
 
-                <Text>{result.data?.first_name}</Text>
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldName}>First Name</Text>
+                    <Text style={styles.fieldValue}>{result.data?.first_name}</Text>
+                </View>
+
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldName}>Middle Name</Text>
+                    <Text style={styles.fieldValue}>{result.data?.middle_name}</Text>
+                </View>
+
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldName}>Last Name</Text>
+                    <Text style={styles.fieldValue}>{result.data.last_name}</Text>
+                </View>
+
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldName}>Email</Text>
+                    <Text style={styles.fieldValue}>{result.data.email}</Text>
+                </View>
+
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldName}>Mobile</Text>
+                    <Text style={styles.fieldValue}>{result.data.mobile}</Text>
+
+                </View>
 
 
-                <Button onPress={() => {
-                    result.refetch();
-                }}>Refresh</Button>
+                <View>  
+
+                    <Button title={"Change Password"} color={'warning'} containerStyle={{
+
+                    }} />
+
+
+                    <Button title={"Logout"} color={'error'} containerStyle={{
+
+                    }} />
+
+                </View>
+
+
+
 
             </ScrollView>
         </View>
     )
+    return null;
 }
 
 export default Profile
@@ -58,5 +102,22 @@ export default Profile
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
+    },
+    fieldName: {
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    fieldValue: {
+        fontSize: 24
+    },
+    fieldContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        paddingLeft: 10,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 1,
+        shadowColor: 'black',
+        margin: 10,
+        elevation: 20
     }
 })
