@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import React, { useState } from 'react';
 import useLogout from '../../../utils/useLogout';
 import { Button } from '@rneui/base';
@@ -10,6 +10,9 @@ import { DrawerScreenProps } from '@react-navigation/drawer';
 import { useQueryClient } from '@tanstack/react-query';
 
 const TPODashboard = ({ route, navigation }: DrawerScreenProps<TPODrawerParamList, "Home">) => {
+
+    const { height, width } = useWindowDimensions();
+
 
     const [refresh, setRefresh] = useState<boolean>(false);
 
@@ -24,13 +27,25 @@ const TPODashboard = ({ route, navigation }: DrawerScreenProps<TPODrawerParamLis
                     queryClient.refetchQueries({
                         'queryKey': ['TPOOngoingDrive']
                     })
-
-
                 }}
             />}
         >
-            <OffersTillNowCard />
-            <OngoingDrivePanel />
+
+            <View style={{
+                height: height * 0.1,
+            }}>
+                <OffersTillNowCard />
+            </View>
+
+
+            <View style={{
+                width: width,
+                height: height * 0.2,
+                backgroundColor: 'lightblue',
+                padding: 0
+            }}>
+                <OngoingDrivePanel />
+            </View>
             <Card>
                 <Card.Title>Manage Students</Card.Title>
                 <Card.Divider />
@@ -43,13 +58,14 @@ const TPODashboard = ({ route, navigation }: DrawerScreenProps<TPODrawerParamLis
                     Add Student
                 </Button>
             </Card>
-
             <Card>
                 <Card.Title>
                     Manage Drives
                 </Card.Title>
                 <Card.Divider />
-                <Button>
+                <Button onPress={() => {
+                    navigation.navigate('Add Drive')
+                }} pressRetentionOffset={0}>
                     Add Drive
                 </Button>
                 <Card.Divider />

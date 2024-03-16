@@ -21,11 +21,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-        
-      },"windowSoftInputMode":"adjustResize" 
+      },
+      "package": "com.imankit4568.HirEdge"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "10f118a2-f215-474f-b9bb-7051c78f50fc"
+      }
+    },
+    "plugins": [
+      "expo-build-properties"
+    ]
   }
 }

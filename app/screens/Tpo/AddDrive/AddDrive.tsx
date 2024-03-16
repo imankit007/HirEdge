@@ -1,16 +1,17 @@
-import { StyleSheet, ToastAndroid, TouchableOpacity, View, Dimensions } from 'react-native'
+import { StyleSheet, TouchableOpacity, View, Dimensions, TextInput } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
-import { FieldArray, Formik, useFormikContext } from 'formik'
+import { FieldArray, Formik } from 'formik'
 import { Button, CheckBox, Icon, Input, Text } from '@rneui/themed'
 import * as Yup from 'yup';
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import useAxiosPrivate from '../../../utils/axiosPrivate'
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown'
 import { useDebounce } from '@uidotdev/usehooks'
 import { DrawerScreenProps } from '@react-navigation/drawer'
-import DatePicker from 'react-native-datepicker';
-
+import { ToastAndroid } from 'react-native'
+import DateTimePicker from '@react-native-community/datetimepicker'
+import * as DocumentPicker from 'expo-document-picker'
 
 
 
@@ -24,14 +25,20 @@ interface AddDriveValues {
     tenth_cutoff: number,
     twelfth_cutoff: number,
     ug_cutoff: number,
-    branch: Array<string>,
+    branch: {
+        CSE: boolean,
+        ISE: boolean,
+        ECE: boolean,
+        MECH: boolean,
+        CIVIL: boolean,
+        EEE: boolean,
+        CHEM: boolean
+    },
     rounds: Array<{
-        round_name: string,
-        round_date: string,
-        round_time: string
+        round_details: string,
     }>,
-    registration_end_date: string;
-    registration_end_time: string;
+    registration_end_date: Date;
+    registration_end_time: Date;
 }
 
 type CompaniesProps = {
@@ -39,7 +46,15 @@ type CompaniesProps = {
     readonly id: string,
 }
 
-type CompanyList = CompaniesProps[];
+
+interface CompanyOptionsResponseType {
+    metadata: {
+        totalCount: number;
+        pageCount: number;
+        page: 1
+    },
+    data: Array<CompaniesProps>
+}
 
 const validationSchema = Yup.object({
     // company_id: Yup.string().required("Required"),
@@ -49,6 +64,7 @@ const validationSchema = Yup.object({
     // tenth_cutoff: Yup.number().min(0).max(100).typeError("Must be a number"),
     // twelfth_cutoff: Yup.number().min(0).max(100).typeError("Must be a number"),
     // ug_cgpa: Yup.number().min(0).max(10).typeError("Must be a number"),
+
 })
 
 const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">) => {
@@ -60,107 +76,119 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
         job_description: "",
         job_ctc: "",
         job_locations: [],
-        tenth_cutoff: 70,
-        twelfth_cutoff: 70,
-        ug_cutoff: 7,
-        branch: [],
+        tenth_cutoff: 0,
+        twelfth_cutoff: 0,
+        ug_cutoff: 0,
+        branch: {
+            CSE: false,
+            ECE: false,
+            EEE: false,
+            MECH: false,
+            CIVIL: false,
+            ISE: false,
+            CHEM: false,
+        },
         rounds: [{
-            round_name: "",
-            round_date: "",
-            round_time: ""
+            round_details: "",
+        }, {
+                round_details: "",
+            }, {
+                round_details: "",
         }],
-        registration_end_date: "",
-        registration_end_time: "",
+        registration_end_date: new Date(),
+        registration_end_time: new Date(),
     }
-
     const [showDate, setShowDate] = useState(false);
     const [showTime, setShowTime] = useState(false);
-    const selectedindex = useRef(0);
-
     const [search, setSearch] = useState('')
 
     const s = useDebounce(search, 2000);
 
 
-    const showDatepicker = () => {
-        setShowDate(true);
-    };
-
     const showTimepicker = () => {
         setShowTime(true);
     };
 
-    const branchlist = [{
-        id: "CSE",
-        name: 'CSE'
-    }, {
-        id: 'ISE',
-        name: 'ISE'
-    }, {
-        id: 'ECE',
-        name: 'ECE'
-    }, {
-        id: 'EEE',
-        name: 'EEE'
-    }, {
-        id: 'MECH',
-        name: 'MECH'
-    }, {
-        id: 'CIVIL',
-        name: 'CIVIL'
-    }, {
-        id: 'CHEM',
-        name: 'CHEM'
-    }]
+
 
     const api = useAxiosPrivate();
 
-    const result = useQuery({
+    const { data, isLoading, fetchNextPage } = useInfiniteQuery({
         queryKey: ["fetchCompanies", s],
-        queryFn: (): Promise<CompanyList> => (
+        queryFn: ({ pageParam }): Promise<CompanyOptionsResponseType> => (
             api.get('/common/options/companies', {
                 params: {
                     s: s
                 }
-            }).then(res => res.data)
-        )
-    })
+            }).then(res => res.data.companies)
+        ),
+        getNextPageParam: (lastPage) => {
+
+            if (lastPage.metadata.page < lastPage.metadata.pageCount)
+                return lastPage.metadata.page + 1;
+            return undefined;
+        },
+        initialPageParam: 1
+    });
     const searchRef = useRef(null)
     const dropdownController = useRef<any>(null)
+    const [file, setFile] = useState<DocumentPicker.DocumentPickerAsset>();
+
     return (
         <ScrollView>
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values, helpers) => {
+
+                    const data = new FormData();
+
+                    var doc = { name: file?.name, uri: file?.uri, type: file?.mimeType };
+                    data.append('job_description_file', doc as any)
+                    console.log(values);
+                    // api.post('/tpo/drives/upload', data, {
+                    //     withCredentials: true,
+                    //     headers: {
+                    //         'Content-Type': 'multipart/form-data'
+                    //     }
+                    // }).then(res => {
+                    //     if (res.status == 200) {
+                    //     }
+                    // }).catch(err => {
+                    //     ToastAndroid.show('Something went Wrong...!!', ToastAndroid.SHORT);
+                    //     console.log(err);
+                    // })
                     api.post('/tpo/drives', values).then(res => {
                         if (res.status == 200) {
                             ToastAndroid.show('Drive Posted Successfully', ToastAndroid.SHORT);
-                            helpers.resetForm();
+                            // helpers.resetForm();
                         }
                     }).catch(err => {
                         ToastAndroid.show('Something went Wrong...!!', ToastAndroid.SHORT);
                         console.log(err);
-                    })
+                    })  
                 }}
                 validationSchema={validationSchema}
-                validateOnChange={false}
             >
                 {
                     ({ values, errors, handleChange, handleSubmit, setFieldValue }) => (<View style={{
+                        backgroundColor: 'white'
                     }}>
                         <View style={{
                             zIndex: 1
                         }}>
                             <Text >Select Company Name</Text>
                             <AutocompleteDropdown
+                                textInputProps={{
+                                    placeholder: "Select Company",
+                                }}
                                 ref={searchRef}
                                 controller={controller => {
                                     dropdownController.current = controller
                                 }}
+                                dataSet={data?.pages.flatMap((page) => page.data)}
                                 suggestionsListMaxHeight={Dimensions.get('window').height * 0.4}
-                                dataSet={result.data}
                                 onChangeText={setSearch}
-                                loading={result.isLoading}
+                                loading={isLoading}
                                 onSelectItem={(item) => {
                                     item && setFieldValue('company_id', item.id);
                                     item && setFieldValue('company_name', item.title);
@@ -169,7 +197,17 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                                 showChevron
                                 useFilter={false}
                                 emptyResultText='Nothing Found'
-                            />
+                                containerStyle={{
+                                    backgroundColor: 'white',
+                                    borderBottomColor: 'grey',
+                                    borderBottomWidth: 1,
+                                    paddingHorizontal: 5,
+                                    marginHorizontal: 10
+                                }}
+                                inputContainerStyle={{
+                                    backgroundColor: 'white'
+                                }}
+                            /> 
                         </View>
 
                         <Input
@@ -179,63 +217,59 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                             label="Job Title"
                             errorMessage={errors.job_title}
                         />
-                        <ScrollView style={{
-                            minHeight: 200,
-                            maxHeight: Dimensions.get('window').height * 0.4,
-                        }}>
-
-                            <Input
-                                multiline
-                                value={values.job_description}
-                                onChangeText={handleChange('job_description')}
-                                placeholder='Enter Job Description'
-                                label="Job Description"
-                                errorMessage={errors.job_description}
-                                scrollEnabled
-                                inputStyle={{
-                                    minHeight: 150,
-                                    maxHeight: 250,
-                                }}
-                            />
-
-                        </ScrollView>
-
                         <Input
                             value={values.job_ctc}
                             onChangeText={handleChange('job_ctc')}
                             placeholder='Enter CTC'
                             label="CTC"
                             errorMessage={errors.job_ctc}
+                            style={{
+                                backgroundColor: 'white'
+                            }}
+                            containerStyle={{
+                                backgroundColor: 'white'
+                            }}
                         />
-
                         <View style={{
                             flexWrap: 'wrap',
                             flexDirection: 'row',
                         }}>
+                            <CheckBox
+                                checked={values.branch.CSE}
+                                title={"CSE"}
+                                onPress={() => { setFieldValue('branch.CSE', !values.branch.CSE) }}
+                            />
+                            <CheckBox
+                                checked={values.branch.ISE}
+                                title={"ISE"}
+                                onPress={() => { setFieldValue('branch.ISE', !values.branch.ISE) }}
+                            />
+                            <CheckBox
+                                checked={values.branch.ECE}
+                                title={"ECE"}
+                                onPress={() => { setFieldValue('branch.ECE', !values.branch.ECE) }}
+                            />
+                            <CheckBox
+                                checked={values.branch.EEE}
+                                title={"EEE"}
+                                onPress={() => { setFieldValue('branch.EEE', !values.branch.EEE) }}
+                            />
+                            <CheckBox
+                                checked={values.branch.MECH}
+                                title={"MECH"}
+                                onPress={() => { setFieldValue('branch.MECH', !values.branch.MECH) }}
+                            />
+                            <CheckBox
+                                checked={values.branch.CIVIL}
+                                title={"CIVIL"}
+                                onPress={() => { setFieldValue('branch.CIVIL', !values.branch.CIVIL) }}
+                            />
+                            <CheckBox
+                                checked={values.branch.CHEM}
+                                title={"CHEM"}
+                                onPress={() => { setFieldValue('branch.CHEM', !values.branch.CHEM) }}
+                            />
 
-                            {
-                                branchlist.map((item, index) => {
-                                    return (
-                                        <CheckBox
-                                            key={index}
-                                            checked={values.branch.includes(item.id)}
-                                            onPress={() => {
-                                                if (values.branch.includes(item.id)) {
-                                                    setFieldValue('branch', values.branch.filter(branch => branch !== item.id));
-                                                }
-                                                else {
-                                                    setFieldValue('branch', [...values.branch, item.id]);
-                                                }
-                                            }}
-                                            title={item.id}
-                                            containerStyle={{
-                                                width: 100
-                                            }}
-                                        />
-                                    )
-
-                                })
-                            }
 
                         </View>
                         <Input
@@ -296,46 +330,21 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                                         values.rounds.map((round, index: number) => {
                                             return (
                                                 <View key={index} style={{
-                                                    flexDirection: 'row',
+                                                    flexDirection: 'column',
                                                     alignItems: 'center',
                                                     flexWrap: 'wrap',
-                                                    borderColor: 'black',
-                                                    borderWidth: 1
                                                 }}>
                                                     <Text> Round - {index + +1}</Text>
                                                     <Input
-                                                        value={round?.round_name}
-                                                        onChangeText={handleChange(`rounds[${index}.round_name]`)}
-                                                        placeholder='Enter Round Name'
-                                                        label="Round Name"
+                                                        value={round?.round_details}
+                                                        onChangeText={handleChange(`rounds[${index}.round_details]`)}
+                                                        placeholder='Enter Round Details'
+                                                        label="Round Details"
                                                         containerStyle={{
                                                             width: "100%"
                                                         }}
                                                         rightIcon={<Icon name="delete" onPress={arrayHelpers.handleRemove(index)} />}
                                                     />
-                                                    {/* <Input value={round.round_date}
-                                                        label="Round Date"
-                                                        rightIcon={<Icon name='calendar' type='antdesign' onPress={
-                                                            () => {
-                                                                showDatepicker();
-                                                                selectedindex.current = index
-                                                            }
-                                                        } />}
-                                                        containerStyle={{
-                                                            width: "50%"
-                                                        }}
-                                                    />
-                                                    <Input
-                                                        value={round.round_time}
-                                                        label="Round Time"
-                                                        containerStyle={{
-                                                            width: "50%"
-                                                        }}
-                                                        rightIcon={<Icon name='clockcircleo' type='antdesign' onPress={() => {
-                                                            showTimepicker();
-                                                            selectedindex.current = index;
-                                                        }} />}
-                                                    /> */}
                                                 </View>)
                                         })
                                     }
@@ -343,78 +352,121 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                                     <Button onPress={() => {
                                         arrayHelpers.push({
                                             round_name: '',
-                                            round_date: '',
-                                            round_time: ''
                                         })
                                     }}
                                     >Add Round Details</Button>
                                 </View>)
                             }
-
                         </FieldArray>
                         <View style={{
-                            flexDirection: "row",
                         }}>
+
+
                             <Input
-                                value={values.registration_end_time}
-                                label="Registration End Time"
-                                rightIcon={<Icon name='calendar' type='antdesign' onPress={showDatepicker} />}
-                                containerStyle={{
-                                    width: "50%"
-                                }}
+                                value={values.registration_end_date.toLocaleDateString()}
+                                rightIcon={<Icon name='calendar' type='antdesign' onPress={() => {
+                                    setShowDate(true);
+                                }} />}
+                                label={"Registration End Date"}
                             />
 
                             <Input
-                                value={values.registration_end_date}
-                                label="Registration End Date"
-                                rightIcon={<Icon name='clockcircleo' type='antdesign' onPress={showTimepicker} />}
-                                containerStyle={{
-                                    width: "50%"
-                                }}
+                                value={values.registration_end_time.toLocaleTimeString()}
+                                rightIcon={<Icon name='clockcircleo' type='antdesign' onPress={() => {
+                                    setShowTime(true);
+                                }} />}
+                                label={"Registration End Time"}
                             />
                         </View>
+                        {
+                            showDate && <DateTimePicker
+                                value={values.registration_end_date || new Date()}
+                                mode='date' minimumDate={new Date()}
+                                onChange={(_, date) => {
+                                    if (date) {
+                                        setFieldValue('registration_end_date', date);
+                                    }
+                                    setShowDate(false);
+                                }}
 
-                        <DatePicker
+                            />
+                        }
+                        <ScrollView style={{
+                            minHeight: 200,
+                            maxHeight: Dimensions.get('window').height * 0.4,
+                        }}>
+                            <Input
+                                multiline
+                                value={values.job_description}
+                                onChangeText={handleChange('job_description')}
+                                placeholder='Enter Job Description'
+                                label="Job Description"
+                                errorMessage={errors.job_description}
+                                scrollEnabled
+                                inputStyle={{
+                                    minHeight: 150,
+                                    maxHeight: 250,
+                                    textAlignVertical: 'bottom'
+                                }}
+                            />
+                            {/* <Button onPress={() => {
+                                DocumentPicker.getDocumentAsync({
+                                    type: ['application/pdf', 'image/jpeg', 'application/msword'],
+                                    copyToCacheDirectory: true,
+                                }).then((res) => {
+                                    if (res.canceled == false)
+                                        setFile(res.assets[0])
 
-                        />
+                                }).catch((err) => { console.log(err); })
 
+                            }} title={"Uplaod File"}
+                                icon={<Icon name='file1' type='antdesign' />}
+                                iconRight
+                                type='outline'
+                                titleStyle={{
+                                    fontWeight: '800'
+                                }}
+                                containerStyle={{
+                                    margin: 2
+                                }}
+                            /> */}
+                        </ScrollView>
+                        {
+                            showTime && <DateTimePicker
+                                value={values.registration_end_time || new Date()}
+                                mode={'time'}
+                                onChange={(_, date) => {
+                                    if (date) {
+                                        setFieldValue('registration_end_time', date);
+
+                                    }
+                                    setShowTime(false);
+                                }}
+
+                            />
+                        }
 
                         <Button color={'success'}
                             onPress={() => {
                                 handleSubmit();
                             }}
                         >Submit</Button>
+                    </View>
 
-                        {/* {
-                            showDate &&
-                            <DateTimePicker
-                                mode='date'
-                                value={new Date()}
-                                onChange={(e, date) => {
-                                    setShowDate(false);
-                                    setFieldValue(`rounds[${selectedindex.current}.round_date]`, date?.toLocaleDateString())
-                                }}
-                                minimumDate={new Date()}
-                            />
-                        }
-                        {
-                            showTime &&
-                            <DateTimePicker
-                                mode='time'
-                                value={new Date()}
-                                onChange={(e, date) => {
-                                    setShowTime(false); ``
-                                    setFieldValue(`rounds[${selectedindex.current}.round_time]`, date?.toLocaleTimeString().slice(0, 5))
-                                }}
-                            />
-                        } */}
-                    </View>)
-                }
+                    )
+
+                }  
             </Formik>
+
+
         </ScrollView>
     )
 }
 
 export default AddDrive
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    errorMessageStyle: {
+        color: 'red'
+    }
+})

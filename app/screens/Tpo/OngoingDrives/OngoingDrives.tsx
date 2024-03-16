@@ -12,6 +12,27 @@ import { Text } from '@rneui/themed'
 import { Touchable } from 'react-native'
 import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler'
 
+
+interface TPODrivesResponseType {
+    metadata: {
+        totalCount: number,
+        pageCount: number;
+        page: number;
+    },
+    data: Array<{
+        _id: string;
+        company_id: string;
+        company_name: string;
+        job_title: string;
+        job_ctc: string;
+        registered_students: Array<{
+            user_id: string;
+            status: string;
+        }>
+    }>
+}
+
+
 const OngoingDrives = ({ navigation }: DrawerScreenProps<TPODrawerParamList, 'Ongoing Drives'>) => {
 
     const [search, setSearch] = useState<string>('');
@@ -88,7 +109,7 @@ const OngoingDrives = ({ navigation }: DrawerScreenProps<TPODrawerParamList, 'On
                                 {item.job_ctc}
                             </Text>
                             <Text>
-                                {item.registered_students}
+                                { }
                             </Text>
                         </Card></TouchableOpacity>)}
                 estimatedItemSize={20}

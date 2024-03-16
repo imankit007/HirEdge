@@ -25,12 +25,9 @@ const OffersTillNowCard = () => {
 
     return (
         <>
-            {result.isSuccess && < View style={styles.mainContainer}>
-                <BlinkingDot/>
-                <Text style={styles.textHeading}>Offers Till Now: {10}</Text>
-                {/* <Text style={styles.textHeading}>{result.data.total}</Text> */}
-            </View >
-            }
+            <Text style={{
+                fontSize: 20
+            }}>Total Offers: 400</Text>
         </>
     )
 }

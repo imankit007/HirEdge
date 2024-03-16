@@ -1,10 +1,13 @@
 
-import { useAuth } from "./AuthContext";
+
 import axios from "./axios";
 import { getValueFor } from "./useSecureStore";
 
 
 const useRefreshToken = () => {
+
+   
+
     const refresh = async () => {
         try{
         const refresh_token  = await getValueFor('refresh_token');
@@ -19,6 +22,8 @@ const useRefreshToken = () => {
             },
             withCredentials: true
         }); 
+
+        
 
         return {access_token: response.data.access_token, role: response.data.role};
 

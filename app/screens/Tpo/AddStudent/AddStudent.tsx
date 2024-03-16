@@ -1,12 +1,9 @@
 import { KeyboardAvoidingView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import React, { useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
-
-
-
 import { Formik } from 'formik'
 import { Button, Icon, Input, Overlay } from '@rneui/themed'
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
 import SelectDropdown from 'react-native-select-dropdown'
@@ -152,20 +149,20 @@ const AddStudent = () => {
                                 editable={false}
                                 errorMessage={errors.dob}
                             />
-
-                            {show && (
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={date}
-                                    mode='date'
-                                    // is24Hour={true}
-                                    onChange={(event: any, currentDate: moment.MomentInput) => {
-                                        onChange(event, currentDate);
-                                        setFieldValue('dob', moment(currentDate).format("DD-MM-YYYY"));
-                                    }}
-                                    maximumDate={new Date()}
-                                />
-                            )}
+                                    {/*
+                                    {show && (
+                                        <DateTimePicker
+                                            testID="dateTimePicker"
+                                            value={date}
+                                            mode='date'
+                                            // is24Hour={true}
+                                            onChange={(event: any, currentDate: moment.MomentInput) => {
+                                                onChange(event, currentDate);
+                                                setFieldValue('dob', moment(currentDate).format("DD-MM-YYYY"));
+                                            }}
+                                            maximumDate={new Date()}
+                                        />
+                                    )} */}
                             <Text>Gender</Text>
                             <RadioButton.Group onValueChange={(value) => setFieldValue('gender', value)} value={values.gender} >
                                 {errors.gender && <Text style={styles.errorMessage}>{errors.gender}</Text>}

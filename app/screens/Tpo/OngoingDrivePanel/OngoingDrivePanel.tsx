@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, useWindowDimensions } from 'react-native'
 import React from 'react'
 import useAxiosPrivate from '../../../utils/axiosPrivate'
 import { FlashList } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
 
-import { Card } from '@rneui/themed';
+import { Button, Card } from '@rneui/themed';
 
 /*
     Each Drive Card recieves the following data:
@@ -18,13 +18,13 @@ import { Card } from '@rneui/themed';
 */
 
 const OngoingDrivePanel = () => {
+    const { width } = useWindowDimensions();
 
     const api = useAxiosPrivate();
 
-
     const { data, isLoading, isError, isSuccess } = useQuery({
         queryKey: ["TPOOngoingDrive"],
-        queryFn: (): Promise<TPODrivesPanelResponseType> => {
+        queryFn: async (): Promise<TPODrivesPanelResponseType> => {
             return api.get('/tpo/drives', {
                 params: {
                     limit: 5,
@@ -32,30 +32,58 @@ const OngoingDrivePanel = () => {
                     s: ''
                 }
             }).then(res => res.data.drives)
-        }
+        },
+        staleTime: 30 * 60 * 1000
     })
+
+    if (isError)
+        return (<View>
+            <Text>Error....</Text>
+        </View>)
+
+    if (isLoading)
+        return (<View>
+            <Text>Loading.....</Text>
+        </View>)
+
     if (isSuccess)
         return (
-            <View style={{
-                width: "100%",
-                height: "auto"
-            }}>
+            <>
                 <FlashList
-                    data={data?.data}
-                    renderItem={({ item }) => (<Card>
-                        <Card.Title>{item.company_name}</Card.Title>
+                    data={data.data}
+                    renderItem={({ item }) => (
+                        <View style={{
+                            width: width * 0.4,
+                            height: "100%",
+                            margin: 0,
+                            borderColor: 'black',
+                            borderWidth: 1,
+                            borderRadius: 20,
+                            padding: 5
+                        }}>
+                            <Card.Title>
+                                {item.company_name}
+                            </Card.Title>
                         <Card.Divider />
                         <Text>{item.job_title}</Text>
-                        <Text>Package: {item.job_ctc}</Text>
-                        <Text>Registered:{item.registered_students}</Text>
-                        <Text>Current Staus: {item.registration_status}</Text>
-                    </Card>)}
-                    estimatedItemSize={5}
+                            <Text>{item.registered_students}</Text>
+                            <Button title={"Go To Drive"} onPress={() => {
+
+                            }} />
+                        </View>
+                    )}
+                    scrollEnabled
+                    estimatedItemSize={10}
                     horizontal
+                    contentContainerStyle={{
+                        padding: 0,
+                    }}
+                    canCancelContentTouches
+                    style={{
+
+                    }}
                 />
-
-
-            </View>
+            </>
         )
 
     return null;
