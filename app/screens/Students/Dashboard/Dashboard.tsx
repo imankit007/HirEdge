@@ -1,9 +1,22 @@
+<<<<<<< Updated upstream
 import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import OngoingDrivePanel from '../OngoingDrivesPanel/OngoingDrivePanel';
 import OffersTillNowCard from '../../../components/OffersTillNowCard/OffersTillNowCard';
 import PrevYearOfferCard from '../PrevYearOfferCard/PrevYearOfferCard';
+=======
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import useLogout from '../../../utils/useLogout'
+
+import { Button } from '@rneui/base'
+import { ScrollView } from 'react-native-gesture-handler'
+import OngoingDrivePanel from '../OngoingDrivesPanel/OngoingDrivePanel'
+import OffersTillNowCard from '../../../components/OffersTillNowCard/OffersTillNowCard'
+import PrevYearOfferCard from '../PrevYearOfferCard/PrevYearOfferCard'
+import RegisteredDrives from '../RegisteredDrives/RegisteredDrives'
+>>>>>>> Stashed changes
 
 const StudentDashboard = () => {
     return (
@@ -20,6 +33,13 @@ const StudentDashboard = () => {
                 <OffersTillNowCard />
             </View>
             <OngoingDrivePanel />
+<<<<<<< Updated upstream
+=======
+            <RegisteredDrives />
+        </ScrollView>
+    )
+}
+>>>>>>> Stashed changes
 
 
             <View>
