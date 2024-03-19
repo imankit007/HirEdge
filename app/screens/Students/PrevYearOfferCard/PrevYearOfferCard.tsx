@@ -14,7 +14,8 @@ const PrevYearOfferCard = () => {
             total: number;
         }> => (
             api.get('/student/prevyearoffers').then(res => res.data)
-        ), staleTime: Infinity
+        ), staleTime: Infinity,
+        enabled: false
     });
 
     if (result.isLoading)
@@ -26,12 +27,12 @@ const PrevYearOfferCard = () => {
 
     return (
         <>
-            {result.isSuccess && (
+
                 <View style={styles.mainContainer}>
                     <Text style={styles.textHeading}>Offer Received in Previous Year</Text>
-                    <Text style={styles.offerCount}>{result.data.total}</Text>
+                <Text style={styles.offerCount}>{500}</Text>
                 </View>
-            )}
+
         </>
     );
 };

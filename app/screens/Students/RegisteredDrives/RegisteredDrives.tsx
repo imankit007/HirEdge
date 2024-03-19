@@ -6,7 +6,7 @@ import useAxiosPrivate from '../../../utils/axiosPrivate';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FlashList } from '@shopify/flash-list';
 
-import { Text } from '@rneui/themed';
+import { Text, Card, Divider, Icon } from '@rneui/themed';
 
 interface DriveData {
     _id: string;
@@ -14,6 +14,7 @@ interface DriveData {
     company_name: string;
     job_title: string;
     current_status: string;
+    job_ctc: string;
     status: Array<{
         usn: string;
         status: string;
@@ -76,12 +77,33 @@ const RegisteredDrives = () => {
                 <FlashList
                     data={[...data.pages.flatMap((data) => (data.data)), ...data.pages.flatMap((data) => (data.data)), ...data.pages.flatMap((data) => (data.data))]}
                     renderItem={({ item, index }) => (<View style={{
-                        backgroundColor: 'lightgrey',
+                        backgroundColor: 'white',
                         height: height * 0.2,
                         borderRadius: 20,
-                        padding: 7
+                        padding: 7,
+                        marginHorizontal: 10,
+                        flexDirection: 'row',
                     }}>
-                        <Text h4>{item.company_name}</Text>
+                        <View style={{
+                            flex: 3,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                            <Icon name="roman-numeral-1" type="material-community" style={{
+                            }} size={100} />
+                        </View>
+                        <View style={{
+                            flex: 7,
+
+                        }}>
+                            <Text h4 style={{ textAlign: 'center' }}>{item.company_name}</Text>
+                            <Divider />
+                            <Text > Job Role: {item.job_title}</Text>
+                            <Text> CTC : {item.job_ctc}</Text>
+                            <Text>Status: {item.status[0].status}</Text>
+                        </View>
 
                     </View>)}
                     estimatedItemSize={5}
@@ -90,7 +112,6 @@ const RegisteredDrives = () => {
                 />
             </View>
         )
-
     return null
 }
 

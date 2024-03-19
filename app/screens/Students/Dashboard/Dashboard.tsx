@@ -1,12 +1,4 @@
-<<<<<<< Updated upstream
-import { StyleSheet, Text, View, Image } from 'react-native';
-import React from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
-import OngoingDrivePanel from '../OngoingDrivesPanel/OngoingDrivePanel';
-import OffersTillNowCard from '../../../components/OffersTillNowCard/OffersTillNowCard';
-import PrevYearOfferCard from '../PrevYearOfferCard/PrevYearOfferCard';
-=======
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import useLogout from '../../../utils/useLogout'
 
@@ -16,7 +8,6 @@ import OngoingDrivePanel from '../OngoingDrivesPanel/OngoingDrivePanel'
 import OffersTillNowCard from '../../../components/OffersTillNowCard/OffersTillNowCard'
 import PrevYearOfferCard from '../PrevYearOfferCard/PrevYearOfferCard'
 import RegisteredDrives from '../RegisteredDrives/RegisteredDrives'
->>>>>>> Stashed changes
 
 const StudentDashboard = () => {
     return (
@@ -26,25 +17,17 @@ const StudentDashboard = () => {
                     style={styles.avatar}
                     source={require('../../../../assets/avatars/graduated.png')} // Replace with your image source
                 />
-                <Text style={styles.headerText}>Welcome to Student Dashboard</Text>
-               
+                <Text style={styles.headerText}>Welcome to Student Dashboard</Text>      
             </View>
             <View style={styles.cardContainer}>
                 <OffersTillNowCard />
             </View>
-            <OngoingDrivePanel />
-<<<<<<< Updated upstream
-=======
-            <RegisteredDrives />
-        </ScrollView>
-    )
-}
->>>>>>> Stashed changes
-
 
             <View>
                 <PrevYearOfferCard />
             </View>
+            <OngoingDrivePanel />
+            <RegisteredDrives />
         </ScrollView>
 
 
@@ -61,7 +44,7 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: '#94DFE6', // Header background color
         padding: 20,
-        marginBottom: 20,
+        marginBottom: 0,
         flexDirection: 'row', // Align items horizontally
         justifyContent: 'center', // Center content horizontally
     },
