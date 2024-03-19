@@ -33,4 +33,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+
+app/utils/axios.ts
+app/utils/axios.ts
 app/utils/axios.ts
