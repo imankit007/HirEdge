@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { StyleSheet, Text, View, useWindowDimensions, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import useLogout from '../../../utils/useLogout';
 import { Button } from '@rneui/base';
-import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
+import { RefreshControl } from 'react-native-gesture-handler';
 import OffersTillNowCard from '../../../components/OffersTillNowCard/OffersTillNowCard';
 import { Card } from '@rneui/themed';
 import OngoingDrivePanel from '../OngoingDrivePanel/OngoingDrivePanel';
@@ -13,13 +13,13 @@ const TPODashboard = ({ route, navigation }: DrawerScreenProps<TPODrawerParamLis
 
     const { height, width } = useWindowDimensions();
 
-
     const [refresh, setRefresh] = useState<boolean>(false);
 
     const queryClient = useQueryClient();
 
     return (
-        <ScrollView
+        <ScrollView 
+            style={styles.container} // Apply style to set background color
             refreshControl={<RefreshControl
                 refreshing={queryClient.getQueryState(['TPOOngoingDrive'])?.status == 'pending'}
                 onRefresh={() => {
@@ -37,19 +37,18 @@ const TPODashboard = ({ route, navigation }: DrawerScreenProps<TPODrawerParamLis
                 <OffersTillNowCard />
             </View>
 
-
             <View style={{
                 width: width,
                 height: height * 0.2,
-                backgroundColor: 'lightblue',
+                backgroundColor: '#94DFE6',
                 padding: 0
             }}>
                 <OngoingDrivePanel />
             </View>
-            <Card>
+
+            {/* <Card >
                 <Card.Title>Manage Students</Card.Title>
                 <Card.Divider />
-
                 <Button
                     onPress={() => {
                         navigation.navigate('Add Student')
@@ -57,11 +56,22 @@ const TPODashboard = ({ route, navigation }: DrawerScreenProps<TPODrawerParamLis
                 >
                     Add Student
                 </Button>
-            </Card>
-            <Card>
-                <Card.Title>
-                    Manage Drives
-                </Card.Title>
+            </Card> */}
+
+            <View style={styles.manageStudentCard}>
+                <Text style={styles.cardTitle}> Students :</Text>
+                <Card.Divider />
+                <Button
+                    onPress={() => {
+                        navigation.navigate('Add Student')
+                    }}
+                >
+                    Add Student
+                </Button>
+            </View>
+            
+            <View style={styles.manageStudentCard}>
+                <Text style={styles.cardTitle}> Drives :</Text>
                 <Card.Divider />
                 <Button onPress={() => {
                     navigation.navigate('Add Drive')
@@ -69,15 +79,48 @@ const TPODashboard = ({ route, navigation }: DrawerScreenProps<TPODrawerParamLis
                     Add Drive
                 </Button>
                 <Card.Divider />
-                <Button>
+                </View>
+
+                <View style={styles.manageStudentCard}>
+                <Text style={styles.cardTitle}>View : </Text>
+                <Card.Divider />
+                <Button
+                    // onPress={() => {
+                    //     navigation.navigate('Drive');
+                    // }}
+                >
                     View Drives
                 </Button>
-            </Card>
-
+            </View>
+        
+           
         </ScrollView>
     )
 }
 
 export default TPODashboard;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#94DFE6',
+    },
+    manageStudentCard: {
+        backgroundColor: '#fff',
+        padding: 10,
+        marginVertical: 10,
+        borderRadius: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    cardTitle: {
+        padding:10,
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: '#107387',
+    },
+});
