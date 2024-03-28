@@ -1,6 +1,5 @@
 import { StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import React from 'react'
-import { Formik } from 'formik'
 import { Button, Input } from '@rneui/themed'
 import useAxiosPrivate from '../../../utils/axiosPrivate'
 import * as Yup from 'yup';

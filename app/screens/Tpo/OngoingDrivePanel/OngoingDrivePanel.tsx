@@ -5,11 +5,15 @@ import { FlashList } from '@shopify/flash-list';
 import { useQuery } from '@tanstack/react-query';
 
 import { Button, Card } from '@rneui/themed';
+import { DrawerScreenProps } from '@react-navigation/drawer';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 const OngoingDrivePanel = () => {
     const { width } = useWindowDimensions();
 
     const api = useAxiosPrivate();
+
+    const navigation = useNavigation<NavigationProp<TPODrawerParamList>>();
 
     const { data, isLoading, isError, isSuccess } = useQuery({
         queryKey: ["TPOOngoingDrive"],
@@ -41,15 +45,15 @@ const OngoingDrivePanel = () => {
                 data={data.data}
                 renderItem={({ item }) => (
                     <View style={{
-                        marginVertical:20,
+                        marginVertical: 0,
                         width: width * 0.4,
-                        height: "90%",
-                        margin: 5,
+                        height: "100%",
                         borderColor: 'black',
                         borderWidth: 1,
                         borderRadius:20,
                         padding: 10,
                         backgroundColor:'#ffffff',
+                        marginBottom: 30
                     }}>
                         <Card.Title style ={styles.cardTitle}>
                             {item.company_name}
@@ -57,7 +61,7 @@ const OngoingDrivePanel = () => {
                         <Card.Divider />
                         <Text style={styles.jobTitle}>{item.job_title}</Text>
                         <Button style={{borderRadius:10 }} title={"Go To Drive"} onPress={() => {
-                                
+                            navigation.navigate('Drive', { drive_id: item._id }) 
                         }} />
                     </View>
                 )}
@@ -66,12 +70,26 @@ const OngoingDrivePanel = () => {
                 horizontal
                 contentContainerStyle={{
                     padding: 0,
-                    paddingBottom: 0, // Remove bottom spacing
+                    paddingBottom: 0, 
                 }}
                 canCancelContentTouches
                 style={{
 
                 }}
+                ListFooterComponent={() => (<View style={{
+                    marginVertical: 0,
+                    width: width * 0.4,
+                    height: "100%",
+                    margin: 5,
+                    borderColor: 'black',
+                    borderWidth: 1,
+                    borderRadius: 20,
+                    padding: 10,
+                    backgroundColor: '#ffffff',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}><Text>{"Show More"}</Text></View>)}
+
             />
         )
 

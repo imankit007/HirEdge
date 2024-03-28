@@ -1,7 +1,6 @@
 import { StyleSheet, TouchableOpacity, View, Dimensions, TextInput } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
-import { FieldArray, Formik } from 'formik'
 import { Button, CheckBox, Icon, Input, Text } from '@rneui/themed'
 import * as Yup from 'yup';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
@@ -18,6 +17,7 @@ import * as DocumentPicker from 'expo-document-picker'
 interface AddDriveValues {
     company_id: string,
     company_name: string;
+    tier: number | null;
     job_title: string,
     job_description: string,
     job_ctc: string,
@@ -72,6 +72,7 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
     const initialValues: AddDriveValues = {
         company_id: "",
         company_name: "",
+        tier: 3,
         job_title: "",
         job_description: "",
         job_ctc: "",
@@ -230,10 +231,49 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                                 backgroundColor: 'white'
                             }}
                         />
+                        <Text>Tier</Text>
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-evenly',
+                                borderWidth: 1,
+                                borderColor: 'gray',
+                                marginHorizontal: 5
+                            }}>
+                            <CheckBox
+                                checked={values.tier === 1}
+                                onPress={() => { setFieldValue('tier', 1) }}
+                                title={"Tier - I"}
+                            />
+                            <CheckBox
+                                checked={values.tier === 2}
+                                onPress={() => { setFieldValue('tier', 2) }}
+                                title={"Tier - II"}
+                            />
+                            <CheckBox
+                                checked={values.tier === 3}
+                                onPress={() => { setFieldValue('tier', 3) }}
+                                title={"Tier - III"}
+                            />
+                            <CheckBox
+                                checked={values.tier === 0}
+                                onPress={() => { setFieldValue('tier', 0) }}
+                                title={"Dream"}
+                            />
+
+                        </View>
+
+                        <Text>Branch</Text>
+
                         <View style={{
+                            marginVertical: 5,
                             flexWrap: 'wrap',
                             flexDirection: 'row',
-                        }}>
+                            borderWidth: 1,
+                            borderColor: 'gray',
+                            marginHorizontal: 5
+                        }}> 
+
                             <CheckBox
                                 checked={values.branch.CSE}
                                 title={"CSE"}
@@ -409,27 +449,7 @@ const AddDrive = ({ route }: DrawerScreenProps<TPODrawerParamList, "Add Drive">)
                                     textAlignVertical: 'bottom'
                                 }}
                             />
-                            {/* <Button onPress={() => {
-                                DocumentPicker.getDocumentAsync({
-                                    type: ['application/pdf', 'image/jpeg', 'application/msword'],
-                                    copyToCacheDirectory: true,
-                                }).then((res) => {
-                                    if (res.canceled == false)
-                                        setFile(res.assets[0])
 
-                                }).catch((err) => { console.log(err); })
-
-                            }} title={"Uplaod File"}
-                                icon={<Icon name='file1' type='antdesign' />}
-                                iconRight
-                                type='outline'
-                                titleStyle={{
-                                    fontWeight: '800'
-                                }}
-                                containerStyle={{
-                                    margin: 2
-                                }}
-                            /> */}
                         </ScrollView>
                         {
                             showTime && <DateTimePicker

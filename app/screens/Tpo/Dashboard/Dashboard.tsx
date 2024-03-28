@@ -41,7 +41,7 @@ const TPODashboard = ({ route, navigation }: DrawerScreenProps<TPODrawerParamLis
                 width: width,
                 height: height * 0.2,
                 backgroundColor: '#94DFE6',
-                padding: 0
+                paddingHorizontal: 5
             }}>
                 <OngoingDrivePanel />
             </View>

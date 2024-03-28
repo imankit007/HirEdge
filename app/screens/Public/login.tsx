@@ -1,48 +1,59 @@
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, ScrollView, TouchableOpacity, Image } from "react-native";
-import api from '../../utils/axios';
+import { Text, StyleSheet, Image, View } from "react-native";
 import Header from "../../components/header/header";
-import Footer from "../../components/footer/footer";
-
-import { Formik } from "formik";
-import * as Yup from 'yup';
-
-import { save } from '../../utils/useSecureStore';
 import { useAuth } from "../../utils/AuthContext";
-import { CheckBox } from "@rneui/base";
 import { StackScreenProps } from "@react-navigation/stack";
-import { Button } from "@rneui/themed";
 import { SegmentedButtons } from "react-native-paper";
 import { useState } from "react";
 
+import { Controller, useForm } from "react-hook-form";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import React from "react";
 
-const SignInSchema = Yup.object().shape({
-    user_id: Yup.string().required("Required").trim(),
-    role: Yup.string().required("Required"),
-    password: Yup.string().required("Required").trim(),
-})
-
-
+import { LoginFormValues } from "../../utils/FormTypes/types";
+import { Input, Button } from "@rneui/themed";
+import Footer from "../../components/footer/footer";
+import api from '../../utils/axios'
+import { save } from '../../utils/useSecureStore';
 
 
 const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) => {
 
-    const { setAuthState } = useAuth();
-
     const [role, setRole] = useState<string>('');
+    const { setAuthState } = useAuth();
+    const { handleSubmit, control } = useForm<LoginFormValues>();
+    const validation = {
+        user_id: {
+            required: true,
+            minLength: 10,
+        },
+        password: {
+            required: true
+        }
+    };
 
+    const onSubmit = async (data: LoginFormValues) => {
+        await api.post('/login', data).then((res) => {
+            if (res.status == 200) {
+                save('refresh_token', `${res.data?.refresh_token}`);
+                setAuthState({ access_token: res.data?.access_token, role: res.data?.role })
+            }
+        }).catch((error) => {
+            console.log(error);
+            if (error.response) {
+                if (error.response.status == 401) {
+                }
+            }
+        })
+    }
+
+    const UserIdRef = React.createRef<any>();
+    const PasswordRef = React.createRef<any>();
     return (
-        <View style={{
-            flex: 1,
-        }}>
+        <KeyboardAwareScrollView enableOnAndroid enableAutomaticScroll contentContainerStyle={{
+        }} >
             <Header />
-            <View style={{
-                flex: 1
-            }}>
-
-                <ScrollView>
-                    <KeyboardAvoidingView enabled>
-                        <Text style={styles.login_head}>Opening The Doors To Success</Text>
-                            <Image
+            <Text style={styles.login_head}>Opening The Doors To Success</Text>
+            <Image
                                 source={require('../../../assets/images/success-removebg-preview.png')}
                                 style={{
                                     paddingTop: 10,
@@ -51,36 +62,16 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) =>
                                     height: 200,
                                     alignSelf: 'center',
                                 }}
-                            />
-
-
-                            <Formik initialValues={{
-                                role: '',
-                                user_id: '',
-                            password: '',
-                        }} 
-                            onSubmit={async (values, actions) => {
-                                await api.post('/login', values).then((res) => {
-                                    if (res.status == 200) {
-                                        save('refresh_token', `${res.data?.refresh_token}`);
-                                        setAuthState({ access_token: res.data?.access_token, role: res.data?.role })
-                                    }
-                                }).catch((error) => {
-                                    console.log(error);
-                                    if (error.response) {
-                                        if (error.response.status == 401) {
-                                        }
-                                    }
-                                })
-                            }}
-                            >
-                            {({ values, setFieldValue, handleChange, touched, errors, handleSubmit }) => (<View
-                                style={{
-                                    flex: 1
-                                }}>
+            />
+            <Controller
+                name="role"
+                control={control}
+                rules={{ required: true }}
+                defaultValue={'student'}
+                render={({ field, fieldState: { error } }) => (
+                    <>
                                 <SegmentedButtons
-                                    value={values.role}
-
+                            value={field.value}
                                     buttons={[
                                         {
                                             value: 'student',
@@ -97,53 +88,62 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) =>
                                         }
                                     ]}
                                     onValueChange={(value) => {
-                                        setFieldValue('role', value)
-                                        setRole(value);
+                                        field.onChange(value)
                                     }}
                                 />
+                        {error?.type == 'required' && <Text style={{
+                            color: 'red',
+                            textAlign: 'center'
+                        }}>{"Select User Type"}</Text>}
+                    </>
+                )
+                }>
+            </Controller>
 
-                                <TextInput
-                                        placeholder="Enter User ID"
-                                        style={{
-                                            // borderBottomColor: 'black',
-                                            // borderBottomWidth: 1,
-                                            height: 40,
-                                            padding: 10,
-                                            borderRadius: 10,
-                                            marginBottom: 10,
-                                            marginTop: 10,
-                                            width: '95%',
-                                            alignSelf: 'center',
-                                            fontSize: 18,
-                                            backgroundColor: '#D9D9D9'
-                                        }}
-                                        value={values.user_id}
-                                        onChangeText={handleChange('user_id')}
-                                />
-                                {(touched.user_id && errors.user_id) && <Text style={styles.errorMsg}> {errors.user_id}</Text>}
-                                    <TextInput
-                                        placeholder="Enter Password"
-                                            style={{
-                                            height: 40,
-                                            padding: 10,
-                                            borderRadius: 10,
-                                            marginBottom: 10,
-                                            width: '95%',
-                                            alignSelf: 'center',
-                                            fontSize: 18,
-                                            backgroundColor: '#D9D9D9',
-                                            marginTop: 10
-                                        }}
-                                        value={values.password}
-                                        onChangeText={handleChange('password')}
-                                            secureTextEntry
-                                    />
-                                    {
-                                        (touched.password && errors.password) && <Text style={styles.errorMsg}> {errors.password}</Text>
-                                }
-                                <Button
-                                    onPress={handleSubmit as any}
+            <Controller
+                name="user_id"
+                control={control}
+                rules={{
+                    required: true
+                }}
+                render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => (<Input
+                    label="User ID"
+                    ref={UserIdRef}
+                    placeholder="Enter UserID"
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    onSubmitEditing={() => {
+                        PasswordRef.current.focus();
+                    }}
+                    errorMessage={error?.type === 'required' ? "User ID is Required" : undefined}
+                />)}
+            />
 
+            <Controller
+                name="password"
+                control={control}
+                rules={
+                    {
+                        required: true,
+                    }
+                }
+                render={({ field: { onChange, value, onBlur }, fieldState: { error } }) => (<Input
+                    label="Password"
+                    ref={PasswordRef}
+                    placeholder="Enter Password"
+                    onBlur={onBlur}
+                    value={value}
+                    onChangeText={onChange}
+                    onSubmitEditing={() => {
+                        PasswordRef.current.blur();
+                    }}
+                    errorMessage={error?.type === 'required' ? "Password is Required" : undefined}
+                    secureTextEntry={true}
+                />)}
+            />
+            <Button
+                onPress={handleSubmit(onSubmit)}
                                     type="solid"
                                     color={"primary"}
                                     titleStyle={{
@@ -158,18 +158,7 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) =>
                                     }}
                                 >
                                     Log In
-                                </Button>
-                            </View>
-                            )}
-                        </Formik>
-
-                        <View style={{
-                            flex: 1
-                        }}></View>
-
-                    </KeyboardAvoidingView>
-                </ScrollView>
-            </View>
+            </Button> 
             <Button
                                 type="solid"
                                 style={{
@@ -177,6 +166,7 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) =>
 
                 }}
                 containerStyle={{
+                    marginVertical: 10
                                 }}
                                 color={"warning"}
                                 buttonStyle={{
@@ -195,7 +185,7 @@ const Login = ({ navigation }: StackScreenProps<RootStackParamList, 'Login'>) =>
                                 }}>Go Back</Text>
             </Button>
             <Footer />
-        </View>
+        </KeyboardAwareScrollView >
     )
 }
 

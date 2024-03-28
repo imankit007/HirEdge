@@ -1,9 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
+
+
 
 const Footer = () => {
+  const { height, width } = useWindowDimensions();
   return (
-    <View style={styles.footer}>
+    <View style={[styles.footer, {
+      marginTop: 140,
+    }]}>
       <Text style={styles.text}>Copyright @SDMCET</Text> 
     </View>
   );
@@ -15,8 +20,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     height: 40,
     justifyContent: 'center',
+
     position: 'relative',
-    bottom: 0
   },
   text: {
     textAlign: 'center',

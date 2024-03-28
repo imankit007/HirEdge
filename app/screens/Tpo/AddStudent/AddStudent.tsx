@@ -1,17 +1,17 @@
 import { KeyboardAvoidingView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import React, { useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
-import { Formik } from 'formik'
+
 import { Button, Icon, Input, Overlay } from '@rneui/themed'
-// import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
 import SelectDropdown from 'react-native-select-dropdown'
 import { RadioButton } from 'react-native-paper'
-import { Phone, Radio } from 'react-native-feather'
 import useAxiosPrivate from '../../../utils/axiosPrivate'
 
 import * as Yup from 'yup';
+import { useForm, Controller } from 'react-hook-form';
 
 const valdationSchema = Yup.object({
     usn: Yup.string().required("USN is required").matches(/2[sS][dD][0-9]{2}[A-Z,a-z]{2}[0-9]{3}/, "Invalid USN"),
@@ -49,19 +49,19 @@ interface StudentForm {
 
 
 const AddStudent = () => {
+    const api = useAxiosPrivate();
+    const { control, handleSubmit, setValue, } = useForm<StudentForm>({
 
-    const [date, setDate] = useState(new Date(1598051730000));
+    })
     const [show, setShow] = useState(false);
-    const onChange = (event: any, selectedDate: any) => {
-        const currentDate = selectedDate;
-        setShow(false);
-        setDate(currentDate);
 
-    };
     const showDatepicker = () => {
         setShow(true);
     };
-    const api = useAxiosPrivate();
+
+    const onSubmit = (data: StudentForm) => {
+        console.log(data);
+    }
 
     const initialValues: StudentForm = {
         usn: '',
@@ -85,153 +85,221 @@ const AddStudent = () => {
         }}>
             <ScrollView >
                 <KeyboardAvoidingView >
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={valdationSchema}
-                onSubmit={(values, helpers) => {
-                    api.post('/tpo/students', values).then(res => {
-                        if (res.status == 200) {
-                            ToastAndroid.show("Student Added Successfully", ToastAndroid.SHORT);
-                            helpers.resetForm();
-                        } else {
-                            ToastAndroid.show("Something went wrong!!", ToastAndroid.SHORT);
-                        }
-                    }).catch(err => {
-                        console.log(err);
-                    })
-                }}
 
-            >
-                {
-                            ({ values, errors, handleChange, handleSubmit, setFieldValue, isValid }) => (
                         <View>
-
-                            <Input
-                                value={values.usn}
-                                placeholder='Enter USN'
-                                onChangeText={handleChange('usn')}
-                                label="USN"
-                                errorMessage={errors.usn}
-                                maxLength={25}
+                        <Controller
+                            name='usn'
+                            control={control}
+                            rules={{
+                                // required: true,
+                            }}
+                            render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                <Input
+                                    value={value}
+                                    placeholder='Enter USN'
+                                    onChangeText={onChange}
+                                    label="USN"
+                                    // errorMessage={ }
+                                    maxLength={25}
+                                />)}
                             />
 
-                            <Input
-                                value={values.first_name}
+                        <Controller
+                            name='first_name'
+                            control={control}
+                            rules={{
+                                // required: true
+                            }}
+                            render={({ field: { value, onChange }, fieldState: { error } }) => (<Input
+                                value={value}
                                 placeholder='Enter First Name'
-                                onChangeText={handleChange('first_name')}
+                                onChangeText={onChange}
                                 label="First Name"
-                                errorMessage={errors.first_name}
                                 maxLength={25}
+                            />)}
+
+                        />
+
+                        <Controller
+                            name='middle_name'
+                            control={control}
+                            rules={{
+                                // required: true,
+                            }}
+                            render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                <Input
+                                    value={value}
+                                    placeholder='Enter Middle Name'
+                                    label="Middle Name"
+                                    onChangeText={onChange}
+                                    // errorMessage={errors.middle_name}
+                                maxLength={25}
+                                />)}
                             />
 
-                            <Input
-                                value={values.middle_name}
-                                placeholder='Enter Middle Name'
-                                label="Middle Name"
-                                onChangeText={handleChange('middle_name')}
-                                errorMessage={errors.middle_name}
-                                maxLength={25}
-                            />
-                            <Input
-                                value={values.last_name}
+
+                        <Controller
+                            name='last_name'
+                            control={control}
+                            rules={{
+                                // required: true,
+                            }}
+                            render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                <Input
+                                    value={value}
                                 placeholder='Enter Last Name'
-                                onChangeText={handleChange('last_name')}
+                                    onChangeText={onChange}
                                 label="Last Name"
-                                errorMessage={errors.last_name}
+                                    // errorMessage={errors.last_name}
                                 maxLength={25}
                             />
+                            )}
+                        />
 
-                            <Input value={values.dob}
+                        <Controller
+                            name='dob'
+                            control={control}
+                            rules={{
+                                // required: true
+                            }}
+                            render={({ field: { value, onChange }, fieldState: { error } }) => (
+                                <Input value={value}
                                 placeholder='Enter Date of Birth'
                                 label='Date of Birth'
                                 style={{ flexGrow: 1 }}
                                 rightIcon={<Icon onPress={showDatepicker} name={'calendar'} type='antdesign' size={36} />}
                                 editable={false}
-                                errorMessage={errors.dob}
+                                    // errorMessage={errors.dob}
                             />
-                                    {/*
+                            )}
+                        />
                                     {show && (
                                         <DateTimePicker
                                             testID="dateTimePicker"
-                                            value={date}
+                                value={new Date()}
                                             mode='date'
                                             // is24Hour={true}
                                             onChange={(event: any, currentDate: moment.MomentInput) => {
-                                                onChange(event, currentDate);
-                                                setFieldValue('dob', moment(currentDate).format("DD-MM-YYYY"));
+                                                setValue('dob', moment(currentDate).format("DD-MM-YYYY"));
                                             }}
                                             maximumDate={new Date()}
                                         />
-                                    )} */}
+                        )}
                             <Text>Gender</Text>
-                            <RadioButton.Group onValueChange={(value) => setFieldValue('gender', value)} value={values.gender} >
-                                {errors.gender && <Text style={styles.errorMessage}>{errors.gender}</Text>}
+                        <Controller
+                            name='gender'
+                            control={control}
+                            rules={{
+                                // required: true
+                            }}
+                            render={({ field: { onChange, value }, fieldState: { error } }) => (<RadioButton.Group onValueChange={onChange} value={value} >
+                                {error && <Text style={styles.errorMessage}>{error.message}</Text>}
                                 <RadioButton.Item value='male' label='Male' />
                                 <RadioButton.Item value='female' label='Female' />
-                            </RadioButton.Group>
+                            </RadioButton.Group>)}
+                        />
 
-                            <Input
-                                value={values.email}
+                        <Controller
+                            name='email'
+                            control={control}
+                            rules={{
+                                // required: true
+                            }}
+                            render={({ field: { onChange, value }, fieldState: { error } }) => (<Input
+                                value={value}
                                 placeholder='Enter Email'
-                                onChangeText={handleChange('email')}
+                                onChangeText={onChange}
                                 label="Email"
                                 inputMode='email'
                                 textContentType='emailAddress'
-                                errorMessage={errors.email}
-                            />
-                            <Input
-                                value={values.mobile}
+                            // errorMessage={errors.email}
+                            />)}
+                        />
+
+                        <Controller
+                            name='mobile'
+                            control={control}
+                            rules={{
+                                // required: true
+                            }}
+                            render={({ field: { onChange, value }, fieldState: { error } }) => (<Input
+                                value={value}
                                 placeholder='Enter Mobile Number'
-                                onChangeText={handleChange('mobile')}
+                                onChangeText={onChange}
                                 label="Mobile Number"
                                 keyboardType='phone-pad'
                                 inputMode='tel'
-                                errorMessage={errors.mobile}
-                            />
+                            // errorMessage={errors.mobile}
+                            />)}
+                        />
+
+
                             <Text>Branch</Text>
-                            <SelectDropdown
+
+                        <Controller
+                            name='branch'
+                            control={control}
+                            render={({ field: { value, onChange }, fieldState: { error } }) => (<SelectDropdown
                                 data={["CSE", "ISE", "ECE", "EEE"]}
-                                onSelect={(selection, index) => {
-                                    setFieldValue('branch', selection)
-                                }}
+                                onSelect={onChange}
                                 defaultButtonText='Select Branch'
+                            />)}
                             />
-                            {errors.branch && <Text style={styles.errorMessage}>{errors.branch}</Text>}
-                            <Input
+
+                        {/* {errors.branch && <Text style={styles.errorMessage}>{errors.branch}</Text>} */}
+
+                        <Controller
+                            name='tenth_percentage'
+                            control={control}
+                            defaultValue='10'
+                            render={({ field: { value, onChange }, fieldState: { error } }) => (<Input
                                 label="Tenth Percentage"
                                 placeholder='Enter 10th Percentages'
-                                value={`${values.tenth_percentage}`}
-                                onChangeText={handleChange('tenth_percentage')}
+                                value={`${value}`}
+                                onChangeText={onChange}
                                 inputMode='decimal'
                                 keyboardType='decimal-pad'
-                                errorMessage={errors.tenth_percentage}
-                            />
-                            <Input
+                            // errorMessage={errors.tenth_percentage}
+                            />)}
+                        />
+
+
+
+                        <Controller
+                            name='twelfth_percentage'
+                            control={control}
+                            defaultValue='10'
+                            render={({ field: { value, onChange }, fieldState: { error } }) => (
+                                <Input
                                 label="Twelfth Percentage"
                                 placeholder='Enter 12th Percentages'
-                                value={`${values.twelfth_percentage}`}
-                                onChangeText={handleChange('twelfth_percentage')}
+                                    value={`${value}`}
+                                    onChangeText={onChange}
                                 inputMode='decimal'
                                 keyboardType='decimal-pad'
-                                errorMessage={errors.twelfth_percentage}
-                            />
+                                // errorMessage={errors.twelfth_percentage}
+                                />
+                            )}
+                        />
 
-                            <Input
+                        <Controller
+                            name='ug_cgpa'
+                            control={control}
+                            defaultValue='10'
+                            render={({ field: { value, onChange }, fieldState: { error } }) => (
+                                <Input
                                 label="UG CGPA"
                                 placeholder='Enter UG CGPA'
-                                value={`${values.ug_cgpa}`}
-                                onChangeText={handleChange('ug_cgpa')}
+                                    value={`${value}`}
+                                    onChangeText={onChange}
                                 inputMode='decimal'
                                 keyboardType='decimal-pad'
-                                errorMessage={errors.ug_cgpa}
-                            />
-
-                            <Button onPress={() => { handleSubmit() }} disabled={!isValid}>Submit</Button>
-                        </View>
-                    )
-                }
-            </Formik>
-
+                                // errorMessage={errors.ug_cgpa}
+                                />
+                            )}
+                        />
+                        <Button onPress={handleSubmit(onSubmit)} >Submit</Button>
+                    </View>
                 </KeyboardAvoidingView>
         </ScrollView>
         </View>

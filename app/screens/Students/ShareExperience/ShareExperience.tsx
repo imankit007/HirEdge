@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, ScrollView, ToastAndroid } from 'react-native';
-import { Formik, FieldArray } from 'formik';
+
 import useAxiosPrivate from '../../../utils/axiosPrivate';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { Button, Input, Text, Slider, Icon } from '@rneui/themed';
@@ -29,33 +29,18 @@ const ShareExperience = ({ navigation, route }: DrawerScreenProps<StudentDrawerP
             <Text style={styles.title} h4>Share your Experience</Text>
             <Text h4>Company Name: {route.params.company_name}</Text>
             <View style={styles.formContainer}>
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={(values, formikHelpers) => {
-                        api.post(`/common/company/${company_id}/experiences`, values).then((res) => {
-                            if (res.status == 200) {
-                                formikHelpers.resetForm();
-                                ToastAndroid.show('Interview Experience Posted', ToastAndroid.SHORT);
-                                navigation.goBack();
-                            }
-                        }).catch((err) => {
-                            ToastAndroid.show(err.message, ToastAndroid.SHORT);
-                            console.log(err);
-                        })
-                    }}
-                >
-                    {({ values, handleSubmit, handleChange, setFieldValue, handleReset }) => (
+
                         <ScrollView>
                             <Input
                                 label="Experience"
                                 placeholder='Write your experience here...'
-                                value={values.experience}
-                                onChangeText={handleChange('experience')}
+                        value={""}
+                        onChangeText={() => { }}
                                 multiline
                                 inputStyle={styles.inputStyle}
                                 inputContainerStyle={styles.inputContainerStyle}
                             />
-                            <FieldArray name='important_topics'>
+                    {/* <FieldArray name='important_topics'>
                                 {({ handleRemove, push, }) => (
                                     <View>
                                         <View style={styles.topicContainer}>
@@ -88,7 +73,7 @@ const ShareExperience = ({ navigation, route }: DrawerScreenProps<StudentDrawerP
                                         />
                                     </View>
                                 )}
-                            </FieldArray>
+                            </FieldArray> */}
                             <View style={styles.sliderContainer}>
                                 <Text style={styles.sliderLabel}>Difficulty Level</Text>
                                 <Slider
@@ -96,8 +81,8 @@ const ShareExperience = ({ navigation, route }: DrawerScreenProps<StudentDrawerP
                                     minimumTrackTintColor='green'
                                     maximumValue={5}
                                     maximumTrackTintColor='red'
-                                    value={values.difficulty}
-                                    onSlidingComplete={(value) => setFieldValue('difficulty', value)}
+                            value={1}
+                            onSlidingComplete={() => { }}
                                     step={1}
                                     thumbTintColor='#40A2E3'
                                 />
@@ -107,10 +92,9 @@ const ShareExperience = ({ navigation, route }: DrawerScreenProps<StudentDrawerP
                                     <Text>Very Difficult</Text>
                                 </View>
                             </View>
-                            <Button onPress={handleSubmit} style={styles.submitButton}>Submit</Button>
+                    <Button onPress={() => { }} style={styles.submitButton}>Submit</Button>
                         </ScrollView>
-                    )}
-                </Formik>
+
             </View>
         </View>
     );

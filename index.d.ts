@@ -14,25 +14,7 @@ type RoundType = {
 
 
 
-type TPODriveResponseType = {
-    _id: string;
-    company_id: string;
-    job_title: string;
-    tenth_cutoff: number;
-    twelfth_cutoff: number;
-    ug_cutoff?: any;
-    job_location: string[];
-    job_ctc: string;
-    branch: string[];
-    rounds: Round[];
-    job_description: string;
-    company_details: CompanyDetails;  
-    students: Array<{
-      usn: string;
-      status: string;
-    }>
-    current_status: string;
-  }
+
 
 type  CompanyDetails = {
     _id: string;
@@ -106,7 +88,7 @@ type ManageDriveDataType = {
     tenth_cutoff: number
     twelfth_cutoff: number
     ug_cutoff: any
-    job_location: string[]
+    job_locations: string[]
     job_ctc: string
     branch: string[]
     rounds: RoundType[]
@@ -156,6 +138,10 @@ type TPODrawerParamList = {
   Drive: {
     drive_id: string;
   };
+  "Post Update": {
+    drive_id: string;
+    company_name: string;
+  }
 
 };
 
@@ -218,4 +204,33 @@ type ExperiencesResponseType = {
     page: number;
   },
   data: Array<ExperienceType>
+}
+
+type DriveData = {
+  _id: string;
+  company_id: string;
+  job_title: string;
+  tenth_cutoff: number;
+  twelfth_cutoff: number;
+  ug_cutoff?: any;
+  job_location: string[];
+  job_ctc: string;
+  branch: string[];
+  rounds: Round[];
+  job_description: string;
+  company_details: CompanyDetails;
+  registered_students: Array<string>
+  current_status: string;
+  updates: Array<{
+      type: string;
+      postedon: EpochTimeStamp;
+      description: string;
+      students_list?: Array<string>
+  }>;
+}
+
+
+type TPODriveResponseType = {
+  drive: DriveData;
+  studentData: Object;
 }

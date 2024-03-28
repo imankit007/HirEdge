@@ -1,6 +1,3 @@
-
-
-
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
@@ -14,6 +11,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Icon } from '@rneui/themed';
 import LogoutButton from '../../components/LogoutButton/LogoutButton';
 import Drive from './Drive/Drive';
+import PostUpdate from './PostUpdate/PostUpdate';
+
 const TPODrawerNavigator = createDrawerNavigator<TPODrawerParamList>();
 
 
@@ -65,6 +64,11 @@ const TPOLayout = () => {
                     },
                 }}>
                     <TPODrawerNavigator.Screen name="Drive" component={Drive}
+                        options={{
+                            unmountOnBlur: true
+                        }}
+                    />
+                    <TPODrawerNavigator.Screen name="Post Update" component={PostUpdate}
                         options={{
                             unmountOnBlur: true
                         }}

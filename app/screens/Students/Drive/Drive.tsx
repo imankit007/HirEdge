@@ -42,7 +42,7 @@ const DrivePage = ({ route, navigation }: DrawerScreenProps<StudentDrawerParamLi
                             <View style={styles.jobLocationsContainer}>
                                 <Text h4>Job Locations: </Text>
                                 <View style={styles.jobLocations}>
-                                    {result.data.job_location.map((city, index) => (
+                                    {result.data.job_locations.map((city, index) => (
                                         <Text key={index} style={styles.jobLocation}>{city}</Text>
                                     ))}
                                 </View>

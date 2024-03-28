@@ -1,49 +1,27 @@
 
-import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, ToastAndroid } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
-import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useEffect, useState } from "react";
-
-import { Button, Icon } from "@rneui/base";
+import { createRef, useRef, useState } from "react";
+import { Icon } from "@rneui/base";
 import useLogout from "../../../utils/useLogout";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "../../../utils/axiosPrivate";
-import { Input, Overlay } from "@rneui/themed";
-import { Edit } from "react-native-feather";
-import { Formik } from "formik";
-import { err } from "react-native-svg";
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { RefreshControl } from "react-native-gesture-handler";
-import MobileEditForm from "./EditProfile/EditMobileForm";
-import EditNameForm from "./EditProfile/EditNameForm";
-import EditEmailForm from "./EditProfile/EditEmailForm";
+import EditOverlay from "./EditProfile/EditForm";
 
+import { StudentProfileDataType } from "../../../utils/Query/types";
+import { min } from "moment";
 
-type StudentProfileDataType = {
-    user_id: string;
-    branch: string;
-    email: string;
-    mobile: string;
-    first_name: string;
-    middle_name: string;
-    last_name: string;
-    dob: string;
-    tenth_percentage: string;
-    twelfth_percentage: string;
-    ug_cgpa: string;
-}
-
-
-
-const StudentProfile = () => {
+const StudentProfile = () => { 
 
     const [updatingFieldName, setUpdatingFieldName] = useState<'name' | 'email' | 'phone' | string>("");
-    const [updatingFieldValue, setUpdatingFieldValue] = useState<string[]>([]);
     const [editOverlayVisible, setEditOverlayVisible] = useState<boolean>(false);
 
     const api = useAxiosPrivate();
+
+
 
     const result = useQuery({
         queryKey: ["fetchStudentProfile"],
@@ -53,6 +31,14 @@ const StudentProfile = () => {
     })
 
     const logout = useLogout();
+    const [oldValues, setOldValues] = useState<Partial<StudentProfileDataType>>({
+        first_name: undefined,
+        middle_name: undefined,
+        last_name: undefined,
+        email: undefined,
+        mobile: undefined,
+        ug_cgpa: undefined,
+    })
 
     return (
         <>
@@ -100,7 +86,7 @@ const StudentProfile = () => {
                                 </View>
                                 <Icon name={'edit'} onPress={() => {
                                     setUpdatingFieldName('name')
-                                    setUpdatingFieldValue([result.data.first_name, result.data.middle_name, result.data.last_name])
+                                    setOldValues({ first_name: result.data.first_name, last_name: result.data.last_name, middle_name: result.data.middle_name })
                                     setEditOverlayVisible(true);
                                 }} />
                             </View>
@@ -118,8 +104,8 @@ const StudentProfile = () => {
                                     </Text>
                                 </View>
                                 <Icon name={'edit'} onPress={() => {
-                                    setUpdatingFieldName('email')
-                                    setUpdatingFieldValue([result.data.email])
+                                    setUpdatingFieldName('email');
+                                    setOldValues({ email: result.data?.email })
                                     setEditOverlayVisible(true);
                                 }} />
                             </View>
@@ -137,8 +123,8 @@ const StudentProfile = () => {
                                     </Text>
                                 </View>
                                 <Icon name={'edit'} onPress={() => {
-                                    setUpdatingFieldName('mobile')
-                                    setUpdatingFieldValue([result.data.mobile])
+                                    setUpdatingFieldName('mobile');
+                                    setOldValues({ mobile: result.data.mobile })
                                     setEditOverlayVisible(true);
                                 }} />
                             </View>
@@ -147,7 +133,7 @@ const StudentProfile = () => {
                                 <Text style={{
                                     alignSelf: 'center',
                                     fontSize: 20,
-                                    // textDecorationLine: 'underline',
+
                                     padding: 10,
                                     borderRadius: 10,
                                     fontWeight: "600",
@@ -160,6 +146,7 @@ const StudentProfile = () => {
                                         <Text style={{ marginLeft: 20 }}>Branch</Text>
                                         <Text style={styles.academicDetails}>{result.data?.branch}</Text>
                                     </View>
+
                                 </View>
                                 <View style={{ flexDirection: "row", marginBottom: 10 }}>
                                     <MaterialCommunityIcons name="book-education" size={40} color="black" />
@@ -167,6 +154,7 @@ const StudentProfile = () => {
                                         <Text style={{ marginLeft: 20 }}>10th Percentage</Text>
                                         <Text style={styles.academicDetails}>{result.data?.tenth_percentage}%</Text>
                                     </View>
+
                                 </View>
                                 <View style={{ flexDirection: "row", marginBottom: 10 }}>
                                     <MaterialCommunityIcons name="book-education" size={40} color="black" />
@@ -174,6 +162,7 @@ const StudentProfile = () => {
                                         <Text style={{ marginLeft: 20 }}>12th Percentage</Text>
                                         <Text style={styles.academicDetails}>{result.data?.twelfth_percentage}%</Text>
                                     </View>
+
                                 </View>
 
                                 <View style={{ flexDirection: "row", marginBottom: 10 }}>
@@ -182,6 +171,12 @@ const StudentProfile = () => {
                                         <Text style={{ marginLeft: 20 }}>UG CGPA</Text>
                                         <Text style={styles.academicDetails}>{result.data?.ug_cgpa}</Text>
                                     </View>
+                                    <Icon name={'edit'} onPress={() => {
+
+                                        setUpdatingFieldName('ug_cgpa');
+                                        setOldValues({ ug_cgpa: result.data.ug_cgpa })
+                                        setEditOverlayVisible(true);
+                                    }} />
                                 </View>
                             </View>
                         </View>
@@ -189,50 +184,12 @@ const StudentProfile = () => {
                 </ScrollView>
             </View>}
 
-            <EditOverlay field={updatingFieldName} value={updatingFieldValue} isVisible={editOverlayVisible} setEditOverlay={setEditOverlayVisible} />
+            <EditOverlay key={updatingFieldName} field={updatingFieldName} values={oldValues} isVisible={editOverlayVisible} setEditOverlay={setEditOverlayVisible} />
 
         </>
     )
 }
 
-type EditOverlayType = {
-    field: 'name' | 'email' | 'phone' | string;
-    value: Array<string>;
-    isVisible: boolean;
-    setEditOverlay: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const EditOverlay = ({ field, value, isVisible, setEditOverlay }: EditOverlayType) => {
-
-    return (
-        <Overlay isVisible={isVisible} fullScreen={false} overlayStyle={{
-            position: 'absolute',
-            bottom: 0,
-            display: 'flex',
-            height: field === 'name' ? '40%' : "30%",
-            width: "100%"
-        }}>
-            <ScrollView>
-                <Text>
-                    Enter your {field}
-                </Text>
-
-                {
-                    field === 'name' ? <>
-                        <EditNameForm value={value} setEditOverlayVisible={setEditOverlay} />
-                    </>
-                        : field === 'email' ? <>
-                            <EditEmailForm value={value} setEditOverlayVisible={setEditOverlay} />
-                        </> : field === 'mobile' ? <>
-
-                            <MobileEditForm value={value} setEditOverlayVisible={setEditOverlay} />
-                        </> : null
-                }
-
-            </ScrollView>
-        </Overlay>
-    )
-}
 
 
 
